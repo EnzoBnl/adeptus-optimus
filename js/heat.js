@@ -1,18 +1,4 @@
-var weaponAName = "Bolt Rifle"
-var weaponBName = "SAG"
-
-var xValues = ['A', 'B', 'C', 'D', 'E'];
-
-var yValues = ['W', 'X', 'Y', 'Z'];
-
-var zValues = [
-  [0.00, 0.00, 0.75, 0.75, 0.00],
-  [0.00, 0.00, 0.75, 0.75, 0.00],
-  [0.75, 0.75, 0.75, 0.75, 0.75],
-  [0.00, 0.00, 0.00, 0.75, 0.00]
-];
-
-function plot(weaponAName, weaponBName, xValues, yValues, zValues) {
+function plotComparatorChart(weaponAName, weaponBName, xValues, yValues, zValues) {
     var colorscaleValue = [
       [0, '#7dae3e'],  // buttons bg green
       [1, '#0d407f']  // ultramarine blue
@@ -75,4 +61,3 @@ function plot(weaponAName, weaponBName, xValues, yValues, zValues) {
     Plotly.newPlot('chart', data, layout);
 }
 
-plot(weaponAName, weaponBName, xValues, yValues, zValues)

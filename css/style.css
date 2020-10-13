@@ -1,0 +1,30 @@
+@font-face {
+    font-family: ancient;
+    src:url("../fonts/ancient-medium.ttf");
+}
+
+@font-face {
+    font-family: ancient;
+    src:url("../fonts/ancient-medium.ttf");
+}
+
+.ancient{
+    font: 45px ancient;
+    text-align: center;
+}
+
+.ancientSub{
+    font: 20px ancient;
+    text-align: center;
+    font-style: italic;
+}
+
+.inputDice{
+    width: 45px;
+    text-align: right
+}
+
+body {
+    background: #fff;
+    text-align: center;
+}

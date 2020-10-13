@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+      function Greeter(props) {
+        return <div>
+            <h1 class="ancient">{props.greeting}</h1>
+            <p class="ancientSub">"Support wiser choices, on behalf of the Emperor."</p>
+        </div>
+      }
+      var title = <Greeter greeting="Adeptus Optimus"/>;
+      ReactDOM.render(title, document.getElementById('t'));
+
+    </script>
+    <script src="js/plotly-latest.min.js"></script>
+    <script type="text/babel" src="js/heat.js"></script>
+    <script type="text/babel" src="js/weapon_params.js"></script>
+</head>
+<body>
+<div id="t"></div>
+<br/>
+<div id="weaponsParams"></div>
+<br/>
+<div class="w3-bar w3-black">
+    <div class="w3-bar-item"></div>
+</div>
+<div id="chart"></div>
+</body>
+<footer>
+    <p>©2020 Enzo Bonnal</p>
+    <p><a href="mailto:enzobonnal@gmail.com">contact</a></p>
+</footer>
+</html>
