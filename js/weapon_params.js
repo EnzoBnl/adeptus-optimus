@@ -83,15 +83,7 @@ class WeaponParamTable extends React.Component {
     );
   }
 }
-/*
-<select value={this.state.value} onChange={this.handleChange}>
-                               <option value="2">2</option>
-                               <option value="3">3</option>
-                               <option value="4">4</option>
-                               <option value="5">5</option>
-                               <option value="6">6</option>
-                             </select>
-                             */
+
 
 ReactDOM.render(
   <WeaponParamTable />,
