@@ -33,9 +33,14 @@
      background: #b4bbb4
 }
 
-.input-dice{
-    width: 45px;
+.input-dice-right{
+    width: 32px;
     text-align: right;
+}
+
+.input-dice-left{
+    width: 32px;
+    text-align: left;
 }
 
 .w3-animate-fading-fast{animation:fading 1s infinite}@keyframes fading{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
