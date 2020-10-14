@@ -21,7 +21,7 @@
 
 .datasheet{
     font: 16px times new roman, serif;
-    font-weight: bold;
+    font-weight: normal;
 }
 
 .chart-title{
@@ -33,12 +33,12 @@
      background: #b4bbb4
 }
 
-.inputDice{
+.input-dice{
     width: 45px;
     text-align: right;
 }
 
-
+.w3-animate-fading-fast{animation:fading 1s infinite}@keyframes fading{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
 
 body {
     background: #fff;

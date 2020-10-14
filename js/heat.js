@@ -58,6 +58,13 @@ function plotComparatorChart(weaponAName, weaponBName, xValues, yValues, zValues
         layout.annotations.push(result);
       }
     }
-    Plotly.newPlot('chart', data, layout);
+    const sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds))
+    // Using callbacks
+    sleep(1000).then(() => {
+      console.log("waited 1 second for dev purpose");
+      document.getElementById('chart').innerHTML = "";
+      document.getElementById("chart-title").innerHTML = "<br/><i>" + weaponAName + "</i> vs <i>" + weaponBName + "</i>:\nAverage number of figurines destroyed by each weapon, divided by respective costs.";
+      Plotly.newPlot('chart', data, layout);
+    })
 }
 
