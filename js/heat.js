@@ -14,8 +14,8 @@ function plotComparatorChart(weaponAName, weaponBName, xValues, yValues, zValues
     }];
 
     var layout = {
-      title: weaponAName + " vs " + weaponBName + ":\nAverage number of figurines destroyed by each weapon, divided by respective costs.",
-      annotations: [],
+      title: "",
+      annotations: ["Generated with Adeptus Optimus"],
       xaxis: {
         ticks: '',
         side: 'bottom',
@@ -27,7 +27,7 @@ function plotComparatorChart(weaponAName, weaponBName, xValues, yValues, zValues
         width: 700,
         height: 700,
         autosize: false,
-        title: "Target's toughness"
+        title: "Target's (T, W) pair"
       }
     };
 

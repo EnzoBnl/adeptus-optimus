@@ -9,7 +9,7 @@
 }
 
 .ancient{
-    font: 45px ancient;
+    font: 80px ancient;
     text-align: center;
 }
 
@@ -19,10 +19,26 @@
     font-style: italic;
 }
 
+.datasheet{
+    font: 16px times new roman, serif;
+    font-weight: bold;
+}
+
+.chart-title{
+    font: 20px times new roman, serif;
+    font-weight: normal;
+}
+
+.datasheetbg{
+     background: #b4bbb4
+}
+
 .inputDice{
     width: 45px;
-    text-align: right
+    text-align: right;
 }
+
+
 
 body {
     background: #fff;

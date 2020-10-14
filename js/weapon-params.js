@@ -17,14 +17,21 @@ class WeaponParamTable extends React.Component {
 
     var xValues = ['A', 'B', 'C', 'D', 'E'];
 
-    var yValues = ['W', 'X', 'Y', 'Z'];
+    var yValues = ["(1, 1)", "(2, 1)", "(3, 1)", "(4, 1)", "(5, 1)", "(6, 1)", "(7, 1)", "(8, 1)", "(9, 1)", "(10, 1)"];
 
     var zValues = [
       [0.00, 0.00, 0.75, 0.75, 0.00],
       [0.00, 0.00, 0.75, 0.75, 0.00],
       [0.75, 0.75, 0.75, 0.75, 0.75],
-      [0.00, 0.00, 0.00, 0.75, 0.00]
+      [0.00, 0.00, 0.00, 0.75, 0.00],
+      [0.00, 0.00, 0.75, 0.75, 0.00],
+      [0.00, 0.00, 0.75, 0.75, 0.00],
+      [0.75, 0.75, 0.75, 0.75, 0.75],
+      [0.00, 0.00, 0.00, 0.75, 0.00],
+      [0.00, 0.00, 0.75, 0.75, 0.00],
+      [0.00, 0.00, 0.75, 0.75, 0.00]
     ];
+    document.getElementById("chart-title").innerHTML = "<i>" + weaponAName + "</i> vs <i>" + weaponBName + "</i>:\nAverage number of figurines destroyed by each weapon, divided by respective costs.";
     plotComparatorChart(weaponAName, weaponBName, xValues, yValues, zValues)
   }
 
@@ -36,23 +43,26 @@ class WeaponParamTable extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-      <table class="w3-table">
-          <tr style={{background: "#aaa", color: "black"}}>
-            <th>Weapon's name</th>
+      <table class="w3-table w3-bordered datasheet">
+          <tr style={{background: "#b4bbb4", color: "black"}}>
+            <th></th>
+            <th>NAME</th>
             <th>WS/BS</th>
             <th>A</th>
             <th>S</th>
             <th>AP</th>
             <th>D</th>
-            <th>points</th>
+            <th>POINTS</th>
           </tr>
           <tr>
-            <th style={{background: "#7dae3e", color: "white"}}>
+            <th style={{background: "#7dae3e", color: "white"}}>Weapon A</th>
+            <th>
                 <input
                     type="text"
                     style={{width: "100px"}}
                     value={this.state.weaponAName}
-                    onChange={this.handleWeaponANameChange}></input>
+                    onChange={this.handleWeaponANameChange}
+                    ></input>
             </th>
             <th><input type="text" class="inputDice"></input>+</th>
             <th><input type="text" class="inputDice"></input></th>
@@ -62,7 +72,8 @@ class WeaponParamTable extends React.Component {
             <th><input type="text" class="inputDice"></input></th>
           </tr>
           <tr>
-            <th style={{background: "#0d407f", color: "white"}}>
+            <th style={{background: "#0d407f", color: "white"}}>Weapon B</th>
+            <th>
                 <input
                     type="text"
                     style={{width: "100px"}}
@@ -78,7 +89,7 @@ class WeaponParamTable extends React.Component {
           </tr>
       </table>
       <br/>
-      <input type="submit" value="COMPARE WEAPONS" class="w3-btn" style={{background: "#aaa", color: "black"}}/>
+      <input type="submit" value="Compare" class="w3-btn datasheet" style={{background: "#b4bbb4", color: "black"}}/>
       </form>
     );
   }
