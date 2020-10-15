@@ -26,13 +26,14 @@
 }
 
 .shop{
-    font: 16px noto, sans-serif;;
+    font: 16px noto, sans-serif;
     color: black;
 }
 
 .datasheet{
     font: 16px times new roman, serif;
     font-weight: normal;
+    white-space: nowrap;
 }
 
 .datasheet-header{
@@ -40,12 +41,12 @@
     font-weight: normal;
 }
 
-.datasheet-bg {  // unused
+.datasheet-bg {
     background: #b4bbb4;
 }
 
 .shop-bg{
-     background: linear-gradient(to right, #dc9014 0%, #efc11e 100%);
+    background: linear-gradient(to right, #dc9014 0%, #efc11e 100%);
 }
 
 .footer{
@@ -68,6 +69,11 @@
 
 .input-dice-left{
     width: 32px;
+    text-align: left;
+}
+
+.input-name{
+    width: 200px;
     text-align: left;
 }
 
