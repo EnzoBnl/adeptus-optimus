@@ -82,15 +82,10 @@ class WeaponsParamTable extends React.Component {
       console.log(xhr.response);
       if (xhr.status == 200) {
          plotComparatorChart(this.state["nameA"], this.state["nameB"], xhr.response["x"], xhr.response["y"], xhr.response["z"], () => {this.setAppState({state: "idle", msg: ""});});
-      } else if (xhr.status == 422){
-        this.setAppState({
-            state: "error",
-            msg: "SERVER ERROR " + xhr.status + ": " + xhr.response["msg"]
-        });
       } else {
         this.setAppState({
             state: "error",
-            msg: "SERVER ERROR " + xhr.status + ": The Forge World of Adeptus Optimus must be facing an onslaught of heretics."
+            msg: "ERROR " + xhr.status + ": " + xhr.response["msg"]
         });
       }
     };
