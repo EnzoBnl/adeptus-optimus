@@ -1,5 +1,46 @@
-function Processing(props) {
-    return <div><div class="w3-animate-fading-fast"><img src="static/logo.png" width="50px"></img></div><span class="datasheet"> {props.msg}</span></div>
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {state: "idle", msg: ""};  // state in: "idle", "processing","error";
+        this.setAppState = this.setAppState.bind(this);
+    }
+    render() {
+        console.log(this.state);
+        return <div>
+            <h1><a href="index.html" class="ancient">Adeptus Optimus</a></h1>
+            <p class="ancientSub">"Support wiser choices, on behalf of the Emperor."</p>
+            <br/>
+            <WeaponsParamTable setAppState={this.setAppState}/>
+            <div class="w3-bar datasheetbg"><div class="w3-bar-item"></div></div>
+            <ProgressLog state={this.state.state} msg={this.state.msg}/>
+            <div id="chart-title" class="chart-title"></div>
+            <div id="chart"></div>
+            <div class="w3-bar datasheetbg"><div class="w3-bar-item"></div></div>
+        </div>
+    }
+    setAppState(props) {
+        this.setState(props);
+    }
+}
+
+class ProgressLog extends React.Component {
+    render() {
+        if (this.props.state == "processing") {
+            return <div>
+                        <div class="w3-animate-fading-fast">
+                            <img src="static/skull.png" width="50px"></img>
+                        </div>
+                        <span class="datasheet"> {this.props.msg}</span>
+                   </div>
+        } else if (this.props.state == "error") {
+            return <div>
+                        <img src="static/chaos.png" width="50px"></img>
+                        <div class="datasheet"> {this.props.msg}</div>
+                   </div>
+        } else {
+            return <span></span>;
+        };
+    }
 }
 
 class WeaponsParamTable extends React.Component {
@@ -21,33 +62,47 @@ class WeaponsParamTable extends React.Component {
         pointsA: "20",
         pointsB: "120",
     };
+    this.setAppState = props.setAppState;
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleWeaponParamsChange = this.handleWeaponParamsChange.bind(this);
-
   }
   handleSubmit(event) {
     event.preventDefault();
-
-    ReactDOM.render(
-      <Processing msg="processing..." />,
-      document.getElementById('chart')
-    );
-
-    var xValues = ['A', 'B', 'C', 'D', 'E'];
-
-    var yValues = ["(1, 1)", "(2, 1)", "(3, 1)", "(4, 1)", "(5, 1)", "(6, 1)", "(7, 1)", "(8, 1)", "(9, 1)", "(10, 1)"];
+    document.getElementById('chart').innerHTML = "";
+    document.getElementById('chart-title').innerHTML = "";
+    this.setAppState({state: "processing", msg: "Firing on some captives Grots..."});
 
     // create a new XMLHttpRequest
-    var xhr = new XMLHttpRequest()
+    var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     // get a callback when the server responds
-    xhr.addEventListener('load', () => {
+    xhr.onload = () => {
       // update the state of the component with the result here
       console.log("console.log(xhr.responseText):");
       console.log(xhr.response);
-      var zValues = xhr.response["matrix"];
-      plotComparatorChart(this.state["nameA"], this.state["nameB"], xValues, yValues, zValues);
-    })
+      if (xhr.status == 200) {
+         plotComparatorChart(this.state["nameA"], this.state["nameB"], xhr.response["x"], xhr.response["y"], xhr.response["z"], () => {this.setAppState({state: "idle", msg: ""});});
+      } else if (xhr.status == 422){
+        this.setAppState({
+            state: "error",
+            msg: "SERVER ERROR " + xhr.status + ": " + xhr.response["msg"]
+        });
+      } else {
+        this.setAppState({
+            state: "error",
+            msg: "SERVER ERROR " + xhr.status + ": The Forge World of Adeptus Optimus must be facing an onslaught of heretics."
+        });
+      }
+    };
+    xhr.onerror = () => {
+        // update the state of the component with the result here
+        console.log("console.log(xhr.responseText):");
+        console.log(xhr.response);
+        this.setAppState({
+            state: "error",
+            msg: "SERVER DOWN: The Forge World of Adeptus Optimus must be facing an onslaught of heretics."
+        });
+    };
     // open the request with the verb and the url
     var params = "?params=" + JSON.stringify(this.state);
     xhr.open('GET', 'http://127.0.0.1:5000/engine/' + params);
@@ -120,8 +175,7 @@ class WeaponsParamTable extends React.Component {
   }
 }
 
-
 ReactDOM.render(
-  <WeaponsParamTable />,
-  document.getElementById('weaponsParams')
+  <App />,
+  document.getElementById('app')
 );

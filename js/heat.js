@@ -1,4 +1,4 @@
-function plotComparatorChart(weaponAName, weaponBName, xValues, yValues, zValues) {
+function plotComparatorChart(weaponAName, weaponBName, xValues, yValues, zValues, isDoneCallback) {
     var colorscaleValue = [
       [0, '#7dae3e'],  // buttons bg green
       [1, '#0d407f']  // ultramarine blue
@@ -60,11 +60,11 @@ function plotComparatorChart(weaponAName, weaponBName, xValues, yValues, zValues
     }
     const sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds))
     // Using callbacks
-    sleep(1000).then(() => {
-      console.log("waited 1 second for dev purpose");
-      document.getElementById('chart').innerHTML = "";
-      document.getElementById("chart-title").innerHTML = "<br/><i>" + weaponAName + "</i> vs <i>" + weaponBName + "</i>:\nAverage number of figurines destroyed by each weapon, divided by respective costs.";
+    sleep(2000).then(() => {
+      console.log("waited 2 second for dev purpose");
       Plotly.newPlot('chart', data, layout);
+      document.getElementById("chart-title").innerHTML = "<br/><i>" + weaponAName + "</i> vs <i>" + weaponBName + "</i>:\nAverage number of figurines destroyed by each weapon, divided by respective costs.";
+      isDoneCallback();
     })
 }
 
