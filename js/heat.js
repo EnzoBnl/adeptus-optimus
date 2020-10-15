@@ -1,4 +1,4 @@
-function plotComparatorChart(weaponAName, weaponBName, xValues, yValues, zValues, isDoneCallback) {
+function plotComparatorChart(xValues, yValues, zValues, isDoneCallback) {
     var colorscaleValue = [
       [0, '#6d9e2e'],  // buttons bg green '#7dae3e'
       [1, '#0d407f']  // ultramarine blue
@@ -64,7 +64,6 @@ function plotComparatorChart(weaponAName, weaponBName, xValues, yValues, zValues
     sleep(2500).then(() => {
       console.log("waited 2.5 second for dev purpose");
       Plotly.newPlot('chart', data, layout);
-      //document.getElementById("chart-title").innerHTML = "<br/><i>" + weaponAName + "</i> vs <i>" + weaponBName + "</i>:\nAverage number of figurines destroyed by each weapon, divided by respective costs.";
       isDoneCallback();
     })
 }
