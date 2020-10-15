@@ -4,8 +4,13 @@
 }
 
 @font-face {
-    font-family: ancient;
-    src:url("../fonts/ancient-medium.ttf");
+    font-family: impact;
+    src:url("../fonts/impact.ttf");
+}
+
+@font-face {
+    font-family: noto;
+    src:url("../fonts/NotoSans-Regular.ttf");
 }
 
 .ancient{
@@ -20,9 +25,31 @@
     font-style: italic;
 }
 
+.shop{
+    font: 16px noto, sans-serif;;
+    color: black;
+}
+
 .datasheet{
     font: 16px times new roman, serif;
     font-weight: normal;
+}
+
+.datasheet-header{
+    font: 20px impact;
+    font-weight: normal;
+}
+
+.datasheet-bg {  // unused
+    background: #b4bbb4;
+}
+
+.shop-bg{
+     background: linear-gradient(to right, #dc9014 0%, #efc11e 100%);
+}
+
+.footer{
+    font-size: 10px;
 }
 
 .chart-title{
@@ -30,8 +57,8 @@
     font-weight: normal;
 }
 
-.datasheetbg{
-     background: #b4bbb4
+.chart{
+    min-width: 600px;
 }
 
 .input-dice-right{
@@ -44,7 +71,16 @@
     text-align: left;
 }
 
-.w3-animate-fading-fast{animation:fading 1s infinite}@keyframes fading{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
+.w3-animate-fading-fast{
+    animation:fading 1s infinite
+}
+
+
+@keyframes fading{
+    0%{opacity:0}
+    50%{opacity:1}
+    100%{opacity:0}
+}
 
 body {
     background: #fff;
