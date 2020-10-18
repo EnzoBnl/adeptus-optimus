@@ -1,4 +1,4 @@
-function plotComparatorChart(xValues, yValues, zValues) {
+function plotComparatorChart(xValues, yValues, zValues, callWhenDone) {
     var colorscaleValue = [
       [0, '#0d407f'],  // ultramarine blue
       [1, '#6d9e2e']   // buttons bg green '#7dae3e'
@@ -75,5 +75,7 @@ function plotComparatorChart(xValues, yValues, zValues) {
     // Using callbacks
     // sleep(2500).then(() => {
     Plotly.newPlot('chart', data, layout);
+    console.log("Plotly.newPlot called");
+    callWhenDone();
 }
 
