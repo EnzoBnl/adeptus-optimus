@@ -25,7 +25,7 @@ class App extends React.Component {
         this.state = {
             state: "idle",  // state in: "idle", "processing","error";
             msg: "",
-            tableParamsAsString: this.hashTableState(this.initTableState),
+            tableParamsAsString: this.stringifyRelevantTableState(this.initTableState),
             cache: {},
             helpShown: false
         };
@@ -37,57 +37,56 @@ class App extends React.Component {
         event.preventDefault();
         document.getElementById('chart').innerHTML = "";
         document.getElementById('chart-title').innerHTML = "";
-        this.setState(
-            {state: "processing", msg: "Testing weapons..."/*"Firing on some captives Grots..."*/},
-            () => {
-                if (this.state.tableParamsAsString in this.state.cache) {
-                    const cachedResponse = this.state.cache[this.state.tableParamsAsString];
-                    plotComparatorChart(
-                        cachedResponse["x"],
-                        cachedResponse["y"],
-                        cachedResponse["z"],
-                        () => {console.log("bla");this.setState({state: "idle", msg: ""});});
-                } else {
-                    var xhr = new XMLHttpRequest();
-                    xhr.responseType = 'json';
-                    // get a callback when the server responds
-                    xhr.onload = () => {
-                      console.log("console.log(xhr.responseText):");
-                      console.log(xhr.response);
-                      if (xhr.status == 200) {
-                          this.state.cache[this.state.tableParamsAsString] = {
-                              x: xhr.response["x"],
-                              y: xhr.response["y"],
-                              z: xhr.response["z"]
-                          }
-                          plotComparatorChart(
-                              xhr.response["x"],
-                              xhr.response["y"],
-                              xhr.response["z"],
-                              () => {this.setState({state: "idle", msg: ""});});
-                      } else {
-                        this.setState({
-                            state: "error",
-                            msg: "SERVER ERROR " + xhr.status + ": " + xhr.response["msg"]
-                        });
-                      }
-                    };
-                    // get a callback when net::ERR_CONNECTION_REFUSED
-                    xhr.onerror = () => {
-                        console.log("console.log(xhr.responseText):");
-                        console.log(xhr.response);
-                        this.setState({
-                            state: "error",
-                            msg: "SERVER DOWN: The Forge World of the Adeptus Optimus must be facing an onslaught of heretics."
-                        });
-                    };
-                    var params = "?params=" + this.state.tableParamsAsString;
-                    xhr.open('GET', 'http://127.0.0.1:5000/engine/' + params);
-                    // send the request
-                    xhr.send();
-                }
-            }
-            );
+        this.setState({state: "processing", msg: "Testing weapons..."/*"Firing on some captives Grots..."*/})
+
+        if (this.state.tableParamsAsString in this.state.cache) {
+            const cachedResponse = this.state.cache[this.state.tableParamsAsString];
+            plotComparatorChart(
+                cachedResponse["x"],
+                cachedResponse["y"],
+                cachedResponse["z"],
+                () => {console.log("bla");this.setState({state: "idle", msg: ""});}
+                )
+        } else {
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = 'json';
+            // get a callback when the server responds
+            xhr.onload = () => {
+              console.log("console.log(xhr.responseText):");
+              console.log(xhr.response);
+              if (xhr.status == 200) {
+                  this.state.cache[this.state.tableParamsAsString] = {
+                      x: xhr.response["x"],
+                      y: xhr.response["y"],
+                      z: xhr.response["z"]
+                  }
+                  plotComparatorChart(
+                      xhr.response["x"],
+                      xhr.response["y"],
+                      xhr.response["z"],
+                      () => {this.setState({state: "idle", msg: ""});});
+              } else {
+                this.setState({
+                    state: "error",
+                    msg: "SERVER ERROR " + xhr.status + ": " + xhr.response["msg"]
+                });
+              }
+            };
+            // get a callback when net::ERR_CONNECTION_REFUSED
+            xhr.onerror = () => {
+                console.log("console.log(xhr.responseText):");
+                console.log(xhr.response);
+                this.setState({
+                    state: "error",
+                    msg: "SERVER DOWN: The Forge World of the Adeptus Optimus must be facing an onslaught of heretics."
+                });
+            };
+            var params = "?params=" + this.state.tableParamsAsString;
+            xhr.open('GET', 'http://127.0.0.1:5000/engine/' + params);
+            // send the request
+            xhr.send();
+        }
+
 
         
     }
@@ -119,7 +118,7 @@ class App extends React.Component {
 
     sendParamsToApp(tableState) {
         console.log("called sendParamsToApp");
-        this.setState({tableParamsAsString: this.hashTableState(tableState)});
+        this.setState({tableParamsAsString: this.stringifyRelevantTableState(tableState)});
     }
 
     getRelevantTableStateKeys(tableState) {
@@ -129,7 +128,7 @@ class App extends React.Component {
         return tableRelevantState
     }
 
-    hashTableState(tableState) {
+    stringifyRelevantTableState(tableState) {
         return JSON.stringify(this.getRelevantTableStateKeys(tableState))
     }
 
