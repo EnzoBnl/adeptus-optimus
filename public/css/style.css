@@ -42,6 +42,7 @@
     font-weight: normal;
 }
 
+
 .datasheet-bg {
     background: #b4bbb4;
 }
@@ -82,6 +83,16 @@
 .input-name{
     width: 200px;
     text-align: left;
+}
+
+.input-creds{
+    width: 100px;
+    text-align: left;
+}
+
+.creds{
+    font: 16px impact;
+    font-weight: normal;
 }
 
 .w3-animate-fading-fast{

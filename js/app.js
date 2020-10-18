@@ -94,14 +94,15 @@ class App extends React.Component {
         console.log("App render() called")
         console.log(this.state);
         return <div>
+            <Login />
             <h1><a href="index.html" class="ancient">Adeptus Optimus</a></h1>
-            <p class="ancientSub">"Support wiser choices, on behalf of the Emperor."</p>
+            <p class="ancientSub">" Support wiser choices, on behalf of the Emperor."</p>
             <br/>
             <div style={{overflowX: "auto"}}>
                 <WeaponsParamTable initState={this.initTableState} sendParamsToApp={this.sendParamsToApp}/>
             </div>
             <br/>
-            <button class="w3-btn datasheet-header" style={{background: "#b4bbb4", width: "110px"}} onClick={this.handleSubmit}>COMPARE</button>
+            <button class="w3-btn datasheet-header" style={{background: "#b4bbb4", width: "110px", "text-align": "center"}} onClick={this.handleSubmit}>COMPARE</button>
             <div class="w3-bar datasheet-bg"><div class="w3-bar-item"></div></div>
             <ProgressLog state={this.state.state} msg={this.state.msg}/>
             <div style={{overflowX: "auto", overflowY: "hidden",  "transform": "rotateX(180deg)"}}>
@@ -132,6 +133,36 @@ class App extends React.Component {
 
     helpButtonAction() {
         this.setState({helpShown: !this.state.helpShown});
+    }
+}
+
+class Login extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {id: "", token: ""};
+        this.handleChange=this.handleChange.bind(this);
+    }
+    handleChange(state) {
+        this.state[event.target.id] = event.target.value;
+        this.setState({});  // re render
+    }
+    render() {
+        return <div style={{"text-align": "right", "margin-right":"25px", "margin-top":"25px"}}>
+                   <sup class="creds">id: </sup>
+                   <input maxlength="32"
+                       id="id"
+                       type="text"
+                       class="input input-creds"
+                       value={this.state.id}
+                       onChange={this.handleChange}></input>
+                   <sup class="creds"> token: </sup>
+                   <input maxlength="32"
+                       id="token"
+                       type="text"
+                       class="input input-creds"
+                       value={this.state.token}
+                       onChange={this.handleChange}></input>
+               </div>
     }
 }
 
