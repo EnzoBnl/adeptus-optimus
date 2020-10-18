@@ -33,7 +33,7 @@
 
 .datasheet{
     font: 16px times new roman, serif;
-    font-weight: normal;
+    font-weight: bold;
     white-space: nowrap;
 }
 
@@ -47,6 +47,7 @@
 }
 
 .shop-bg{
+    /* middle color is e6a919 */
     background: linear-gradient(to right, #dc9014 0%, #efc11e 100%);
 }
 

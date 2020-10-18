@@ -101,16 +101,16 @@ class App extends React.Component {
                 <WeaponsParamTable initState={this.initTableState} sendParamsToApp={this.sendParamsToApp}/>
             </div>
             <br/>
-            <button class="w3-btn datasheet-header" style={{background: "#e6a919"}} onClick={this.handleSubmit}>COMPARE</button>
-            <div class="w3-bar shop-bg"><div class="w3-bar-item"></div></div>
+            <button class="w3-btn datasheet-header" style={{background: "#b4bbb4", width: "110px"}} onClick={this.handleSubmit}>COMPARE</button>
+            <div class="w3-bar datasheet-bg"><div class="w3-bar-item"></div></div>
             <ProgressLog state={this.state.state} msg={this.state.msg}/>
             <div style={{overflowX: "auto", overflowY: "hidden",  "transform": "rotateX(180deg)"}}>
                 <div id="chart" class="chart" style={{"transform": "rotateX(180deg)"}}></div>
             </div>
-            <div class="w3-bar shop-bg"><div class="w3-bar-item"></div></div>
+            <div class="w3-bar datasheet-bg"><div class="w3-bar-item"></div></div>
             <Help shown={this.state.helpShown}/>
-            <div class="w3-bar shop-bg"><div class="w3-bar-item"></div></div>
-            <button class="w3-btn datasheet-header" style={{background: "#e6a919"}} onClick={this.helpButtonAction}>HELP</button>
+            <div class="w3-bar datasheet-bg"><div class="w3-bar-item"></div></div>
+            <button class="w3-btn datasheet-header" style={{background: "#b4bbb4", width: "110px"}} onClick={this.helpButtonAction}>HELP</button>
         </div>
     }
 
@@ -184,7 +184,7 @@ class WeaponsParamTable extends React.Component {
   render() {
     return (
       <table class="w3-table w3-bordered" style={{"max-width": "700px", "margin-left": "auto", "margin-right": "auto"}}>
-          <tr class="shop-bg">
+          <tr class="datasheet-bg">
             <th></th>
             <th class="datasheet-header">NAME</th>
             <th class="datasheet-header">A</th>
@@ -195,7 +195,7 @@ class WeaponsParamTable extends React.Component {
             <th class="datasheet-header">POINTS</th>
           </tr>
           <tr>
-            <th  class="datasheet-header" style={{background: "#3333ff", color: "white", "text-align": "center"}}>Weapon A</th>
+            <th  class="datasheet-header" style={{background: "#5555ff", color: "black", "text-align": "center"}}>Weapon A</th>
             <th class="datasheet">
                 <input maxlength="32"
                     id="nameA"
@@ -213,7 +213,7 @@ class WeaponsParamTable extends React.Component {
             <th class="datasheet"><input maxlength="4" id="pointsA" value={this.state.pointsA} type="text" class="datasheet input input-dice-right" onChange={this.handleWeaponParamsChange}></input></th>
           </tr>
           <tr>
-            <th class="datasheet-header" style={{background: "#ff3333", color: "white", "text-align": "center"}}>Weapon B</th>
+            <th class="datasheet-header" style={{background: "#ff3333", color: "black", "text-align": "center"}}>Weapon B</th>
             <th class="datasheet">
                 <input maxlength="32"
                     id="nameB"
