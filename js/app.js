@@ -36,7 +36,6 @@ class App extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         document.getElementById('chart').innerHTML = "";
-        document.getElementById('chart-title').innerHTML = "";
         this.setState({state: "processing", msg: "Testing weapons..."/*"Firing on some captives Grots..."*/})
 
         if (this.state.tableParamsAsString in this.state.cache) {
@@ -102,17 +101,16 @@ class App extends React.Component {
                 <WeaponsParamTable initState={this.initTableState} sendParamsToApp={this.sendParamsToApp}/>
             </div>
             <br/>
-            <button class="w3-btn shop" style={{background: "#e6a919"}} onClick={this.handleSubmit}>Compare</button>
+            <button class="w3-btn datasheet-header" style={{background: "#e6a919"}} onClick={this.handleSubmit}>COMPARE</button>
             <div class="w3-bar shop-bg"><div class="w3-bar-item"></div></div>
             <ProgressLog state={this.state.state} msg={this.state.msg}/>
-            <div id="chart-title" class="chart-title"></div>
-            <div style={{overflowX: "auto"}}>
-                <div id="chart" class="chart"></div>
+            <div style={{overflowX: "auto", overflowY: "hidden",  "transform": "rotateX(180deg)"}}>
+                <div id="chart" class="chart" style={{"transform": "rotateX(180deg)"}}></div>
             </div>
             <div class="w3-bar shop-bg"><div class="w3-bar-item"></div></div>
             <Help shown={this.state.helpShown}/>
             <div class="w3-bar shop-bg"><div class="w3-bar-item"></div></div>
-            <button class="w3-btn shop" style={{background: "#e6a919"}} onClick={this.helpButtonAction}>Help</button>
+            <button class="w3-btn datasheet-header" style={{background: "#e6a919"}} onClick={this.helpButtonAction}>HELP</button>
         </div>
     }
 
@@ -155,7 +153,7 @@ class ProgressLog extends React.Component {
                         <span class="shop"> {this.props.msg} </span>
                         <img class="w3-animate-fading-fast" src="public/images/skull.png" width="32px"></img>
 
-                        <p><img src="public/images/testing.gif" width="256px"></img></p>
+                        <p><img src="public/images/testing.gif" width="auto"></img></p>
                    </div>
         } else if (this.props.state == "error") {
             return <div>
@@ -185,7 +183,7 @@ class WeaponsParamTable extends React.Component {
 
   render() {
     return (
-      <table class="w3-table w3-bordered">
+      <table class="w3-table w3-bordered" style={{"max-width": "700px", "margin-left": "auto", "margin-right": "auto"}}>
           <tr class="shop-bg">
             <th></th>
             <th class="datasheet-header">NAME</th>
@@ -197,7 +195,7 @@ class WeaponsParamTable extends React.Component {
             <th class="datasheet-header">POINTS</th>
           </tr>
           <tr>
-            <th  class="datasheet-header" style={{background: "#6d9e2e", color: "white", "text-align": "center"}}>Weapon A</th>
+            <th  class="datasheet-header" style={{background: "#3333ff", color: "white", "text-align": "center"}}>Weapon A</th>
             <th class="datasheet">
                 <input maxlength="32"
                     id="nameA"
@@ -215,7 +213,7 @@ class WeaponsParamTable extends React.Component {
             <th class="datasheet"><input maxlength="4" id="pointsA" value={this.state.pointsA} type="text" class="datasheet input input-dice-right" onChange={this.handleWeaponParamsChange}></input></th>
           </tr>
           <tr>
-            <th class="datasheet-header" style={{background: "#0d407f", color: "white", "text-align": "center"}}>Weapon B</th>
+            <th class="datasheet-header" style={{background: "#ff3333", color: "white", "text-align": "center"}}>Weapon B</th>
             <th class="datasheet">
                 <input maxlength="32"
                     id="nameB"
