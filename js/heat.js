@@ -1,16 +1,23 @@
-function plotComparatorChart(xValues, yValues, zValues, isDoneCallback) {
+function plotComparatorChart(xValues, yValues, zValues) {
     var colorscaleValue = [
-      [0, '#6d9e2e'],  // buttons bg green '#7dae3e'
-      [1, '#0d407f']  // ultramarine blue
+      [0, '#0d407f'],  // ultramarine blue
+      [1, '#6d9e2e']   // buttons bg green '#7dae3e'
     ];
+
+    var ztextLine = Array(xValues.length).fill("");
+    var ztext = Array(yValues.length).fill(ztextLine);
 
     var data = [{
       x: xValues,
       y: yValues,
       z: zValues,
+      // hovertext: [["a", "a"], ["a", "a"]],
       type: 'heatmap',
       colorscale: colorscaleValue,
-      showscale: false
+      showscale: false,
+      zmin: -1,
+      zmax: 1,
+      zauto: false
     }];
 
     var layout = {
@@ -21,15 +28,20 @@ function plotComparatorChart(xValues, yValues, zValues, isDoneCallback) {
       annotations: [""],
       xaxis: {
         ticks: '',
-        side: 'bottom',
-        title: "(Save, Invulnerable Save)"
+        side: 'top',
+        title: "Target's unit Save / Invulnerable Save"
+
       },
       yaxis: {
         ticks: '',
         ticksuffix: ' ',
         autosize: true,
-        title: "(Toughness, Wounds, Feel No Pain)"
-      }
+        title: "Target's unit Toughness / Wounds / Feel No Pain"
+      },
+      margin: {
+        t: 200
+      },
+      height: 2000,
     };
 
     for ( var i = 0; i < yValues.length; i++ ) {
@@ -37,7 +49,7 @@ function plotComparatorChart(xValues, yValues, zValues, isDoneCallback) {
         var currentValue = zValues[i][j];
         if (currentValue != 0.0) {
           var textColor = 'white';
-        }else{
+        } else {
           var textColor = 'white';
         }
         var result = {
@@ -45,7 +57,7 @@ function plotComparatorChart(xValues, yValues, zValues, isDoneCallback) {
           yref: 'y1',
           x: xValues[j],
           y: yValues[i],
-          text: zValues[i][j],
+          text: "", // zValues[i][j],
           font: {
             family: 'Arial',
             size: 14,
@@ -61,10 +73,7 @@ function plotComparatorChart(xValues, yValues, zValues, isDoneCallback) {
     }
     const sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds))
     // Using callbacks
-    sleep(2500).then(() => {
-      console.log("waited 2.5 second for dev purpose");
-      Plotly.newPlot('chart', data, layout);
-      isDoneCallback();
-    })
+    // sleep(2500).then(() => {
+    Plotly.newPlot('chart', data, layout);
 }
 

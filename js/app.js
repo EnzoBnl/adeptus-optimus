@@ -1,10 +1,37 @@
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {state: "idle", msg: "", tableParamsAsString: "{}", cache: {}};  // state in: "idle", "processing","error";
         this.sendParamsToApp = this.sendParamsToApp.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.helpButtonAction = this.helpButtonAction.bind(this);
+
+        this.initTableState = {
+            AB: "2",
+            AA: "D6",
+            APB: "1",
+            APA: "5",
+            DB: "1",
+            DA: "D6",
+            SB: "4",
+            SA: "2D6",
+            WSBSB: "3",
+            WSBSA: "5",
+            nameB: 'Bolt Rifle (15") on Intercessor',
+            nameA: "SAG on Big Mek",
+            pointsB: "20",
+            pointsA: "120",
+        };
+
+        this.state = {
+            state: "idle",  // state in: "idle", "processing","error";
+            msg: "",
+            tableParamsAsString: JSON.stringify(this.initTableState),
+            cache: {},
+            helpShown: false
+        };
+        this.state.cache[this.state.tableParamsAsString] = getSample();
     }
+
 
     handleSubmit(event) {
         event.preventDefault();
@@ -35,8 +62,8 @@ class App extends React.Component {
                   plotComparatorChart(
                       xhr.response["x"],
                       xhr.response["y"],
-                      xhr.response["z"],
-                      () => {this.setState({state: "idle", msg: ""});});
+                      xhr.response["z"]);
+                  this.setState({state: "idle", msg: ""});
               } else {
                 this.setState({
                     state: "error",
@@ -62,19 +89,15 @@ class App extends React.Component {
       }
 
     render() {
-        console.log(this.state);
         return <div>
             <h1><a href="index.html" class="ancient">Adeptus Optimus</a></h1>
             <p class="ancientSub">"Support wiser choices, on behalf of the Emperor."</p>
             <br/>
             <div style={{overflowX: "auto"}}>
-                <WeaponsParamTable sendParamsToApp={this.sendParamsToApp}/>
+                <WeaponsParamTable initState={this.initTableState} sendParamsToApp={this.sendParamsToApp}/>
             </div>
             <br/>
-            <button maxlength="4"
-                class="w3-btn shop"
-                style={{background: "#e6a919"}}
-                onClick={this.handleSubmit}>Compare</button>
+            <button class="w3-btn shop" style={{background: "#e6a919"}} onClick={this.handleSubmit}>Compare</button>
             <div class="w3-bar shop-bg"><div class="w3-bar-item"></div></div>
             <ProgressLog state={this.state.state} msg={this.state.msg}/>
             <div id="chart-title" class="chart-title"></div>
@@ -82,10 +105,27 @@ class App extends React.Component {
                 <div id="chart" class="chart"></div>
             </div>
             <div class="w3-bar shop-bg"><div class="w3-bar-item"></div></div>
+            <Help shown={this.state.helpShown}/>
+            <div class="w3-bar shop-bg"><div class="w3-bar-item"></div></div>
+            <button class="w3-btn shop" style={{background: "#e6a919"}} onClick={this.helpButtonAction}>Help</button>
         </div>
     }
     sendParamsToApp(tableState) {
+        console.log("called sendParamsToApp");
         this.setState({tableParamsAsString: JSON.stringify(tableState)});
+    }
+    helpButtonAction() {
+        this.setState({helpShown: !this.state.helpShown});
+    }
+}
+
+class Help extends React.Component {
+    render() {
+        if (this.props.shown) {
+            return <p class="shop">Help: TODO</p>
+        } else {
+            return <span></span>
+        }
     }
 }
 
@@ -113,24 +153,8 @@ class ProgressLog extends React.Component {
 class WeaponsParamTable extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-        AB: "2",
-        AA: "D6",
-        APB: "1",
-        APA: "5",
-        DB: "1",
-        DA: "D6",
-        SB: "4",
-        SA: "2D6",
-        WSBSB: "3",
-        WSBSA: "5",
-        nameB: 'Bolt Rifle (15") on Intercessor',
-        nameA: "SAG on Big Mek",
-        pointsB: "20",
-        pointsA: "120",
-    };
+    this.state = props.initState;
     this.sendParamsToApp = props.sendParamsToApp;
-    this.sendParamsToApp(this.state);
     this.handleWeaponParamsChange = this.handleWeaponParamsChange.bind(this);
   }
 
@@ -160,17 +184,17 @@ class WeaponsParamTable extends React.Component {
                 <input maxlength="32"
                     id="nameA"
                     type="text"
-                    class="input-name"
+                    class="input input-name"
                     value={this.state.nameA}
                     onChange={this.handleWeaponParamsChange}
                     ></input>
             </th>
-            <th class="datasheet"><input maxlength="4" id="AA" value={this.state.AA} type="text" class="datasheet input-dice-right" onChange={this.handleWeaponParamsChange}></input></th>
-            <th class="datasheet"><input maxlength="4" id="WSBSA" value={this.state.WSBSA} type="text" class="datasheet input-dice-right" onChange={this.handleWeaponParamsChange}></input>+</th>
-            <th class="datasheet"><input maxlength="4" id="SA" value={this.state.SA} type="text" class="datasheet input-dice-right" onChange={this.handleWeaponParamsChange}></input></th>
-            <th class="datasheet">-<input maxlength="4" id="APA" value={this.state.APA} type="text" class="datasheet input-dice-left" onChange={this.handleWeaponParamsChange}></input></th>
-            <th class="datasheet"><input maxlength="4" id="DA" value={this.state.DA} type="text" class="datasheet input-dice-right" onChange={this.handleWeaponParamsChange}></input></th>
-            <th class="datasheet"><input maxlength="4" id="pointsA" value={this.state.pointsA} type="text" class="datasheet input-dice-right" onChange={this.handleWeaponParamsChange}></input></th>
+            <th class="datasheet"><input maxlength="4" id="AA" value={this.state.AA} type="text" class="datasheet input input-dice-left" onChange={this.handleWeaponParamsChange}></input></th>
+            <th class="datasheet"><input maxlength="4" id="WSBSA" value={this.state.WSBSA} type="text" class="datasheet input input-dice-right" onChange={this.handleWeaponParamsChange}></input>+</th>
+            <th class="datasheet"><input maxlength="4" id="SA" value={this.state.SA} type="text" class="datasheet input input-dice-left" onChange={this.handleWeaponParamsChange}></input></th>
+            <th class="datasheet">-<input maxlength="4" id="APA" value={this.state.APA} type="text" class="datasheet input input-dice-left" onChange={this.handleWeaponParamsChange}></input></th>
+            <th class="datasheet"><input maxlength="4" id="DA" value={this.state.DA} type="text" class="datasheet input input-dice-left" onChange={this.handleWeaponParamsChange}></input></th>
+            <th class="datasheet"><input maxlength="4" id="pointsA" value={this.state.pointsA} type="text" class="datasheet input input-dice-right" onChange={this.handleWeaponParamsChange}></input></th>
           </tr>
           <tr>
             <th class="datasheet-header" style={{background: "#0d407f", color: "white", "text-align": "center"}}>Weapon B</th>
@@ -178,16 +202,16 @@ class WeaponsParamTable extends React.Component {
                 <input maxlength="32"
                     id="nameB"
                     type="text"
-                    class="input-name"
+                    class="input input-name"
                     value={this.state.nameB}
                     onChange={this.handleWeaponParamsChange}></input>
             </th>
-            <th class="datasheet"><input maxlength="4" id="AB" value={this.state.AB} type="text" class="datasheet input-dice-right" onChange={this.handleWeaponParamsChange}></input></th>
-            <th class="datasheet"><input maxlength="4" id="WSBSB" value={this.state.WSBSB} type="text" class="datasheet input-dice-right" onChange={this.handleWeaponParamsChange}></input>+</th>
-            <th class="datasheet"><input maxlength="4" id="SB" value={this.state.SB} type="text" class="datasheet input-dice-right" onChange={this.handleWeaponParamsChange}></input></th>
-            <th class="datasheet">-<input maxlength="4" id="APB" value={this.state.APB} type="text" class="datasheet input-dice-left" onChange={this.handleWeaponParamsChange}></input></th>
-            <th class="datasheet"><input maxlength="4" id="DB" value={this.state.DB} type="text" class="datasheet input-dice-right" onChange={this.handleWeaponParamsChange}></input></th>
-            <th class="datasheet"><input maxlength="4" id="pointsB" value={this.state.pointsB} type="text" class="datasheet input-dice-right" onChange={this.handleWeaponParamsChange}></input></th>
+            <th class="datasheet"><input maxlength="4" id="AB" value={this.state.AB} type="text" class="datasheet input input-dice-left" onChange={this.handleWeaponParamsChange}></input></th>
+            <th class="datasheet"><input maxlength="4" id="WSBSB" value={this.state.WSBSB} type="text" class="datasheet input input-dice-right" onChange={this.handleWeaponParamsChange}></input>+</th>
+            <th class="datasheet"><input maxlength="4" id="SB" value={this.state.SB} type="text" class="datasheet input input-dice-left" onChange={this.handleWeaponParamsChange}></input></th>
+            <th class="datasheet">-<input maxlength="4" id="APB" value={this.state.APB} type="text" class="datasheet input input-dice-left" onChange={this.handleWeaponParamsChange}></input></th>
+            <th class="datasheet"><input maxlength="4" id="DB" value={this.state.DB} type="text" class="datasheet input input-dice-left" onChange={this.handleWeaponParamsChange}></input></th>
+            <th class="datasheet"><input maxlength="4" id="pointsB" value={this.state.pointsB} type="text" class="datasheet input input-dice-right" onChange={this.handleWeaponParamsChange}></input></th>
           </tr>
       </table>
     );
