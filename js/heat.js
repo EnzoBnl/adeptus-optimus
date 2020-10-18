@@ -4,14 +4,10 @@ function plotComparatorChart(xValues, yValues, zValues, callWhenDone) {
       [1, '#0000ff']   // buttons bg green '#7dae3e' // '#6d9e2e'
     ];
 
-    var ztextLine = Array(xValues.length).fill("");
-    var ztext = Array(yValues.length).fill(ztextLine);
-
     var data = [{
       x: xValues,
       y: yValues,
       z: zValues,
-      // hovertext: [["a", "a"], ["a", "a"]],
       type: 'heatmap',
       colorscale: colorscaleValue,
       showscale: false,
@@ -81,7 +77,6 @@ function plotComparatorChart(xValues, yValues, zValues, callWhenDone) {
     // Using callbacks
     // sleep(2500).then(() => {
     Plotly.newPlot('chart', data, layout);
-    document.getElementById("chart").innerHTML += "<br/>";
     console.log("Plotly.newPlot called");
     callWhenDone();
 }
