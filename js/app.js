@@ -148,14 +148,14 @@ class Login extends React.Component {
     }
     render() {
         return <div style={{"text-align": "right", "margin-right":"25px", "margin-top":"25px"}}>
-                   <sup class="creds">id: </sup>
+                   <span class="creds">id: </span>
                    <input maxlength="32"
                        id="id"
                        type="text"
                        class="input input-creds"
                        value={this.state.id}
                        onChange={this.handleChange}></input>
-                   <sup class="creds"> token: </sup>
+                   <span class="creds"> token: </span>
                    <input maxlength="32"
                        id="token"
                        type="text"

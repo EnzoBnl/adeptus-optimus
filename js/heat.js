@@ -30,18 +30,21 @@ function plotComparatorChart(xValues, yValues, zValues, callWhenDone) {
       xaxis: {
         ticks: '',
         side: 'top',
-        title: "Save and Invulnerable Save of the target unit"
-
+        title: "Comparison of the average number of models slained by weapon A and B <br> depending on defense caracteristics of the target unit",
+        anchor: "free",
+        position: 0.999,
+        automargin: true
       },
       yaxis: {
         ticks: '',
         ticksuffix: ' ',
         autosize: true,
-        title: "Toughness and Wounds and Feel No Pain of the target unit"
+        title: ""
       },
       margin: {
-        t: 75,
-        b: 15
+        t: 130,
+        b: 15,
+        l:100
       },
       height: 2000,
     };
@@ -74,8 +77,6 @@ function plotComparatorChart(xValues, yValues, zValues, callWhenDone) {
       }
     }
     const sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds))
-    // Using callbacks
-    // sleep(2500).then(() => {
     Plotly.newPlot('chart', data, layout);
     console.log("Plotly.newPlot called");
     callWhenDone();
