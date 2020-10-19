@@ -1,3 +1,15 @@
+/*
+Reminder:
+When the browser needs to resolve what styles to apply to a given HTML element,
+it uses a set of CSS precedence rules. Given these rules,
+the browser can determine what styles to apply. The rules are:
+
+!important after CSS properties.
+Specificity of CSS rule selectors.
+Sequence of declaration.
+*/
+
+/* FONTS */
 @font-face {
     font-family: ancient;
     src:url("../fonts/ancient-medium.ttf");
@@ -12,71 +24,74 @@
     font-family: noto;
     src:url("../fonts/NotoSans-Regular.ttf");
 }
-
-
-.ancient{
-    font: 80px ancient;
-    text-align: center;
-    text-decoration: none;
+/* DIVERSE UNUSED*/
+@keyframes fading{
+    0%{opacity:0}
+    50%{opacity:1}
+    100%{opacity:0}
 }
-
-.ancientSub{
-    font: 20px ancient;
-    text-align: center;
-    font-style: italic;
-}
-
 .shop{
     font: 16px noto, sans-serif;
     color: black;
 }
-
-.datasheet{
-    font: 16px times new roman, serif;
-    font-weight: bold;
-    white-space: nowrap;
-}
-
-.datasheet-header{
-    font: 20px impact;
-    font-weight: normal;
-}
-
-
-.datasheet-bg {
-    background: #c3c8c3;
-}
-
 .shop-bg{
     /* middle color is e6a919 */
     background: linear-gradient(to right, #dc9014 0%, #efc11e 100%);
 }
+/* element targets */
 
-.footer{
+body {
+    background: #fff;
+    text-align: center;
+}
+
+footer{
     font-size: 10px;
 }
 
-.chart-title{
-    font: 20px times new roman, serif;
-    font-weight: normal;
+button{
+    width: 110px;
+    text-align: center;
+    background: #c3c8c3;
 }
 
-.chart{
-    min-width: 600px;
+/* detail definitions */
+.greeny-bg {
+    background: #c3c8c3;
+}
+.nowrap {
+    white-space: nowrap;
+}
+/* hierarchy class targets */
+
+/* title */
+.title{
+    font-family: ancient;
+    font-size: 80px;
+    text-decoration: none;
 }
 
+.title.subscript {
+    font-size: 20px;
+    font-style: italic;
+}
+
+/* Login */
+.login-label{
+    font-family: noto;
+    font-size: 16px;
+}
+
+/* inputs */
 .input{
     border: none;
     border-bottom: 1px solid #ccc;
 }
 
-.input-dice-right{
-    width: 32px;
-    text-align: right;
-}
-
-.input-dice-left{
-    width: 32px;
+.input-login{
+    font-family: noto;
+    font-size: 16px;
+    width: 100px;
     text-align: left;
 }
 
@@ -85,31 +100,54 @@
     text-align: left;
 }
 
-.input-creds{
-    width: 100px;
+.input-dice{
+    width: 32px;
+}
+
+.input-dice.align-right{
+    text-align: right;
+}
+
+.input-dice.align-left{
     text-align: left;
 }
 
-.creds{
-    font: 16px impact;
+/* table */
+
+.datasheet-header{
+    font: 20px impact;
     font-weight: normal;
 }
 
+th.weapon-flag {
+    color: #fff;
+    text-align: center;
+}
+.weapon-a-bg {
+    background: #DC3220;
+}
+.weapon-b-bg {
+    background: #0C7BDC;
+}
+
+.datasheet-body{
+    font-size: 16px;
+    font-family: times new roman, serif;
+    font-weight: bold;
+}
+
+/* chart */
+.chart{
+    min-width: 600px;
+}
+
+/* Logging */
 .w3-animate-fading-fast{
     animation:fading 1s infinite
 }
-.button{
-    width: "110px";
-    text-align: center;
-}
 
-@keyframes fading{
-    0%{opacity:0}
-    50%{opacity:1}
-    100%{opacity:0}
-}
 
-body {
-    background: #fff;
-    text-align: center;
-}
+
+
+
+
