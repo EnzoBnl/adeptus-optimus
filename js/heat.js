@@ -1,7 +1,7 @@
 function plotComparatorChart(xValues, yValues, zValues, callWhenDone) {
     var colorscaleValue = [
-      [0, '#ff0000'],  // ultramarine blue '#0d407f'
-      [1, '#0000ff']   // buttons bg green '#7dae3e' // '#6d9e2e'
+      [0, '#000'],  // ultramarine blue '#0d407f'
+      [1, '#fff']   // buttons bg green '#7dae3e' // '#6d9e2e'
     ];
 
     var data = [{

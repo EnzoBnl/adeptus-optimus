@@ -44,7 +44,7 @@
 
 
 .datasheet-bg {
-    background: #b4bbb4;
+    background: #c3c8c3;
 }
 
 .shop-bg{
@@ -98,7 +98,10 @@
 .w3-animate-fading-fast{
     animation:fading 1s infinite
 }
-
+.button{
+    width: "110px";
+    text-align: center;
+}
 
 @keyframes fading{
     0%{opacity:0}
