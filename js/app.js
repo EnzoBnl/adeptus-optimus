@@ -208,9 +208,9 @@ class WeaponsParamTable extends React.Component {
 
   render() {
     return (
-      <table class="w3-table w3-bordered" style={{"max-width": "700px", "margin-left": "auto", "margin-right": "auto"}}>
+      <table class="w3-table w3-bordered nowrap">
           <tr class="greeny-bg datasheet-header">
-            <th></th>
+            <th style={{background: "#fff"}}></th>
             <th>NAME</th>
             <th>A</th>
             <th>WS/BS</th>
@@ -219,16 +219,9 @@ class WeaponsParamTable extends React.Component {
             <th>D</th>
             <th>POINTS</th>
           </tr>
-          <tr class="datasheet-body nowrap">
-            <th  class="datasheet-header weapon-flag weapon-a-bg nowrap">Weapon A</th>
-            <th>
-                <input maxlength="32"
-                    id="nameA"
-                    type="text"
-                    class="input input-name"
-                    value={this.state.nameA}
-                    onChange={this.handleWeaponParamsChange}
-                    ></input>
+          <tr class="datasheet-body">
+            <th  class="datasheet-header weapon-flag weapon-a-bg">Weapon A</th>
+            <th><input maxlength="32" id="nameA" type="text" class="input input-name" value={this.state.nameA} onChange={this.handleWeaponParamsChange} ></input>
             </th>
             <th><input maxlength="4" id="AA" value={this.state.AA} type="text" class="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
             <th><input maxlength="4" id="WSBSA" value={this.state.WSBSA} type="text" class="input input-dice align-right" onChange={this.handleWeaponParamsChange}></input>+</th>
@@ -237,17 +230,10 @@ class WeaponsParamTable extends React.Component {
             <th><input maxlength="4" id="DA" value={this.state.DA} type="text" class="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
             <th><input maxlength="4" id="pointsA" value={this.state.pointsA} type="text" class="input input-dice align-right" onChange={this.handleWeaponParamsChange}></input></th>
           </tr>
-          <tr class="datasheet-body nowrap">
-            <th class="datasheet-header weapon-flag weapon-b-bg nowrap">Weapon B</th>
-            <th>
-                <input maxlength="32"
-                    id="nameB"
-                    type="text"
-                    class="input input-name"
-                    value={this.state.nameB}
-                    onChange={this.handleWeaponParamsChange}></input>
-            </th>
-            <th ><input maxlength="4" id="AB" value={this.state.AB} type="text" class="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
+          <tr class="datasheet-body">
+            <th class="datasheet-header weapon-flag weapon-b-bg">Weapon B</th>
+            <th><input maxlength="32" id="nameB" type="text" class="input input-name" value={this.state.nameB} onChange={this.handleWeaponParamsChange}></input></th>
+            <th><input maxlength="4" id="AB" value={this.state.AB} type="text" class="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
             <th><input maxlength="4" id="WSBSB" value={this.state.WSBSB} type="text" class="input input-dice align-right" onChange={this.handleWeaponParamsChange}></input>+</th>
             <th><input maxlength="4" id="SB" value={this.state.SB} type="text" class="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
             <th>-<input maxlength="4" id="APB" value={this.state.APB} type="text" class="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>

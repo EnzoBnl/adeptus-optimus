@@ -6,7 +6,7 @@ the browser can determine what styles to apply. The rules are:
 
 !important after CSS properties.
 Specificity of CSS rule selectors.
-Sequence of declaration.
+Sequence of declaration. (last has superiority)
 */
 
 /* FONTS */
@@ -86,6 +86,7 @@ button{
 .input{
     border: none;
     border-bottom: 1px solid #ccc;
+    outline: none;
 }
 
 .input-login{
@@ -114,9 +115,22 @@ button{
 
 /* table */
 
+table {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th {
+    font-weight: inherit;
+}
+
 .datasheet-header{
     font: 20px impact;
-    font-weight: normal;
+}
+
+th.datasheet-header{
+    font: 18px impact;
 }
 
 th.weapon-flag {
