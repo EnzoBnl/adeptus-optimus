@@ -226,7 +226,7 @@ class WeaponsParamTable extends React.Component {
             <th class="datasheet-header">POINTS</th>
           </tr>
           <tr>
-            <th  class="datasheet-header" style={{background: "#111", color: "#808080", "text-align": "center"}}>Weapon A</th>
+            <th  class="datasheet-header" style={{background: "#DC3220", color: "#fff", "text-align": "center"}}>Weapon A</th>
             <th class="datasheet">
                 <input maxlength="32"
                     id="nameA"
@@ -244,7 +244,7 @@ class WeaponsParamTable extends React.Component {
             <th class="datasheet"><input maxlength="4" id="pointsA" value={this.state.pointsA} type="text" class="datasheet input input-dice-right" onChange={this.handleWeaponParamsChange}></input></th>
           </tr>
           <tr>
-            <th class="datasheet-header" style={{background: "#eee", color: "#808080", "text-align": "center"}}>Weapon B</th>
+            <th class="datasheet-header" style={{background: "#0C7BDC", color: "#fff", "text-align": "center"}}>Weapon B</th>
             <th class="datasheet">
                 <input maxlength="32"
                     id="nameB"
