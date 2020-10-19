@@ -2,6 +2,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.sendParamsToApp = this.sendParamsToApp.bind(this);
+        this.sendCredentialsToApp = this.sendCredentialsToApp.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.helpButtonAction = this.helpButtonAction.bind(this);
 
@@ -27,7 +28,9 @@ class App extends React.Component {
             msg: "",
             tableParamsAsString: this.stringifyRelevantTableState(this.initTableState),
             cache: {},
-            helpShown: false
+            helpShown: false,
+            id: "admin",
+            token: "U2FsdGVkX197wfW/IY0sqa/Ckju8AeU3pRLPSra1aCxZeAHrWePPDPJlYTy5bwdU"
         };
         this.state.cache[this.state.tableParamsAsString] = getSample();
     }
@@ -47,54 +50,59 @@ class App extends React.Component {
                 () => {console.log("bla");this.setState({state: "idle", msg: ""});}
                 )
         } else {
-            var xhr = new XMLHttpRequest();
-            xhr.responseType = 'json';
-            // get a callback when the server responds
-            xhr.onload = () => {
-              console.log("console.log(xhr.responseText):");
-              console.log(xhr.response);
-              if (xhr.status == 200) {
-                  this.state.cache[this.state.tableParamsAsString] = {
-                      x: xhr.response["x"],
-                      y: xhr.response["y"],
-                      z: xhr.response["z"]
+            var serverIp = getServerIp(this.state.id, this.state.token);
+            if (serverIp == "") {
+                this.setState({
+                    state: "error",
+                    msg: "Invalid id/token: id:'" + this.state.id + "', token='" + this.state.token + "'."
+                });
+            } else {
+                var xhr = new XMLHttpRequest();
+                xhr.responseType = 'json';
+                // get a callback when the server responds
+                xhr.onload = () => {
+                  console.log("console.log(xhr.responseText):");
+                  console.log(xhr.response);
+                  if (xhr.status == 200) {
+                      this.state.cache[this.state.tableParamsAsString] = {
+                          x: xhr.response["x"],
+                          y: xhr.response["y"],
+                          z: xhr.response["z"]
+                      }
+                      plotComparatorChart(
+                          xhr.response["x"],
+                          xhr.response["y"],
+                          xhr.response["z"],
+                          () => {this.setState({state: "idle", msg: ""});});
+                  } else {
+                    this.setState({
+                        state: "error",
+                        msg: "SERVER ERROR " + xhr.status + ": " + xhr.response["msg"]
+                    });
                   }
-                  plotComparatorChart(
-                      xhr.response["x"],
-                      xhr.response["y"],
-                      xhr.response["z"],
-                      () => {this.setState({state: "idle", msg: ""});});
-              } else {
-                this.setState({
-                    state: "error",
-                    msg: "SERVER ERROR " + xhr.status + ": " + xhr.response["msg"]
-                });
-              }
-            };
-            // get a callback when net::ERR_CONNECTION_REFUSED
-            xhr.onerror = () => {
-                console.log("console.log(xhr.responseText):");
-                console.log(xhr.response);
-                this.setState({
-                    state: "error",
-                    msg: "SERVER DOWN: The Forge World of the Adeptus Optimus must be facing an onslaught of heretics."
-                });
-            };
-            var params = "?params=" + this.state.tableParamsAsString;
-            xhr.open('GET', 'http://127.0.0.1:5000/engine/' + params);
-            // send the request
-            xhr.send();
+                };
+                // get a callback when net::ERR_CONNECTION_REFUSED
+                xhr.onerror = () => {
+                    console.log("console.log(xhr.responseText):");
+                    console.log(xhr.response);
+                    this.setState({
+                        state: "error",
+                        msg: "SERVER DOWN: The Forge World of the Adeptus Optimus must be facing an onslaught of heretics."
+                    });
+                };
+                var params = "?params=" + this.state.tableParamsAsString;
+                xhr.open('GET', serverIp + params);
+                // send the request
+                xhr.send();
+            }
         }
-
-
-        
     }
 
     render() {
         console.log("App render() called")
         console.log(this.state);
         return <div>
-            <Login />
+            <Login initState={{id: this.state.id, token: this.state.token}} sendCredentialsToApp={this.sendCredentialsToApp}/>
             <h1><a href="index.html" class="title">Adeptus Optimus</a></h1>
             <p class="title subscript">" Support wiser choices, on behalf of the Emperor."</p>
             <br/>
@@ -120,6 +128,11 @@ class App extends React.Component {
         this.setState({tableParamsAsString: this.stringifyRelevantTableState(tableState)});
     }
 
+    sendCredentialsToApp(creds) {
+        console.log("called sendCredentialsToApp");
+        this.setState(creds);
+    }
+
     getRelevantTableStateKeys(tableState) {
         var tableRelevantState = {...tableState};
         delete tableRelevantState["nameA"];
@@ -139,22 +152,25 @@ class App extends React.Component {
 class Login extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {id: "", token: ""};
+        this.state = props.initState;  // TODO remove
         this.handleChange=this.handleChange.bind(this);
+        this.sendCredentialsToApp = props.sendCredentialsToApp;
     }
     handleChange(state) {
         this.state[event.target.id] = event.target.value;
         this.setState({});  // re render
+        this.sendCredentialsToApp(this.state);
     }
     render() {
         return <div style={{"text-align": "right", "margin-right":"25px", "margin-top":"25px"}}>
                    <span class="nowrap">
                        <span class="login-label">id: </span>
-                       <input maxlength="32" id="id" type="text" class="input input-login" value={this.state.id} onChange={this.handleChange}></input>
+                       <input maxlength="10" id="id" type="text" class="input input-login" value={this.state.id} onChange={this.handleChange}></input>
                    </span>
+                   <br/>
                    <span class="nowrap">
                        <span class="login-label"> token: </span>
-                       <input maxlength="32" id="token" type="text" class="input input-login" value={this.state.token} onChange={this.handleChange}></input>
+                       <input maxlength="128" id="token" type="text" class="input input-login" value={this.state.token} onChange={this.handleChange}></input>
                    </span>
                </div>
     }
