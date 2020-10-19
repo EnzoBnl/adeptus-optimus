@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adeptus Optimus - Admin</title>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
+    <script type="text/babel">
+    function generateToken() {  // TODO: put in a new page
+        var id = document.getElementById("key").value;
+        console.log("id:", id);
+        var encrypted = CryptoJS.AES.encrypt("http://127.0.0.1:5000/engine/", id);
+        console.log("credentials generated:", encrypted);
+        console.log("id:", id);
+        console.log("token:", encrypted.toString(CryptoJS.enc.Utf8));
+        document.getElementById("res").innerHTML = encrypted.toString();
+    }
+    </script>
+</head>
+<body>
+    <p>id:</p>
+    <input type="text" id="key">
+    <button id="gen" onclick="generateToken();">get token</button>
+    <br/>
+    <p id="res"></p>
+
+</body>
+</html>
