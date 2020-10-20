@@ -47,6 +47,7 @@ class App extends React.Component {
                 cachedResponse["x"],
                 cachedResponse["y"],
                 cachedResponse["z"],
+                cachedResponse["labels"],
                 () => {console.log("bla");this.setState({state: "idle", msg: ""});}
                 )
         } else {
@@ -67,12 +68,14 @@ class App extends React.Component {
                       this.state.cache[this.state.tableParamsAsString] = {
                           x: xhr.response["x"],
                           y: xhr.response["y"],
-                          z: xhr.response["z"]
+                          z: xhr.response["z"],
+                          labels: xhr.response["labels"]
                       }
                       plotComparatorChart(
                           xhr.response["x"],
                           xhr.response["y"],
                           xhr.response["z"],
+                          xhr.response["labels"],
                           () => {this.setState({state: "idle", msg: ""});});
                   } else {
                     this.setState({

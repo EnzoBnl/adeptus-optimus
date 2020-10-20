@@ -1,4 +1,4 @@
-function plotComparatorChart(xValues, yValues, zValues, callWhenDone) {
+function plotComparatorChart(xValues, yValues, zValues, labels, callWhenDone) {
     var colorscaleValue = [ // ultramarine blue '#0d407f'  // buttons bg green '#7dae3e'
       [0, '#0C7BDC'],   // weapon B
       [0.5, '#ffffff'],
@@ -6,10 +6,13 @@ function plotComparatorChart(xValues, yValues, zValues, callWhenDone) {
     ];
 
     var data = [{
+      name: "",
       x: xValues,
       y: yValues,
       z: zValues,
       type: 'heatmap',
+      text: labels,
+      hovertemplate: "On target unit profile: %{x}, %{y}<br>%{text}",
       colorscale: colorscaleValue,
       showscale: false,
       zmin: -1,
