@@ -12,7 +12,7 @@ function plotComparatorChart(xValues, yValues, zValues, labels, callWhenDone) {
       z: zValues,
       type: 'heatmap',
       text: labels,
-      hovertemplate: "On target unit profile: %{x}, %{y}<br>%{text}",
+      hovertemplate: "On target unit's profile: %{x}, %{y}<br>%{text}",
       colorscale: colorscaleValue,
       showscale: false,
       zmin: -1,
