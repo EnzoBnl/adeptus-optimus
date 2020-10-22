@@ -58,6 +58,7 @@ class App extends React.Component {
                     msg: "Invalid id/token: id:'" + this.state.id + "', token='" + this.state.token + "'."
                 });
             } else {
+                var params = this.state.tableParamsAsString;
                 var xhr = new XMLHttpRequest();
                 xhr.responseType = 'json';
                 // get a callback when the server responds
@@ -65,7 +66,7 @@ class App extends React.Component {
                   console.log("console.log(xhr.responseText):");
                   console.log(xhr.response);
                   if (xhr.status == 200) {
-                      this.state.cache[this.state.tableParamsAsString] = {
+                      this.state.cache[params] = { // ensures changing params during request is safe
                           x: xhr.response["x"],
                           y: xhr.response["y"],
                           z: xhr.response["z"],
@@ -93,8 +94,7 @@ class App extends React.Component {
                         msg: "SERVER DOWN: The Forge World of the Adeptus Optimus must be facing an onslaught of heretics."
                     });
                 };
-                var params = "?params=" + this.state.tableParamsAsString;
-                xhr.open('GET', serverIp + params);
+                xhr.open('GET', serverIp + "?params=" + params);
                 // send the request
                 xhr.send();
             }
