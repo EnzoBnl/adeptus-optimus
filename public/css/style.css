@@ -160,6 +160,15 @@ th.weapon-flag {
     animation:fading 1s infinite
 }
 
+/* version */
+.version {
+    font-family: noto;
+    font-size: 18px;
+    text-align: left;
+    margin-left:25px;
+    margin-top: 25px;
+}
+
 
 
 

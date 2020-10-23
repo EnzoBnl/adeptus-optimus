@@ -47,7 +47,7 @@ class App extends React.Component {
                 cachedResponse["x"],
                 cachedResponse["y"],
                 cachedResponse["z"],
-                cachedResponse["labels"],
+                cachedResponse["ratios"],
                 () => {console.log("bla");this.setState({state: "idle", msg: ""});}
                 )
         } else {
@@ -70,13 +70,13 @@ class App extends React.Component {
                           x: xhr.response["x"],
                           y: xhr.response["y"],
                           z: xhr.response["z"],
-                          labels: xhr.response["labels"]
+                          ratios: xhr.response["ratios"]
                       }
                       plotComparatorChart(
                           xhr.response["x"],
                           xhr.response["y"],
                           xhr.response["z"],
-                          xhr.response["labels"],
+                          xhr.response["ratios"],
                           () => {this.setState({state: "idle", msg: ""});});
                   } else {
                     this.setState({
@@ -105,6 +105,7 @@ class App extends React.Component {
         console.log("App render() called")
         console.log(this.state);
         return <div>
+            <p class="version">version: ALPHA v0.0.0</p>
             <Login initState={{id: this.state.id, token: this.state.token}} sendCredentialsToApp={this.sendCredentialsToApp}/>
             <h1><a href="index.html" class="title">Adeptus Optimus</a></h1>
             <p class="title subscript">" Support wiser choices, on behalf of the Emperor."</p>

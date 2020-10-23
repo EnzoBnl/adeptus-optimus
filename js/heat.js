@@ -1,9 +1,27 @@
-function plotComparatorChart(xValues, yValues, zValues, labels, callWhenDone) {
+function plotComparatorChart(xValues, yValues, zValues, ratios, callWhenDone) {
     var colorscaleValue = [ // ultramarine blue '#0d407f'  // buttons bg green '#7dae3e'
       [0, '#0C7BDC'],   // weapon B
       [0.5, '#ffffff'],
       [1, '#DC3220']  // weapon A
     ];
+
+    var labels = [];
+    for (i = 0; i < zValues.length; i++) {
+       var line = [];
+        for (j = 0; j < zValues[0].length; j++) {
+            var ratio = ratios[i][j]
+            if (ratio == 1.0) {
+                line.push("Weapon A and B should destroy the same number of models per point")
+            }
+            else if (zValues[i][j] > 0){
+                line.push("Weapon A should destroy " + ratio + " times more models per point than weapon B");
+            } else {
+                line.push("Weapon B should destroy " + ratio + " times more models per point than weapon A");
+            }
+        }
+        labels.push(line);
+        console.log("added line", line);
+    }
 
     var data = [{
       name: "",
