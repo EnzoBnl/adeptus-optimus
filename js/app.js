@@ -250,6 +250,7 @@ class WeaponsParamTable extends React.Component {
             <th><input maxlength="4" id="DA" value={this.state.DA} type="text" class="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
             <th><input maxlength="4" id="pointsA" value={this.state.pointsA} type="text" class="input input-dice align-right" onChange={this.handleWeaponParamsChange}></input></th>
           </tr>
+          <Options />
           <tr class="datasheet-body">
             <th class="datasheet-header weapon-flag weapon-b-bg">Weapon B</th>
             <th><input maxlength="32" id="nameB" type="text" class="input input-name" value={this.state.nameB} onChange={this.handleWeaponParamsChange}></input></th>
@@ -263,6 +264,27 @@ class WeaponsParamTable extends React.Component {
       </table>
     );
   }
+}
+
+class Options extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+    render () {
+      return <tr class="datasheet-body">
+        <th  class="datasheet-header weapon-flag weapon-a-bg">Weapon A</th>
+        <th><input maxlength="32" id="nameA" type="text" class="input input-name" value={this.state.nameA} onChange={this.handleWeaponParamsChange} ></input>
+        </th>
+        <th><input maxlength="4" id="AA" value={this.state.AA} type="text" class="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
+        <th><input maxlength="4" id="WSBSA" value={this.state.WSBSA} type="text" class="input input-dice align-right" onChange={this.handleWeaponParamsChange}></input>+</th>
+        <th><input maxlength="4" id="SA" value={this.state.SA} type="text" class="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
+        <th>-<input maxlength="4" id="APA" value={this.state.APA} type="text" class="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
+        <th><input maxlength="4" id="DA" value={this.state.DA} type="text" class="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
+        <th><input maxlength="4" id="pointsA" value={this.state.pointsA} type="text" class="input input-dice align-right" onChange={this.handleWeaponParamsChange}></input></th>
+      </tr>
+    }
 }
 
 ReactDOM.render(
