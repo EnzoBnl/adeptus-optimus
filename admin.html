@@ -9,20 +9,24 @@
     function generateToken() {  // TODO: put in a new page
         var id = document.getElementById("key").value;
         console.log("id:", id);
-        var encrypted = CryptoJS.AES.encrypt("http://127.0.0.1:5000/engine/", id);
+        var encrypted = CryptoJS.AES.encrypt(document.getElementById("address").value , id);
         console.log("credentials generated:", encrypted);
         console.log("id:", id);
-        console.log("token:", encrypted.toString(CryptoJS.enc.Utf8));
+        console.log("token:", encrypted.toString());
         document.getElementById("res").innerHTML = encrypted.toString();
+        document.getElementById("dec").innerHTML = CryptoJS.AES.decrypt(encrypted.toString(), id).toString(CryptoJS.enc.Utf8);
     }
     </script>
 </head>
 <body>
+    <p>server:</p>
+    <input type="text" id="address" value="http://127.0.0.1:5000/engine/">
     <p>id:</p>
     <input type="text" id="key">
     <button id="gen" onclick="generateToken();">get token</button>
     <br/>
     <p id="res"></p>
+    <p id="dec"></p>
 
 </body>
 </html>
