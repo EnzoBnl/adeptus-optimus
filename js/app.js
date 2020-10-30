@@ -200,13 +200,14 @@ class Login extends React.Component {
 class Help extends React.Component {
     render() {
         if (this.props.shown) {
-            return  <p class="shop">The Adeptus Optimus is an analytics organization attached to the Adeptus Mechanicus. The Adeptus Optimus Engine has been built by an emeritus archimagus computus and aims at giving to lords of war an intuitive and rigorous tool to guide weapons choices.</p>
-                    <p class="shop">The engine performs a comparison of two attacking unit profiles over a large variety of target units profiles.</p>
-                    <p class="shop">An attacking unit profile represents a unit of one or more models and their weapons and it has an overall point cost (points for models + weapons).</p>
-                    <p class="shop">Each different weapon used by the attacking unit has to be described and for each you have to enter a number of <i>Shots</i> representing the total number of attacks made using this weapon profile by the attacking unit.</p>
-                    <p class="shop">From that parameters the engine computes the <i>average number of models slained per point</i>.</p>
-                    <p class="shop">The engine leverages advanced algorithmic to compute deterministic calculus, leading to almost exact results.</p>
-                    <p class="shop">The entire dice rolls events are theoretically modelized, making the engine of the Adeptus Optimus be the only tool to compute the complex effects of random damages caracteristics and feel-no-pain capacities during the ordered sequential damages allocation step, or the thresholds effects introduced by a random strength characteristic.</p>
+            return <div  class="shop help">
+                    <p>The Adeptus Optimus is an analytics organization attached to the Adeptus Mechanicus. The Adeptus Optimus Engine has been built by an archimagus computum mathematicus to give to lords of war an intuitive and rigorous tool to guide their weapons choices.</p>
+                    <p>The engine performs a comparison of two attacking unit profiles A and B.</p>
+                    <p>An attacking unit profile represents a unit of one or more models and their weapons. It has an overall point cost (points for models + weapons).</p>
+                    <p>Each different weapon used by the attacking unit has to be described and for each you have to enter a number of <i>Shots</i> representing the total number of attacks made by the attacking unit using this weapon profile .</p>
+                    <p>From that parameters the engine computes the <i>average number of models slained per point</i> by each attacking unit profile, and it does it for a large variety of target units profiles.</p>
+                    <p>The engine leverages advanced algorithmic to compute deterministic calculus, leading to almost exact results. The entire dice rolls events are theoretically modelized, making the engine of the Adeptus Optimus be the only tool to compute the complex effects of random damages caracteristics and feel-no-pain capacities during the ordered sequential damages allocation step, or the thresholds effects introduced by a random strength characteristic, among others.</p>
+                   </div>
         } else {
             return <span></span>
         }
