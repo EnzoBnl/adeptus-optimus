@@ -78,10 +78,27 @@ class App extends React.Component {
                           xhr.response["z"],
                           xhr.response["ratios"],
                           () => {this.setState({state: "idle", msg: ""});});
-                  } else {
+                  } else if (xhr.status == 422 || xhr.status == 500) {
                     this.setState({
                         state: "error",
                         msg: "SERVER ERROR " + xhr.status + ": " + xhr.response["msg"]
+                    });
+                  } else if (xhr.status == 429) {
+                    this.setState({
+                        state: "error",
+                        msg: "SERVER ERROR 429: Too Many Requests: Our maguses are working hard on other demands, please come back later."
+                    });
+                  }
+                  else if (xhr.status == 408) {
+                    this.setState({
+                      state: "error",
+                      msg: "SERVER ERROR 408: Timeout: The magus in charge of your request has passed out"
+                    });
+                    }
+                  else {
+                    this.setState({
+                        state: "error",
+                        msg: "SERVER ERROR " + xhr.status
                     });
                   }
                 };
@@ -123,7 +140,7 @@ class App extends React.Component {
             <div class="w3-bar greeny-bg"><div class="w3-bar-item"></div></div>
             <Help shown={this.state.helpShown}/>
             <div class="w3-bar greeny-bg"><div class="w3-bar-item"></div></div>
-            <button class="w3-btn greeny-bg datasheet-header" onClick={this.helpButtonAction}>HELP</button>
+            <button class="w3-btn greeny-bg datasheet-header" onClick={this.helpButtonAction}>INFO</button>
         </div>
     }
 
@@ -183,7 +200,13 @@ class Login extends React.Component {
 class Help extends React.Component {
     render() {
         if (this.props.shown) {
-            return <p class="shop">Help: TODO</p>
+            return  <p class="shop">The Adeptus Optimus is an analytics organization attached to the Adeptus Mechanicus. The Adeptus Optimus Engine has been built by an emeritus archimagus computus and aims at giving to lords of war an intuitive and rigorous tool to guide weapons choices.</p>
+                    <p class="shop">The engine performs a comparison of two attacking unit profiles over a large variety of target units profiles.</p>
+                    <p class="shop">An attacking unit profile represents a unit of one or more models and their weapons and it has an overall point cost (points for models + weapons).</p>
+                    <p class="shop">Each different weapon used by the attacking unit has to be described and for each you have to enter a number of <i>Shots</i> representing the total number of attacks made using this weapon profile by the attacking unit.</p>
+                    <p class="shop">From that parameters the engine computes the <i>average number of models slained per point</i>.</p>
+                    <p class="shop">The engine leverages advanced algorithmic to compute deterministic calculus, leading to almost exact results.</p>
+                    <p class="shop">The entire dice rolls events are theoretically modelized, making the engine of the Adeptus Optimus be the only tool to compute the complex effects of random damages caracteristics and feel-no-pain capacities during the ordered sequential damages allocation step, or the thresholds effects introduced by a random strength characteristic.</p>
         } else {
             return <span></span>
         }
