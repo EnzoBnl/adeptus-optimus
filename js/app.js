@@ -122,7 +122,6 @@ class App extends React.Component {
         console.log("App render() called")
         console.log(this.state);
         return <div>
-            <p class="version">version: ALPHA v0.0.0</p>
             <Login initState={{id: this.state.id, token: this.state.token}} sendCredentialsToApp={this.sendCredentialsToApp}/>
             <h1><a href="index.html" class="title">Adeptus Optimus</a></h1>
             <p class="title subscript">" Support wiser choices, on behalf of the Emperor."</p>
@@ -141,6 +140,7 @@ class App extends React.Component {
             <Help shown={this.state.helpShown}/>
             <div class="w3-bar greeny-bg"><div class="w3-bar-item"></div></div>
             <button class="w3-btn greeny-bg datasheet-header" onClick={this.helpButtonAction}>INFO</button>
+            <p class="version">engine ALPHA v0.0.0</p>
         </div>
     }
 
