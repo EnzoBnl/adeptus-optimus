@@ -86,7 +86,7 @@ class App extends React.Component {
                   } else if (xhr.status == 429) {
                     this.setState({
                         state: "error",
-                        msg: "SERVER ERROR 429: Too Many Requests: Our maguses are working hard on other demands, please come back later."
+                        msg: "SERVER ERROR 429: Too Many Requests: There is no magus available for the supervision of the analysis you requested."
                     });
                   }
                   else if (xhr.status == 408) {
