@@ -20,7 +20,6 @@ function plotComparatorChart(xValues, yValues, zValues, ratios, callWhenDone) {
             }
         }
         labels.push(line);
-        console.log("added line", line);
     }
 
     var data = [{
@@ -100,7 +99,6 @@ function plotComparatorChart(xValues, yValues, zValues, ratios, callWhenDone) {
     }
     const sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds))
     Plotly.newPlot('chart', data, layout);
-    console.log("Plotly.newPlot called");
     callWhenDone();
 }
 

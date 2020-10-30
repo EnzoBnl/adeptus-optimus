@@ -48,7 +48,7 @@ class App extends React.Component {
                 cachedResponse["y"],
                 cachedResponse["z"],
                 cachedResponse["ratios"],
-                () => {console.log("bla");this.setState({state: "idle", msg: ""});}
+                () => {this.setState({state: "idle", msg: ""});}
                 )
         } else {
             var serverIp = getServerIp(this.state.id, this.state.token);
@@ -145,12 +145,10 @@ class App extends React.Component {
     }
 
     sendParamsToApp(tableState) {
-        console.log("called sendParamsToApp");
         this.setState({tableParamsAsString: this.stringifyRelevantTableState(tableState)});
     }
 
     sendCredentialsToApp(creds) {
-        console.log("called sendCredentialsToApp");
         this.setState(creds);
     }
 
@@ -244,7 +242,6 @@ class WeaponsParamTable extends React.Component {
   }
 
   handleWeaponParamsChange(event) {
-    console.log(this.state);
     this.state[event.target.id] = event.target.value;
     this.setState({});  // re render
     this.sendParamsToApp(this.state);
