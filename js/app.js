@@ -5,34 +5,7 @@ class App extends React.Component {
         this.sendCredentialsToApp = this.sendCredentialsToApp.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
-        this.initParams = {
-            AA0: "87",
-            AA1: "1",
-            AA2: "3",
-            AB0: "D6",
-            APA2: "4",
-            APB0: "5",
-            DA0: "1",
-            DA1: "1",
-            DA2: "2",
-            DB0: "D6",
-            SA0: "4",
-            SA1: "5",
-            SA2: "10",
-            SB0: "2D6",
-            WSBSA0: "3",
-            WSBSA1: "3",
-            WSBSA2: "4",
-            WSBSB0: "5",
-            nameA: "29 boyz + boss nob",
-            nameA0: "Boyz Choppa",
-            nameA1: "Boss Nob Choppa",
-            nameA2: "Boss Nob Killsaw",
-            nameB: "SAG Big Mek",
-            nameB0: "Shokk Attack Gun",
-            pointsA: "250",
-            pointsB: "120"
-        };
+        this.initParams = getInitParams();
 
         this.state = {
             state: "idle",  // state in: "idle", "processing","error";
