@@ -4,7 +4,6 @@ class App extends React.Component {
         this.sendParamsToApp = this.sendParamsToApp.bind(this);
         this.sendCredentialsToApp = this.sendCredentialsToApp.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.helpButtonAction = this.helpButtonAction.bind(this);
 
         this.initTableState = {
             AB: "2",
@@ -28,7 +27,6 @@ class App extends React.Component {
             msg: "",
             tableParamsAsString: this.stringifyRelevantTableState(this.initTableState),
             cache: {},
-            helpShown: false,
             id: "admin",
             token: "U2FsdGVkX197wfW/IY0sqa/Ckju8AeU3pRLPSra1aCxZeAHrWePPDPJlYTy5bwdU"
         };
@@ -122,24 +120,25 @@ class App extends React.Component {
         console.log("App render() called")
         console.log(this.state);
         return <div>
-            <Login initState={{id: this.state.id, token: this.state.token}} sendCredentialsToApp={this.sendCredentialsToApp}/>
             <h1><a href="index.html" class="title">Adeptus Optimus</a></h1>
             <p class="title subscript">" Support wiser choices, on behalf of the Emperor."</p>
+            <Login initState={{id: this.state.id, token: this.state.token}} sendCredentialsToApp={this.sendCredentialsToApp}/>
             <br/>
             <div style={{overflowX: "auto"}}>
                 <WeaponsParamTable initState={this.initTableState} sendParamsToApp={this.sendParamsToApp}/>
             </div>
             <br/>
             <button class="w3-btn greeny-bg datasheet-header" onClick={this.handleSubmit}>COMPARE</button>
-            <div class="w3-bar greeny-bg"><div class="w3-bar-item"></div></div>
+            <br/>
             <ProgressLog state={this.state.state} msg={this.state.msg}/>
             <div style={{overflowX: "auto", overflowY: "hidden",  "transform": "rotateX(180deg)"}}>
                 <div id="chart" class="chart" style={{"transform": "rotateX(180deg)"}}></div>
             </div>
+            <br/>
+            <br/>
             <div class="w3-bar greeny-bg"><div class="w3-bar-item"></div></div>
-            <Help shown={this.state.helpShown}/>
             <div class="w3-bar greeny-bg"><div class="w3-bar-item"></div></div>
-            <button class="w3-btn greeny-bg datasheet-header" onClick={this.helpButtonAction}>INFO</button>
+            <Help />
             <p class="version">engine ALPHA v0.0.0</p>
         </div>
     }
@@ -162,10 +161,6 @@ class App extends React.Component {
     stringifyRelevantTableState(tableState) {
         return JSON.stringify(this.getRelevantTableStateKeys(tableState))
     }
-
-    helpButtonAction() {
-        this.setState({helpShown: !this.state.helpShown});
-    }
 }
 
 class Login extends React.Component {
@@ -186,7 +181,6 @@ class Login extends React.Component {
                        <span class="login-label">id: </span>
                        <input maxlength="10" id="id" type="text" class="input input-login" value={this.state.id} onChange={this.handleChange}></input>
                    </span>
-                   <br/>
                    <span class="nowrap">
                        <span class="login-label"> token: </span>
                        <input maxlength="128" id="token" type="text" class="input input-login" value={this.state.token} onChange={this.handleChange}></input>
@@ -195,19 +189,43 @@ class Login extends React.Component {
     }
 }
 
-class Help extends React.Component {
+class InfoBox extends React.Component {
     render() {
-        if (this.props.shown) {
-            return <div  class="shop help">
-                    <p>The Adeptus Optimus is an analytics organization attached to the Adeptus Mechanicus. The Adeptus Optimus Engine has been built by an archimagus computum mathematicus to give to lords of war an intuitive and rigorous tool to guide their weapons choices.</p>
-                    <p>The engine performs a comparison of two attacking unit profiles A and B.</p>
-                    <p>An attacking unit profile represents a unit of one or more models and their weapons. It has an overall point cost (points for models + weapons).</p>
-                    <p>Each different weapon used by the attacking unit has to be described and for each you have to enter a number of <i>Shots</i> representing the total number of attacks made by the attacking unit using this weapon profile .</p>
-                    <p>From that parameters the engine computes the <i>average number of models slained per point</i> by each attacking unit profile, and it does it for a large variety of target units profiles.</p>
-                    <p>The engine leverages advanced algorithmic to compute deterministic calculus, leading to almost exact results. The entire dice rolls events are theoretically modelized, making the engine of the Adeptus Optimus be the only tool to compute the complex effects of random damages caracteristics and feel-no-pain capacities during the ordered sequential damages allocation step, or the thresholds effects introduced by a random strength characteristic, among others.</p>
-                   </div>
+        return <div class="w3-quarter info-box">
+                 <div class="w3-card w3-container">
+                 <h3>{this.props.title}</h3>
+                 {this.props.body}
+                 </div>
+               </div>
+
+    }
+}
+
+class Help extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {visible: true};
+        this.helpButtonAction = this.helpButtonAction.bind(this);
+        this.button = <button class="w3-btn greeny-bg datasheet-header" onClick={this.helpButtonAction}>INFO</button>;
+    }
+
+    helpButtonAction() {
+        this.setState({visible: !this.state.visible});
+    }
+
+    render() {
+        if (this.state.visible) {
+             return <div>
+                        {this.button}
+                        <div class="w3-row-padding w3-center w3-margin-top shop help">
+                            <InfoBox title="Adeptus Optimus" body={<p>The <i>Adeptus Optimus</i> is an analytics organization attached to the <i>Adeptus Mechanicus</i>. The <i>Adeptus Optimus Engine</i> has been built by an <i>Archimagus computus mathematica</i> to give to lords of war an <b>intuitive and rigorous tool</b> to guide their weapons choices.</p>}/>
+                            <InfoBox title="Attacking profiles" body={<p>The engine performs a comparison between two attacking profiles. Each <b>profile represents one or more models and their weapons</b> and has a cost for the whole. Each weapon used by the models of a the profile has to be declared and assigned a number of <i>Shots</i> made with it during a phase.</p>}/>
+                            <InfoBox title="Results" body={<p>The engine computes a precise <i>average number of target unit's models killed per profile point</i> for profiles A and B, against a <b>large variety of target units defense profiles</b>. The engine leverages advanced algorithmic to compute deterministic calculus leading to almost exact results.</p>}/>
+                            <InfoBox title="The ultimate engine" body={<p>The entire dice rolls sequences are theoretically modeled, making the <i>Adeptus Optimus Engine</i> the only tool handling <b>complex effects of random damages characteristics and <i>Feel No Pains</i></b> during the sequential damage allocation step, or the <b>threshold effects introduced by a random <i>Strength</i> characteristic</b>, among others.</p>}/>
+                        </div>
+                    </div>
         } else {
-            return <span></span>
+            return <span>{this.button}</span>
         }
     }
 }
@@ -271,7 +289,6 @@ class WeaponsParamTable extends React.Component {
             <th><input maxlength="4" id="DA" value={this.state.DA} type="text" class="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
             <th><input maxlength="4" id="pointsA" value={this.state.pointsA} type="text" class="input input-dice align-right" onChange={this.handleWeaponParamsChange}></input></th>
           </tr>
-          <Options />
           <tr class="datasheet-body">
             <th class="datasheet-header weapon-flag weapon-b-bg">Weapon B</th>
             <th><input maxlength="32" id="nameB" type="text" class="input input-name" value={this.state.nameB} onChange={this.handleWeaponParamsChange}></input></th>
@@ -285,27 +302,6 @@ class WeaponsParamTable extends React.Component {
       </table>
     );
   }
-}
-
-class Options extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-
-    render () {
-      return <tr class="datasheet-body">
-        <th  class="datasheet-header weapon-flag weapon-a-bg">Weapon A</th>
-        <th><input maxlength="32" id="nameA" type="text" class="input input-name" value={this.state.nameA} onChange={this.handleWeaponParamsChange} ></input>
-        </th>
-        <th><input maxlength="4" id="AA" value={this.state.AA} type="text" class="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
-        <th><input maxlength="4" id="WSBSA" value={this.state.WSBSA} type="text" class="input input-dice align-right" onChange={this.handleWeaponParamsChange}></input>+</th>
-        <th><input maxlength="4" id="SA" value={this.state.SA} type="text" class="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
-        <th>-<input maxlength="4" id="APA" value={this.state.APA} type="text" class="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
-        <th><input maxlength="4" id="DA" value={this.state.DA} type="text" class="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
-        <th><input maxlength="4" id="pointsA" value={this.state.pointsA} type="text" class="input input-dice align-right" onChange={this.handleWeaponParamsChange}></input></th>
-      </tr>
-    }
 }
 
 ReactDOM.render(
