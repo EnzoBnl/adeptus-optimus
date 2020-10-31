@@ -62,6 +62,9 @@ button{
 .nowrap {
     white-space: nowrap;
 }
+.white-bg {
+    background: #fff !important;
+}
 /* hierarchy class targets */
 
 /* title */
@@ -101,8 +104,12 @@ button{
     text-align: left;
 }
 
-.input-name{
-    width: 205px;
+.input-profile-name{
+    width: 180px;
+    text-align: left;
+}
+.input-weapon-name{
+    width: 160px;
     text-align: left;
 }
 
@@ -149,10 +156,10 @@ th.profile-flag {
     color: #fff;
     text-align: center;
 }
-.profile-a-bg {
+.profile-A-bg {
     background: #DC3220;
 }
-.profile-b-bg {
+.profile-B-bg {
     background: #0C7BDC;
 }
 
@@ -160,6 +167,22 @@ th.profile-flag {
     font-size: 16px;
     font-family: times new roman, serif;
     font-weight: bold;
+}
+
+/* Style buttons */
+.logo-btn {
+  background-color: DodgerBlue; /* Blue background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 0px 0px; /* Some padding */
+  font-size: 20px; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+  width: 40px;
+}
+
+/* Darker background on mouse-over */
+.logo-btn:hover {
+  background-color: RoyalBlue;
 }
 
 /* chart */
