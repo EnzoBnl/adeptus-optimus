@@ -333,10 +333,10 @@ class ProfileHeader extends React.Component {
                     <th className={"datasheet-header profile-flag " + this.props.bg}>Attacking Profile {this.props.letter}</th>
                   </tr>
                   <tr className="datasheet-header">
-                    <th>name: <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-profile-name" value={this.state.name} onChange={this.handleChange} ></input></th>
+                    <th>Name: <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-profile-name" value={this.state.name} onChange={this.handleChange} ></input></th>
                   </tr>
                   <tr className="datasheet-header">
-                    <th>points: <input maxLength="4" id="points" value={this.state.points} type="text" className="white-bg datasheet-body input input-dice align-left" onChange={this.handleChange}></input></th>
+                    <th>Points: <input maxLength="4" id="points" value={this.state.points} type="text" className="white-bg datasheet-body input input-dice align-left" onChange={this.handleChange}></input></th>
                   </tr>
                   <tr className="datasheet-header">
                     <th>Weapons used</th>
