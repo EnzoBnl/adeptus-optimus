@@ -169,14 +169,21 @@ th.weapon-flag {
     margin-top: 25px;
 }
 
-/* INFO */
 
-.info-box {
-    min-width: 300px;
+/* ABOUT */
+.w3-content{
+    max-width: 96%
 }
 
+@media (max-width:1080px){
+    .w3-quarter{
+        width:50%
+    }
+}
 
-
-
-
+@media (max-width:700px){
+    .w3-quarter{
+        width:100%
+    }
+}
 

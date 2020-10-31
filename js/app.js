@@ -192,7 +192,7 @@ class Login extends React.Component {
 
 class InfoBox extends React.Component {
     render() {
-        return <div class="w3-quarter info-box">
+        return <div class="w3-quarter w3-margin-top">
                  <div class="w3-card w3-container">
                  <h3>{this.props.title}</h3>
                  {this.props.body}
@@ -218,11 +218,13 @@ class Help extends React.Component {
         if (this.state.visible) {
              return <div>
                         {this.button}
-                        <div class="w3-row-padding w3-center w3-margin-top shop">
-                            <InfoBox title="Adeptus Optimus" body={<p>The <i>Adeptus Optimus</i> is an analytics organization attached to the <i>Adeptus Mechanicus</i>. The <i>Adeptus Optimus Engine</i> has been built by an <i>Archimagus computus mathematica</i> to give to lords of war an <b>intuitive and rigorous tool</b> to guide their weapons choices.</p>}/>
-                            <InfoBox title="Attacking profiles" body={<p>The engine performs a comparison between two attacking profiles. Each <b>profile represents one or more models and their weapons</b>, with a cost associated with the whole. Each different weapon used by the attacking profile has to be declared along with a total number of <i>Shots</i> made with it during one phase, by the models of the profile.</p>}/>
-                            <InfoBox title="Results" body={<p>The engine computes a precise <i>average number of target unit's models killed per profile point</i> for profiles A and B, against a <b>large variety of target units defense profiles</b>. The engine leverages advanced algorithmic to compute deterministic calculus leading to almost exact results.</p>}/>
-                            <InfoBox title="The ultimate engine" body={<p>The entire dice rolls sequences are theoretically modeled, making the <i>Adeptus Optimus Engine</i> the only tool handling <b>complex effects of random damages characteristics and <i>Feel No Pains</i></b> during the sequential damage allocation step, or the <b>threshold effects introduced by a random <i>Strength</i> characteristic</b>, among others.</p>}/>
+                        <div class="w3-content">
+                            <div class="w3-row-padding w3-center w3-margin-top shop">
+                                <InfoBox title="Adeptus Optimus" body={<p>The <i>Adeptus Optimus</i> is an analytics organization attached to the <i>Adeptus Mechanicus</i>. The <i>Adeptus Optimus Engine</i> has been built by an <i>Archimagus computus mathematica</i> to give to lords of war an <b>intuitive and rigorous tool</b> to guide their weapons choices.</p>}/>
+                                <InfoBox title="Attacking profiles" body={<p>The engine performs a comparison between two attacking profiles. Each <b>profile represents one or more models and their weapons</b>, with a cost associated with the whole. Each different weapon used by the attacking profile has to be declared along with a total number of <i>Shots</i> made with it during one phase, by the models of the profile.</p>}/>
+                                <InfoBox title="Results" body={<p>The engine computes a precise <i>average number of target unit's models killed per profile point</i> for profiles A and B, against a <b>large variety of target units defense profiles</b>. The engine leverages advanced algorithmic to compute deterministic calculus leading to almost exact results.</p>}/>
+                                <InfoBox title="The ultimate engine" body={<p>The entire dice rolls sequences are theoretically modeled, making the <i>Adeptus Optimus Engine</i> the only tool handling <b>complex effects of random damages characteristics and <i>Feel No Pains</i></b> during the sequential damage allocation step, or the <b>threshold effects introduced by a random <i>Strength</i> characteristic</b>, among others.</p>}/>
+                            </div>
                         </div>
                     </div>
         } else {
