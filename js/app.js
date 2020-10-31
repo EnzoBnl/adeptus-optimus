@@ -130,6 +130,7 @@ class App extends React.Component {
             <br/>
             <button class="w3-btn greeny-bg datasheet-header" onClick={this.handleSubmit}>COMPARE</button>
             <br/>
+            <br/>
             <ProgressLog state={this.state.state} msg={this.state.msg}/>
             <div style={{overflowX: "auto", overflowY: "hidden",  "transform": "rotateX(180deg)"}}>
                 <div id="chart" class="chart" style={{"transform": "rotateX(180deg)"}}></div>
@@ -206,7 +207,7 @@ class Help extends React.Component {
         super(props);
         this.state = {visible: true};
         this.helpButtonAction = this.helpButtonAction.bind(this);
-        this.button = <button class="w3-btn greeny-bg datasheet-header" onClick={this.helpButtonAction}>INFO</button>;
+        this.button = <button class="w3-btn greeny-bg datasheet-header" onClick={this.helpButtonAction}>ABOUT</button>;
     }
 
     helpButtonAction() {
