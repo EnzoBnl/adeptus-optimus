@@ -6,20 +6,22 @@ class App extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
 
         this.initParams = {
-            AB: "2",
-            AA: "D6",
-            APB: "1",
-            APA: "5",
-            DB: "1",
-            DA: "D6",
-            SB: "4",
-            SA: "2D6",
-            WSBSB: "3",
-            WSBSA: "5",
-            nameB: 'Bolt Rifle (15") on Intercessor',
-            nameA: "SAG on Big Mek",
-            pointsB: "20",
-            pointsA: "120",
+            AB0: "2",
+            AA0: "D6",
+            APB0:"1",
+            APA0:"5",
+            DB0:"1",
+            DA0:"D6",
+            SB0:"4",
+            SA0:"2D6",
+            WSBSB0:"3",
+            WSBSA0:"5",
+            nameB0:'Bolt Rifle (15")',
+            nameA0:"Shokk Attack Gun",
+            nameB:'Intercessor',
+            nameA:"Big Mek",
+            pointsB:"20",
+            pointsA:"120",
         };
 
         this.state = {
@@ -131,6 +133,8 @@ class App extends React.Component {
                 <ParamsTable initParams={this.initParams} sendParamChange={this.sendParamChange} letter="B"/>
             </div>
             <br/>
+            <br/>
+            <br/>
             <button className="w3-btn greeny-bg datasheet-header" onClick={this.handleSubmit}>COMPARE</button>
             <br/>
             <br/>
@@ -148,7 +152,11 @@ class App extends React.Component {
     }
 
     sendParamChange(k, v) {
-        this.state.params[k] = v;
+        if (v == "") {
+            delete this.state.params[k];
+        } else {
+            this.state.params[k] = v;
+        }
         this.setState({});
     }
 
@@ -158,9 +166,12 @@ class App extends React.Component {
 
     getRelevantParamsKeys(Params) {
         var tableRelevantState = {...Params};
-        delete tableRelevantState["nameA"];
-        delete tableRelevantState["nameB"];
-        return tableRelevantState
+        Object.entries(tableRelevantState).forEach(([key, value]) => {
+            if (key.includes("name")) {
+                delete tableRelevantState[key];
+            }
+        });
+        return tableRelevantState;
     }
 
     stringifyRelevantParams(Params) {
@@ -265,30 +276,46 @@ class ParamsTable extends React.Component {
     constructor(props) {
         super(props);
         this.weaponsVisibility = [true, false];
+        this.addWeapon = this.addWeapon.bind(this);
+        this.removeWeapon = this.removeWeapon.bind(this);
+    }
+
+    addWeapon() {
+        for (var i = 0; i < this.weaponsVisibility.length; i++) {
+            if (!this.weaponsVisibility[i]) {
+                this.weaponsVisibility[i] = true;
+                break;
+            }
+        }
+        if (i == this.weaponsVisibility.length) {
+            alert("Maximum number of weapons by profile reached: " + i)
+        }
+        this.setState({})
+    }
+
+    removeWeapon(index) {
+        this.weaponsVisibility[index] = false;
+        this.setState({});
     }
 
     render() {
-
-        if (this.weaponsVisibility.includes(false)) {
-            var buttonStyle = {};
-        } else {
-            var buttonStyle = {"display": "hidden"};
-        }
         return <table className="w3-table w3-bordered nowrap">
-                <ProfileTable bg={"profile-" + this.props.letter + "-bg"} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
-                <WeaponTable visible={this.weaponsVisibility[0]}  id={this.props.letter + ".1"} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
-                <WeaponTable visible={this.weaponsVisibility[1]}  id={this.props.letter + ".2"} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
-                <tbody><tr>
-                    <th><button className="logo-btn"><i className="fa"><b>+</b></i></button></th>
-                </tr></tbody>
+                <ProfileHeader bg={"profile-" + this.props.letter + "-bg"} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
+                <WeaponRow visible={this.weaponsVisibility[0]} removeWeapon={this.removeWeapon} index={0} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
+                <WeaponRow visible={this.weaponsVisibility[1]} removeWeapon={this.removeWeapon} index={1} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
+                <tbody>
+                  <tr>
+                    <th><button className="logo-btn" onClick={this.addWeapon}><i className="fa"><b>+</b></i></button></th>
+                  </tr>
+                </tbody>
             </table>;
     }
 }
 
-class ProfileTable extends React.Component {
+class ProfileHeader extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {};
         this.state.name = this.props.initParams["name" + this.props.letter];
         this.state.points = this.props.initParams["points" + this.props.letter];
 
@@ -301,14 +328,18 @@ class ProfileTable extends React.Component {
     }
 
     render() {
-        console.log("profile" + this.props.letter + " state", this.state);
         return  <tbody>
                   <tr className="datasheet-body">
-                    <th className={"datasheet-header profile-flag " + this.props.bg}>Profile {this.props.letter}</th>
-                    <th><input maxLength="4" id="points" value={this.state.points} type="text" className="input input-dice align-right" onChange={this.handleChange}></input> points</th>
+                    <th className={"datasheet-header profile-flag " + this.props.bg}>Attacking Profile {this.props.letter}</th>
                   </tr>
                   <tr className="datasheet-header">
-                    <th><input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-profile-name" value={this.state.name} onChange={this.handleChange} ></input></th>
+                    <th>name: <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-profile-name" value={this.state.name} onChange={this.handleChange} ></input></th>
+                  </tr>
+                  <tr className="datasheet-header">
+                    <th>points: <input maxLength="4" id="points" value={this.state.points} type="text" className="white-bg datasheet-body input input-dice align-left" onChange={this.handleChange}></input></th>
+                  </tr>
+                  <tr className="datasheet-header">
+                    <th>Weapons used</th>
                     <th className="greeny-bg">Attacks</th>
                     <th className="greeny-bg">WS/BS</th>
                     <th className="greeny-bg">S</th>
@@ -319,85 +350,53 @@ class ProfileTable extends React.Component {
     }
 }
 
-class WeaponTable extends React.Component {
+class WeaponRow extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {}
-        this.state.name = this.props.initParams["name" + this.props.id];
+        this.state = {};
+        this.id = this.props.letter + this.props.index;
+        this.state.name = this.props.initParams["name" + this.id];
+        this.state.A = this.props.initParams["A" + this.id];
+        this.state.WSBS = this.props.initParams["WSBS" + this.id];
+        this.state.S = this.props.initParams["S" + this.id];
+        this.state.AP = this.props.initParams["AP" + this.id];
+        this.state.D = this.props.initParams["D" + this.id];
+
+        this.onDelete = this.onDelete.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+
     }
 
     handleChange(event) {
         this.state[event.target.id] = event.target.value;
-        this.props.sendParamChange(event.target.id + this.props.id, event.target.value);
+        this.props.sendParamChange(event.target.id + this.id, event.target.value);
+    }
+    
+    onDelete () {
+        this.props.removeWeapon(this.props.index);
+        Object.entries(this.state).forEach(([key, value]) => {
+           this.state[key] = "";
+           this.props.sendParamChange(key + this.id, "");
+        });
+        this.setState({});
     }
 
     render() {
         if(this.props.visible) {
             return <tbody>
                       <tr className="datasheet-body">
-                        <th><button className="logo-btn"><i className="fa fa-trash"></i></button> <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-weapon-name" value={this.state.name} onChange={this.handleChange} ></input></th>
+                        <th><button className="logo-btn" onClick={this.onDelete}><i className="fa fa-trash"></i></button> <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-weapon-name" value={this.state.name} onChange={this.handleChange} ></input></th>
+                        <th><input maxLength="4" id="A" value={this.state.A} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
+                        <th><input maxLength="4" id="WSBS" value={this.state.WSBS} type="text" className="input input-dice align-right" onChange={this.handleChange}></input>+</th>
+                        <th><input maxLength="4" id="S" value={this.state.S} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
+                        <th>-<input maxLength="4" id="AP" value={this.state.AP} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
+                        <th><input maxLength="4" id="D" value={this.state.D} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
                       </tr>
                    </tbody>;
         } else {
             return <tbody></tbody>
         }
     }
-}
-
-class WeaponsParamTable extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = props.initState;
-    this.sendParamChange = props.sendParamChange;
-    this.handleWeaponParamsChange = this.handleWeaponParamsChange.bind(this);
-  }
-
-  handleWeaponParamsChange(event) {
-    this.state[event.target.id] = event.target.value;
-    this.setState({});  // re render
-    this.sendParamChange(this.state);
-  }
-
-  render() {
-    return (
-      <table className="w3-table w3-bordered nowrap">
-          <thead>
-              <tr className="greeny-bg datasheet-header">
-                <th style={{background: "#fff"}}></th>
-                <th>NAME</th>
-                <th>A</th>
-                <th>WS/BS</th>
-                <th>S</th>
-                <th>AP</th>
-                <th>D</th>
-                <th>POINTS</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr className="datasheet-body">
-                <th  className="datasheet-header weapon-flag weapon-a-bg">Weapon A</th>
-                <th><input maxLength="32" id="nameA" type="text" className="input input-name" value={this.state.nameA} onChange={this.handleWeaponParamsChange} ></input></th>
-                <th><input maxLength="4" id="AA" value={this.state.AA} type="text" className="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
-                <th><input maxLength="4" id="WSBSA" value={this.state.WSBSA} type="text" className="input input-dice align-right" onChange={this.handleWeaponParamsChange}></input>+</th>
-                <th><input maxLength="4" id="SA" value={this.state.SA} type="text" className="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
-                <th>-<input maxLength="4" id="APA" value={this.state.APA} type="text" className="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
-                <th><input maxLength="4" id="DA" value={this.state.DA} type="text" className="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
-                <th><input maxLength="4" id="pointsA" value={this.state.pointsA} type="text" className="input input-dice align-right" onChange={this.handleWeaponParamsChange}></input></th>
-              </tr>
-              <tr className="datasheet-body">
-                <th className="datasheet-header weapon-flag weapon-b-bg">Weapon B</th>
-                <th><input maxLength="32" id="nameB" type="text" className="input input-name" value={this.state.nameB} onChange={this.handleWeaponParamsChange}></input></th>
-                <th><input maxLength="4" id="AB" value={this.state.AB} type="text" className="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
-                <th><input maxLength="4" id="WSBSB" value={this.state.WSBSB} type="text" className="input input-dice align-right" onChange={this.handleWeaponParamsChange}></input>+</th>
-                <th><input maxLength="4" id="SB" value={this.state.SB} type="text" className="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
-                <th>-<input maxLength="4" id="APB" value={this.state.APB} type="text" className="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
-                <th><input maxLength="4" id="DB" value={this.state.DB} type="text" className="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
-                <th><input maxLength="4" id="pointsB" value={this.state.pointsB} type="text" className="input input-dice align-right" onChange={this.handleWeaponParamsChange}></input></th>
-              </tr>
-          </tbody>
-      </table>
-    );
-  }
 }
 
 ReactDOM.render(

@@ -105,11 +105,11 @@ button{
 }
 
 .input-profile-name{
-    width: 180px;
+    width: 150px;
     text-align: left;
 }
 .input-weapon-name{
-    width: 160px;
+    width: 140px;
     text-align: left;
 }
 
@@ -142,9 +142,6 @@ th {
     font: 20px impact;
 }
 
-th.datasheet-header{
-    font: 18px impact;
-}
 
 th.weapon-flag {
     color: #000;
