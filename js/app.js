@@ -6,22 +6,32 @@ class App extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
 
         this.initParams = {
-            AB0: "2",
-            AA0: "D6",
-            APB0:"1",
-            APA0:"5",
-            DB0:"1",
-            DA0:"D6",
-            SB0:"4",
-            SA0:"2D6",
-            WSBSB0:"3",
-            WSBSA0:"5",
-            nameB0:'Bolt Rifle (15")',
-            nameA0:"Shokk Attack Gun",
-            nameB:'Intercessor',
-            nameA:"Big Mek",
-            pointsB:"20",
-            pointsA:"120",
+            AA0: "87",
+            AA1: "1",
+            AA2: "3",
+            AB0: "D6",
+            APA2: "4",
+            APB0: "5",
+            DA0: "1",
+            DA1: "1",
+            DA2: "2",
+            DB0: "D6",
+            SA0: "4",
+            SA1: "5",
+            SA2: "10",
+            SB0: "2D6",
+            WSBSA0: "3",
+            WSBSA1: "3",
+            WSBSA2: "4",
+            WSBSB0: "5",
+            nameA: "29 boyz + boss nob",
+            nameA0: "Boyz Choppa",
+            nameA1: "Boss Nob Choppa",
+            nameA2: "Boss Nob Killsaw",
+            nameB: "SAG Big Mek",
+            nameB0: "Shokk Attack Gun",
+            pointsA: "250",
+            pointsB: "120"
         };
 
         this.state = {
@@ -125,6 +135,10 @@ class App extends React.Component {
             <h1><a href="index.html" className="title">Adeptus Optimus</a></h1>
             <p className="title subscript">" Support wiser choices, on behalf of the Emperor."</p>
             <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
             <div style={{overflowX: "auto"}}>
                 <ParamsTable initParams={this.initParams} sendParamChange={this.sendParamChange} letter="A"/>
                 <br/>
@@ -135,7 +149,8 @@ class App extends React.Component {
             <br/>
             <br/>
             <br/>
-            <button className="w3-btn greeny-bg datasheet-header" onClick={this.handleSubmit}>COMPARE</button>
+            <div className="w3-bar shop-bg"><div className="w3-bar-item"></div></div>
+            <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.handleSubmit}>COMPARE</button>
             <br/>
             <br/>
             <ProgressLog state={this.state.state} msg={this.state.msg}/>
@@ -144,8 +159,7 @@ class App extends React.Component {
             </div>
             <br/>
             <br/>
-            <div className="w3-bar greeny-bg"><div className="w3-bar-item"></div></div>
-            <div className="w3-bar greeny-bg"><div className="w3-bar-item"></div></div>
+            <div className="w3-bar shop-bg"><div className="w3-bar-item"></div></div>
             <Help />
             <p className="version">engine ALPHA v0.0.0</p>
         </div>
@@ -222,7 +236,7 @@ class Help extends React.Component {
         super(props);
         this.state = {visible: true};
         this.helpButtonAction = this.helpButtonAction.bind(this);
-        this.button = <button className="w3-btn greeny-bg datasheet-header" onClick={this.helpButtonAction}>ABOUT</button>;
+        this.button = <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.helpButtonAction}>ABOUT</button>;
     }
 
     helpButtonAction() {
@@ -241,7 +255,7 @@ class Help extends React.Component {
                                 <InfoBox title="The ultimate engine" body={<p>The entire dice rolls sequences are theoretically modeled, making the <i>Adeptus Optimus Engine</i> the only tool handling <b>complex effects of random damages characteristics and <i>Feel No Pains</i></b> during the sequential damage allocation step, or the <b>threshold effects introduced by a random <i>Strength</i> characteristic</b>, among others.</p>}/>
                             </div>
                         </div>
-                        <div className="w3-bar greeny-bg"><div className="w3-bar-item"></div></div>
+                        <div className="w3-bar shop-mid-bg"><div className="w3-bar-item"></div></div>
 
                     </div>
         } else {
@@ -275,7 +289,11 @@ class ProgressLog extends React.Component {
 class ParamsTable extends React.Component {
     constructor(props) {
         super(props);
-        this.weaponsVisibility = [true, false];
+        if (this.props.letter == "A") {
+            this.weaponsVisibility = [true, true, true, false, false];
+        } else {
+            this.weaponsVisibility = [true, false, false, false, false];
+        }
         this.addWeapon = this.addWeapon.bind(this);
         this.removeWeapon = this.removeWeapon.bind(this);
     }
@@ -303,6 +321,10 @@ class ParamsTable extends React.Component {
                 <ProfileHeader bg={"profile-" + this.props.letter + "-bg"} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
                 <WeaponRow visible={this.weaponsVisibility[0]} removeWeapon={this.removeWeapon} index={0} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
                 <WeaponRow visible={this.weaponsVisibility[1]} removeWeapon={this.removeWeapon} index={1} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
+                <WeaponRow visible={this.weaponsVisibility[2]} removeWeapon={this.removeWeapon} index={2} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
+                <WeaponRow visible={this.weaponsVisibility[3]} removeWeapon={this.removeWeapon} index={3} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
+                <WeaponRow visible={this.weaponsVisibility[4]} removeWeapon={this.removeWeapon} index={4} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
+                <WeaponRow visible={this.weaponsVisibility[5]} removeWeapon={this.removeWeapon} index={5} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
                 <tbody>
                   <tr>
                     <th><button className="logo-btn" onClick={this.addWeapon}><i className="fa"><b>+</b></i></button></th>

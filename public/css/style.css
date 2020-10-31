@@ -38,6 +38,9 @@ Sequence of declaration. (last has superiority)
     /* middle color is e6a919 */
     background: linear-gradient(to right, #dc9014 0%, #efc11e 100%);
 }
+.shop-mid-bg{
+    background: #e6a919;
+}
 /* element targets */
 
 body {
