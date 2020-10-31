@@ -170,10 +170,7 @@ th.weapon-flag {
 }
 
 /* INFO */
-.help {
-    margin-left: auto;
-    margin-right: auto;
-}
+
 .info-box {
     min-width: 300px;
 }
