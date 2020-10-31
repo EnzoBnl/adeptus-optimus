@@ -286,8 +286,7 @@ class WeaponsParamTable extends React.Component {
           <tbody>
               <tr className="datasheet-body">
                 <th  className="datasheet-header weapon-flag weapon-a-bg">Weapon A</th>
-                <th><input maxLength="32" id="nameA" type="text" className="input input-name" value={this.state.nameA} onChange={this.handleWeaponParamsChange} ></input>
-                </th>
+                <th><input maxLength="32" id="nameA" type="text" className="input input-name" value={this.state.nameA} onChange={this.handleWeaponParamsChange} ></input></th>
                 <th><input maxLength="4" id="AA" value={this.state.AA} type="text" className="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
                 <th><input maxLength="4" id="WSBSA" value={this.state.WSBSA} type="text" className="input input-dice align-right" onChange={this.handleWeaponParamsChange}></input>+</th>
                 <th><input maxLength="4" id="SA" value={this.state.SA} type="text" className="input input-dice align-left" onChange={this.handleWeaponParamsChange}></input></th>
