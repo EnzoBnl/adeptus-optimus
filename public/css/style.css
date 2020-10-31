@@ -126,6 +126,7 @@ table {
     margin-right: auto;
 }
 
+
 th {
     font-weight: inherit;
 }
@@ -139,13 +140,19 @@ th.datasheet-header{
 }
 
 th.weapon-flag {
+    color: #000;
+    background: #fff;
+    text-align: center;
+}
+
+th.profile-flag {
     color: #fff;
     text-align: center;
 }
-.weapon-a-bg {
+.profile-a-bg {
     background: #DC3220;
 }
-.weapon-b-bg {
+.profile-b-bg {
     background: #0C7BDC;
 }
 

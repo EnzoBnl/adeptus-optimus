@@ -1,11 +1,11 @@
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.sendParamsToApp = this.sendParamsToApp.bind(this);
+        this.sendParamChange = this.sendParamChange.bind(this);
         this.sendCredentialsToApp = this.sendCredentialsToApp.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
-        this.initTableState = {
+        this.initParams = {
             AB: "2",
             AA: "D6",
             APB: "1",
@@ -25,12 +25,12 @@ class App extends React.Component {
         this.state = {
             state: "idle",  // state in: "idle", "processing","error";
             msg: "",
-            tableParamsAsString: this.stringifyRelevantTableState(this.initTableState),
+            params: this.initParams,
             cache: {},
             id: "admin",
             token: "U2FsdGVkX197wfW/IY0sqa/Ckju8AeU3pRLPSra1aCxZeAHrWePPDPJlYTy5bwdU"
         };
-        this.state.cache[this.state.tableParamsAsString] = getSample();
+        this.state.cache[this.stringifyRelevantParams(this.state.params)] = getSample();
     }
 
 
@@ -38,9 +38,9 @@ class App extends React.Component {
         event.preventDefault();
         document.getElementById('chart').innerHTML = "";
         this.setState({state: "processing", msg: "Testing weapons..."/*"Firing on some captives Grots..."*/})
-
-        if (this.state.tableParamsAsString in this.state.cache) {
-            const cachedResponse = this.state.cache[this.state.tableParamsAsString];
+        var paramsAsString = this.stringifyRelevantParams(this.state.params);
+        if (paramsAsString in this.state.cache) {
+            const cachedResponse = this.state.cache[paramsAsString];
             plotComparatorChart(
                 cachedResponse["x"],
                 cachedResponse["y"],
@@ -56,7 +56,6 @@ class App extends React.Component {
                     msg: "Invalid id/token: id:'" + this.state.id + "', token='" + this.state.token + "'."
                 });
             } else {
-                var params = this.state.tableParamsAsString;
                 var xhr = new XMLHttpRequest();
                 xhr.responseType = 'json';
                 // get a callback when the server responds
@@ -64,7 +63,7 @@ class App extends React.Component {
                   console.log("console.log(xhr.responseText):");
                   console.log(xhr.response);
                   if (xhr.status == 200) {
-                      this.state.cache[params] = { // ensures changing params during request is safe
+                      this.state.cache[paramsAsString] = { // ensures changing params during request is safe
                           x: xhr.response["x"],
                           y: xhr.response["y"],
                           z: xhr.response["z"],
@@ -109,7 +108,7 @@ class App extends React.Component {
                         msg: "SERVER DOWN: The Forge World of the Adeptus Optimus must be facing an onslaught of heretics."
                     });
                 };
-                xhr.open('GET', serverIp + "?params=" + params);
+                xhr.open('GET', serverIp + "?params=" + paramsAsString);
                 // send the request
                 xhr.send();
             }
@@ -125,7 +124,7 @@ class App extends React.Component {
             <Login initState={{id: this.state.id, token: this.state.token}} sendCredentialsToApp={this.sendCredentialsToApp}/>
             <br/>
             <div style={{overflowX: "auto"}}>
-                <WeaponsParamTable initState={this.initTableState} sendParamsToApp={this.sendParamsToApp}/>
+                <ParamsTables initParams={this.initParams} sendParamChange={this.sendParamChange}/>
             </div>
             <br/>
             <button className="w3-btn greeny-bg datasheet-header" onClick={this.handleSubmit}>COMPARE</button>
@@ -144,23 +143,24 @@ class App extends React.Component {
         </div>
     }
 
-    sendParamsToApp(tableState) {
-        this.setState({tableParamsAsString: this.stringifyRelevantTableState(tableState)});
+    sendParamChange(k, v) {
+        this.state.params[k] = v;
+        this.setState({});
     }
 
     sendCredentialsToApp(creds) {
         this.setState(creds);
     }
 
-    getRelevantTableStateKeys(tableState) {
-        var tableRelevantState = {...tableState};
+    getRelevantParamsKeys(Params) {
+        var tableRelevantState = {...Params};
         delete tableRelevantState["nameA"];
         delete tableRelevantState["nameB"];
         return tableRelevantState
     }
 
-    stringifyRelevantTableState(tableState) {
-        return JSON.stringify(this.getRelevantTableStateKeys(tableState))
+    stringifyRelevantParams(Params) {
+        return JSON.stringify(this.getRelevantParamsKeys(Params))
     }
 }
 
@@ -254,18 +254,95 @@ class ProgressLog extends React.Component {
     }
 }
 
+class ParamsTables extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+     return <div>
+                <table className="w3-table w3-bordered nowrap">
+                    <ProfileTable bg="profile-a-bg" letter="A" initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
+                    <WeaponTable id="A.1"/>
+                    <WeaponTable id="A.2"/>
+                </table>
+                <br/>
+                <br/>
+                <br/>
+                <table className="w3-table w3-bordered nowrap">
+                    <ProfileTable bg="profile-b-bg" letter="B" initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
+                    <WeaponTable id="B.1"/>
+                </table>
+            </div>;
+    }
+}
+
+class ProfileTable extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {}
+        this.state.name = this.props.initParams["name" + this.props.letter];
+        this.state.points = this.props.initParams["points" + this.props.letter];
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        this.state[event.target.id] = event.target.value;
+        this.props.sendParamChange(event.target.id + this.props.letter, event.target.value);
+    }
+
+    render() {
+        console.log("profile" + this.props.letter + " state", this.state);
+        return  <tbody>
+                  <tr className="shop-bg datasheet-header">
+                    <th style={{background: "#fff"}}></th>
+                    <th>NAME</th>
+                    <th>POINTS</th>
+                  </tr>
+                  <tr className="datasheet-body">
+                      <th className={"datasheet-header profile-flag " + this.props.bg}>Profile {this.props.letter}</th>
+                      <th><input maxLength="32" id="name" type="text" className="input input-name" value={this.state.name} onChange={this.handleChange} ></input></th>
+                      <th><input maxLength="4" id="points" value={this.state.points} type="text" className="input input-dice align-right" onChange={this.handleChange}></input></th>
+                  </tr>
+                </tbody>;
+    }
+}
+
+class WeaponTable extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        return <tbody>
+                  <tr className="greeny-bg datasheet-header">
+                    <th style={{background: "#fff"}}></th>
+                    <th>Shots</th>
+                    <th>WS/BS</th>
+                    <th>S</th>
+                    <th>AP</th>
+                    <th>D</th>
+                  </tr>
+                  <tr className="datasheet-body">
+                    <th  className="datasheet-header weapon-flag">Weapon {this.props.id}</th>
+                  </tr>
+               </tbody>;
+    }
+}
+
 class WeaponsParamTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = props.initState;
-    this.sendParamsToApp = props.sendParamsToApp;
+    this.sendParamChange = props.sendParamChange;
     this.handleWeaponParamsChange = this.handleWeaponParamsChange.bind(this);
   }
 
   handleWeaponParamsChange(event) {
     this.state[event.target.id] = event.target.value;
     this.setState({});  // re render
-    this.sendParamsToApp(this.state);
+    this.sendParamChange(this.state);
   }
 
   render() {
