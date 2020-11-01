@@ -1,4 +1,4 @@
-function plotComparatorChart(xValues, yValues, zValues, ratios, callWhenDone) {
+function plotComparatorChart(xValues, yValues, zValues, ratios, scores, callWhenDone) {
     var colorscaleValue = [ // ultramarine blue '#0d407f'  // buttons bg green '#7dae3e'
       [0, '#0C7BDC'],   // profile B
       [0.5, '#ffffff'],
@@ -19,13 +19,13 @@ function plotComparatorChart(xValues, yValues, zValues, ratios, callWhenDone) {
             } else {
                 label += "Profile B should destroy " + ratio + " times more models per point than profile A";
             }
-            label += "<br>Profile A:"
-            for (var ia = 0; ia < weapon[i][j][0].length; ia++) {
-                label += "<br>  weapon #" + (ia + 1) + "should destroy " + weapon[i][j][0][ia] + " models per phase";
+            label += "<br><br>Profile A details:"
+            for (var ia = 0; ia < scores[i][j][0].length; ia++) {
+                label += "<br>  weapon #" + (ia + 1) + " should destroy " + round(scores[i][j][0][ia], 4) + " models per phase";
             }
-            label += "<br>Profile B:"
-            for (var ib = 0; ib < weapon[i][j][1].length; ib++) {
-                label += "<br>  weapon #" + (ib + 1) + "should destroy " + weapon[i][j][1][ib] + " models per phase";
+            label += "<br>Profile details:"
+            for (var ib = 0; ib < scores[i][j][1].length; ib++) {
+                label += "<br>  weapon #" + (ib + 1) + " should destroy " + round(scores[i][j][1][ib], 4) + " models per phase";
             }
             line.push(label)
         }

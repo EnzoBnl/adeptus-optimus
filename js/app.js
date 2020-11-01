@@ -31,6 +31,7 @@ class App extends React.Component {
                 cachedResponse["y"],
                 cachedResponse["z"],
                 cachedResponse["ratios"],
+                cachedResponse["scores"],
                 () => {this.setState({state: "idle", msg: ""});}
                 )
         } else {
@@ -52,13 +53,15 @@ class App extends React.Component {
                           x: xhr.response["x"],
                           y: xhr.response["y"],
                           z: xhr.response["z"],
-                          ratios: xhr.response["ratios"]
+                          ratios: xhr.response["ratios"],
+                          scores: xhr.response["scores"]
                       }
                       plotComparatorChart(
                           xhr.response["x"],
                           xhr.response["y"],
                           xhr.response["z"],
                           xhr.response["ratios"],
+                          xhr.response["scores"],
                           () => {this.setState({state: "idle", msg: ""});});
                   } else if (xhr.status == 422 || xhr.status == 500) {
                     this.setState({
