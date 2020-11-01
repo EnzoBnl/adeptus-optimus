@@ -14,7 +14,6 @@ function getServerIp(id, token) {
     catch(err) { /* malformed URL */
       return ""
     }
-    console.log("decrypted:", res);
     if (!res.includes("http")) {
         return "";
     } else {

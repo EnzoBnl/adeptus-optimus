@@ -21,7 +21,7 @@ class App extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        document.getElementById('chart').innerHTML = "";
+        document.getElementById("chart").innerHTML = "";
         this.setState({state: "processing", msg: "Testing weapons..."/*"Firing on some captives Grots..."*/})
         var paramsAsString = this.stringifyRelevantParams(this.state.params);
         if (paramsAsString in this.state.cache) {
@@ -43,7 +43,7 @@ class App extends React.Component {
                 });
             } else {
                 var xhr = new XMLHttpRequest();
-                xhr.responseType = 'json';
+                xhr.responseType = "json";
                 // get a callback when the server responds
                 xhr.onload = () => {
                   console.log("console.log(xhr.responseText):");
@@ -96,7 +96,7 @@ class App extends React.Component {
                         msg: "SERVER DOWN: The Forge World of the Adeptus Optimus must be facing an onslaught of heretics."
                     });
                 };
-                xhr.open('GET', serverIp + "?params=" + paramsAsString);
+                xhr.open("GET", serverIp + "?params=" + paramsAsString);
                 // send the request
                 xhr.send();
             }
@@ -142,7 +142,7 @@ class App extends React.Component {
     }
 
     sendParamChange(k, v) {
-        if (v == "") {
+        if (v == null) {
             delete this.state.params[k];
         } else {
             this.state.params[k] = v;
@@ -278,6 +278,7 @@ class ParamsTable extends React.Component {
         for (var i = 0; i < this.weaponsVisibility.length; i++) {
             if (!this.weaponsVisibility[i]) {
                 this.weaponsVisibility[i] = true;
+                this.setState({})
                 break;
             }
         }
@@ -339,10 +340,11 @@ class ProfileHeader extends React.Component {
                   <tr className="datasheet-header">
                     <th>Weapons used ▼</th>
                     <th className="greeny-bg">Attacks</th>
-                    <th className="greeny-bg">WS/BS</th>
+                    <th className="greeny-bg">WS|BS</th>
                     <th className="greeny-bg">S</th>
                     <th className="greeny-bg">AP</th>
                     <th className="greeny-bg">D</th>
+                    <th className="greeny-bg">Options</th>
                   </tr>
                 </tbody>;
     }
@@ -359,14 +361,16 @@ class WeaponRow extends React.Component {
         this.state.S = this.props.initParams["S" + this.id];
         this.state.AP = this.props.initParams["AP" + this.id];
         this.state.D = this.props.initParams["D" + this.id];
+        // options do never initialize to undefined, pass a default initState as fallback
         if (("options" + this.id) in this.props.initParams) {
             this.state.options = this.props.initParams["options" + this.id];
         } else {
             this.state.options = {"hit_modifier": "0", "wound_modifier": "0"};
         }
+
         this.onDelete = this.onDelete.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.handleOptionChange = this.handleOptionChange.bind(this);
+        this.updateOption = this.updateOption.bind(this);
         this.openOptionsMenu = this.openOptionsMenu.bind(this);
         this.closeOptionsMenu = this.closeOptionsMenu.bind(this);
     }
@@ -374,28 +378,30 @@ class WeaponRow extends React.Component {
     handleChange(event) {
         this.state[event.target.id] = event.target.value;
         this.props.sendParamChange(event.target.id + this.id, event.target.value);
+        // send options to cover at least the case where option remains default
+        this.props.sendParamChange("options" + this.id, this.state.options);
     }
 
-    handleOptionChange(event) {
-        this.state.options[event.target.id] = event.target.value;
+    updateOption(optionName, value) {
+        // optionName example: "hit_modifier"
+        this.state.options[optionName] = value;
         this.props.sendParamChange("options" + this.id, this.state.options);
     }
     
     onDelete () {
         this.props.removeWeapon(this.props.index);
         Object.entries(this.state).forEach(([key, value]) => {
-           this.state[key] = "";
-           this.props.sendParamChange(key + this.id, "");
+           this.props.sendParamChange(key + this.id, null);
         });
         this.setState({});
     }
 
     openOptionsMenu () {
-        document.getElementById("options-menu" + this.id).style.display='block';
+        document.getElementById("options-menu" + this.id).style.display="block";
     }
 
     closeOptionsMenu () {
-        document.getElementById("options-menu" + this.id).style.display='none';
+        document.getElementById("options-menu" + this.id).style.display="none";
     }
 
     render() {
@@ -415,22 +421,10 @@ class WeaponRow extends React.Component {
                                   Options of weapon: {this.state.name}
                                 </header>
                                 <div className="w3-container shop">
-                                    <p className="option-select">
-                                        Hit roll modifier: <select id="hit_modifier" className="w3-select" name="option" value={this.state.options["hit_modifier"]} onChange={this.handleOptionChange}>
-                                        <option value="-1">-1</option>
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        </select>
-                                    </p>
-                                    <p className="option-select">
-                                        Wound roll modifier: <select id="wound_modifier" className="w3-select" name="option" value={this.state.options["wound_modifier"]} onChange={this.handleOptionChange}>
-                                        <option value="-1">-1</option>
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        </select>
-                                    </p>
+                                    <HitModifierOptionInput updateOption={this.updateOption} initValue={this.state.options["hit_modifier"]}/>
+                                    <WoundModifierOptionInput updateOption={this.updateOption} initValue={this.state.options["wound_modifier"]}/>
                                 </div>
-                                <span className="w3-button greeny-bg shop" onClick={this.closeOptionsMenu}>save and close</span>
+                                <span className="w3-button w3-margin-bottom greeny-bg shop" onClick={this.closeOptionsMenu}>save and close</span>
                               </div>
                             </div>
                             <button className="logo-btn" onClick={this.openOptionsMenu}><i className="fa fa-cogs"></i></button>
@@ -443,7 +437,44 @@ class WeaponRow extends React.Component {
     }
 }
 
+class SimpleValueOptionInput extends React.Component {
+    constructor (props) {
+        super(props);
+        this.value = this.props.initValue;
+        this.handleOptionChange = this.handleOptionChange.bind(this);
+    }
+    handleOptionChange(event) {
+        this.value = event.target.value;
+        this.props.updateOption(event.target.id, event.target.value)
+        this.setState({});
+    }
+}
+
+class HitModifierOptionInput extends SimpleValueOptionInput {
+    render () {
+        return <p className="option-select">
+                   Hit roll modifier: <select id="hit_modifier" className="w3-select" name="option" value={this.value} onChange={this.handleOptionChange}>
+                   <option value="-1">-1</option>
+                   <option value="0">0</option>
+                   <option value="1">1</option>
+                   </select>
+               </p>
+    }
+}
+
+class WoundModifierOptionInput extends SimpleValueOptionInput {
+    render () {
+        return <p className="option-select">
+                  Wound roll modifier: <select id="wound_modifier" className="w3-select" name="option" value={this.value} onChange={this.handleOptionChange}>
+                  <option value="-1">-1</option>
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  </select>
+                </p>
+    }
+}
+
 ReactDOM.render(
   <App />,
-  document.getElementById('app')
+  document.getElementById("app")
 );

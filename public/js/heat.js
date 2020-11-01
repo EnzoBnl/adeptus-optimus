@@ -23,7 +23,7 @@ function plotComparatorChart(xValues, yValues, zValues, ratios, scores, callWhen
             for (var ia = 0; ia < scores[i][j][0].length; ia++) {
                 label += "<br>  weapon #" + (ia + 1) + " should destroy " + round(scores[i][j][0][ia], 4) + " models per phase";
             }
-            label += "<br>Profile details:"
+            label += "<br>Profile B details:"
             for (var ib = 0; ib < scores[i][j][1].length; ib++) {
                 label += "<br>  weapon #" + (ib + 1) + " should destroy " + round(scores[i][j][1][ib], 4) + " models per phase";
             }
