@@ -334,7 +334,7 @@ class ProfileHeader extends React.Component {
                     <th>Points: <input maxLength="4" id="points" value={this.state.points} type="text" className="white-bg datasheet-body input input-dice align-left" onChange={this.handleChange}></input></th>
                   </tr>
                   <tr className="datasheet-header">
-                    <th>Weapons used</th>
+                    <th>Weapons used ▼</th>
                     <th className="greeny-bg">Attacks</th>
                     <th className="greeny-bg">WS/BS</th>
                     <th className="greeny-bg">S</th>
@@ -381,11 +381,12 @@ class WeaponRow extends React.Component {
             return <tbody>
                       <tr className="datasheet-body">
                         <th><button className="logo-btn" onClick={this.onDelete}><i className="fa fa-trash"></i></button> <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-weapon-name" value={this.state.name} onChange={this.handleChange} ></input></th>
-                        <th><input maxLength="4" id="A" value={this.state.A} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
+                        <th><input maxLength="4" id="A" value={this.state.A} type="text" className="input input-dice align-right" onChange={this.handleChange}></input></th>
                         <th><input maxLength="4" id="WSBS" value={this.state.WSBS} type="text" className="input input-dice align-right" onChange={this.handleChange}></input>+</th>
                         <th><input maxLength="4" id="S" value={this.state.S} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
                         <th>-<input maxLength="4" id="AP" value={this.state.AP} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
                         <th><input maxLength="4" id="D" value={this.state.D} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
+
                       </tr>
                    </tbody>;
         } else {

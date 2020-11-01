@@ -9,15 +9,25 @@ function plotComparatorChart(xValues, yValues, zValues, ratios, callWhenDone) {
     for (i = 0; i < zValues.length; i++) {
        var line = [];
         for (j = 0; j < zValues[0].length; j++) {
+            var label = "";
             var ratio = ratios[i][j]
             if (ratio == 1.0) {
-                line.push("Profile A and B should destroy the same number of models per point")
+                label += "Profile A and B should destroy the same number of models per point"
             }
             else if (zValues[i][j] > 0){
-                line.push("Profile A should destroy " + ratio + " times more models per point than profile B");
+                label += "Profile A should destroy " + ratio + " times more models per point than profile B";
             } else {
-                line.push("Profile B should destroy " + ratio + " times more models per point than profile A");
+                label += "Profile B should destroy " + ratio + " times more models per point than profile A";
             }
+            label += "<br>Profile A:"
+            for (var ia = 0; ia < weapon[i][j][0].length; ia++) {
+                label += "<br>  weapon #" + (ia + 1) + "should destroy " + weapon[i][j][0][ia] + " models per phase";
+            }
+            label += "<br>Profile B:"
+            for (var ib = 0; ib < weapon[i][j][1].length; ib++) {
+                label += "<br>  weapon #" + (ib + 1) + "should destroy " + weapon[i][j][1][ib] + " models per phase";
+            }
+            line.push(label)
         }
         labels.push(line);
     }
