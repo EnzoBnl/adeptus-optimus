@@ -176,7 +176,7 @@ class Login extends React.Component {
         this.handleChange=this.handleChange.bind(this);
         this.sendCredentialsToApp = props.sendCredentialsToApp;
     }
-    handleChange(state) {
+    handleChange(event) {
         this.state[event.target.id] = event.target.value;
         this.setState({});  // re render
         this.sendCredentialsToApp(this.state);
