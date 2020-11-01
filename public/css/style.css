@@ -66,7 +66,7 @@ button{
     white-space: nowrap;
 }
 .white-bg {
-    background: #fff !important;
+    background: #fff;
 }
 /* hierarchy class targets */
 
@@ -103,7 +103,7 @@ button{
 .input-login{
     font-family: noto;
     font-size: 16px;
-    width: 100px;
+    width: 200px;
     text-align: left;
 }
 
@@ -117,7 +117,7 @@ button{
 }
 
 .input-dice{
-    width: 32px;
+    width: 58px;
 }
 
 .input-dice.align-right{
@@ -142,7 +142,7 @@ th {
 }
 
 .datasheet-header{
-    font: 20px impact;
+    font: 20px impact !important;
 }
 
 
@@ -167,6 +167,14 @@ th.profile-flag {
     font-size: 16px;
     font-family: times new roman, serif;
     font-weight: bold;
+}
+
+.modal {
+    text-align: center;
+}
+
+.option-select {
+    width: 58px;
 }
 
 /* Style buttons */

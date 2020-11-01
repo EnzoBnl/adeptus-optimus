@@ -225,7 +225,7 @@ class Help extends React.Component {
                         {this.button}
                         <div className="w3-content">
                             <div className="w3-row-padding w3-center w3-margin-top w3-margin-bottom shop">
-                                <InfoBox title="Adeptus Optimus" body={<p>The <i>Adeptus Optimus</i> is an analytics organization attached to the <i>Adeptus Mechanicus</i>. The <i>Adeptus Optimus Engine</i> has been built by an <i>Archimagus computus mathematica</i> to give to lords of war an <b>intuitive and rigorous tool</b> to guide their weapons choices.</p>}/>
+                                <InfoBox title="Adeptus Optimus" body={<p>The <i>Adeptus Optimus</i> is an analytics organization attached to the <i>Adeptus Mechanicus</i>. The <i>Adeptus Optimus Engine</i> has been built by an <i>Archimagus computus mathematica</i> to give to lords of war an <b>intuitive and rigorous tool</b> to guide their equipments choices.</p>}/>
                                 <InfoBox title="Attacking profiles" body={<p>The engine performs a comparison between two attacking profiles. Each <b>profile represents one or more models and their weapons</b>, with a cost associated with the whole. Each different weapon used by the attacking profile has to be declared along with a total number of <i>Attacks</i> made with it during one phase, by the models of the profile.</p>}/>
                                 <InfoBox title="Results" body={<p>The engine computes a precise <i>average number of target unit's models killed per profile point</i> for profiles A and B, against a <b>large variety of target units defense profiles</b>. The engine leverages advanced algorithmic to compute deterministic calculus leading to almost exact results.</p>}/>
                                 <InfoBox title="Strictness" body={<p>The entire dice rolls sequences are theoretically modeled, making the <i>Adeptus Optimus Engine</i> the only tool handling <b>complex effects of random damages characteristics and <i>Feel No Pains</i></b> during the sequential damage allocation step, or the <b>threshold effects introduced by a random <i>Strength</i> characteristic</b>, among others.</p>}/>
@@ -293,7 +293,7 @@ class ParamsTable extends React.Component {
     }
 
     render() {
-        return <table className="w3-table w3-bordered nowrap">
+        return <table className="w3-table nowrap">
                 <ProfileHeader bg={"profile-" + this.props.letter + "-bg"} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
                 <WeaponRow visible={this.weaponsVisibility[0]} removeWeapon={this.removeWeapon} index={0} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
                 <WeaponRow visible={this.weaponsVisibility[1]} removeWeapon={this.removeWeapon} index={1} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
@@ -359,15 +359,26 @@ class WeaponRow extends React.Component {
         this.state.S = this.props.initParams["S" + this.id];
         this.state.AP = this.props.initParams["AP" + this.id];
         this.state.D = this.props.initParams["D" + this.id];
-
+        if (("options" + this.id) in this.props.initParams) {
+            this.state.options = this.props.initParams["options" + this.id];
+        } else {
+            this.state.options = {"hit_modifier": "0", "wound_modifier": "0"};
+        }
         this.onDelete = this.onDelete.bind(this);
         this.handleChange = this.handleChange.bind(this);
-
+        this.handleOptionChange = this.handleOptionChange.bind(this);
+        this.openOptionsMenu = this.openOptionsMenu.bind(this);
+        this.closeOptionsMenu = this.closeOptionsMenu.bind(this);
     }
 
     handleChange(event) {
         this.state[event.target.id] = event.target.value;
         this.props.sendParamChange(event.target.id + this.id, event.target.value);
+    }
+
+    handleOptionChange(event) {
+        this.state.options[event.target.id] = event.target.value;
+        this.props.sendParamChange("options" + this.id, this.state.options);
     }
     
     onDelete () {
@@ -377,6 +388,14 @@ class WeaponRow extends React.Component {
            this.props.sendParamChange(key + this.id, "");
         });
         this.setState({});
+    }
+
+    openOptionsMenu () {
+        document.getElementById("options-menu" + this.id).style.display='block';
+    }
+
+    closeOptionsMenu () {
+        document.getElementById("options-menu" + this.id).style.display='none';
     }
 
     render() {
@@ -389,7 +408,33 @@ class WeaponRow extends React.Component {
                         <th><input maxLength="4" id="S" value={this.state.S} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
                         <th>-<input maxLength="4" id="AP" value={this.state.AP} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
                         <th><input maxLength="4" id="D" value={this.state.D} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
-
+                        <th>
+                            <div id={"options-menu" + this.id} className="w3-modal">
+                              <div className="w3-modal-content modal">
+                                <header className="w3-container greeny-bg datasheet-header">
+                                  Options of weapon: {this.state.name}
+                                </header>
+                                <div className="w3-container shop">
+                                    <p className="option-select">
+                                        Hit roll modifier: <select id="hit_modifier" className="w3-select" name="option" value={this.state.options["hit_modifier"]} onChange={this.handleOptionChange}>
+                                        <option value="-1">-1</option>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        </select>
+                                    </p>
+                                    <p className="option-select">
+                                        Wound roll modifier: <select id="wound_modifier" className="w3-select" name="option" value={this.state.options["wound_modifier"]} onChange={this.handleOptionChange}>
+                                        <option value="-1">-1</option>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        </select>
+                                    </p>
+                                </div>
+                                <span className="w3-button greeny-bg shop" onClick={this.closeOptionsMenu}>save and close</span>
+                              </div>
+                            </div>
+                            <button className="logo-btn" onClick={this.openOptionsMenu}><i className="fa fa-cogs"></i></button>
+                        </th>
                       </tr>
                    </tbody>;
         } else {

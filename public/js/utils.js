@@ -3,7 +3,7 @@ function getSample() {
 }
 
 function getInitParams() {
-    return {AA0: "87", AA1: "1", AA2: "3", AB0: "D6", APA2: "1", APB0: "5", DA0: "1", DA1: "1", DA2: "2", DB0: "D6", SA0: "4", SA1: "5", SA2: "7", SB0: "2D6", WSBSA0: "3", WSBSA1: "3", WSBSA2: "3", WSBSB0: "5", nameA: "29 boyz + boss nob", nameA0: "Boyz Choppa", nameA1: "Boss Nob Choppa", nameA2: "Boss Nob Big Choppa", nameB: "SAG Big Mek", nameB0: "Shokk Attack Gun", pointsA: "245", pointsB: "120"};
+    return {AA0: "87", AA1: "1", AA2: "3", AB0: "D6", APA2: "1", APB0: "5", DA0: "1", DA1: "1", DA2: "2", DB0: "D6", SA0: "4", SA1: "5", SA2: "7", SB0: "2D6", WSBSA0: "3", WSBSA1: "3", WSBSA2: "3", WSBSB0: "5", nameA: "29 boyz + boss nob", nameA0: "Boyz Choppa", nameA1: "Boss Nob Choppa", nameA2: "Boss Nob Big Choppa", nameB: "SAG Big Mek", nameB0: "Shokk Attack Gun", pointsA: "245", pointsB: "120", optionsA0: {"hit_modifier": "0", "wound_modifier": "0"}, optionsA1: {"hit_modifier": "0", "wound_modifier": "0"}, optionsA2: {"hit_modifier": "0", "wound_modifier": "0"}, optionsB0: {"hit_modifier": "0", "wound_modifier": "0"}};
 }
 
 function getServerIp(id, token) {
