@@ -108,7 +108,7 @@ class App extends React.Component {
         console.log(this.state);
         return <div>
             <Login initState={{id: this.state.id, token: this.state.token}} sendCredentialsToApp={this.sendCredentialsToApp}/>
-            <h1><a href="index.html" className="title">Adeptus <img src="public/images/logo.png" width="100px"/> Optimus</a></h1>
+            <h1><a href="index.html" className="title">Adeptus <img src="images/logo.png" width="100px"/> Optimus</a></h1>
             <p className="title subscript">" Support wiser choices, on behalf of the Emperor."</p>
             <br/>
             <br/>
@@ -244,15 +244,15 @@ class ProgressLog extends React.Component {
     render() {
         if (this.props.state == "processing") {
             return <div>
-                        <img className="w3-animate-fading-fast" src="public/images/skull.png" width="32px"></img>
+                        <img className="w3-animate-fading-fast" src="images/skull.png" width="32px"></img>
                         <span className="shop"> {this.props.msg} </span>
-                        <img className="w3-animate-fading-fast" src="public/images/skull.png" width="32px"></img>
+                        <img className="w3-animate-fading-fast" src="images/skull.png" width="32px"></img>
 
-                        <p><img src="public/images/testing.gif" width="auto"></img></p>
+                        <p><img src="images/testing.gif" width="auto"></img></p>
                    </div>
         } else if (this.props.state == "error") {
             return <div>
-                        <img src="public/images/chaos.png" width="50px"></img>
+                        <img src="images/chaos.png" width="50px"></img>
                         <div className="datasheet-body"> {this.props.msg}</div>
                    </div>
         } else {
