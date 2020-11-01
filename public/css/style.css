@@ -1,0 +1,224 @@
+/*
+Reminder:
+When the browser needs to resolve what styles to apply to a given HTML element,
+it uses a set of CSS precedence rules. Given these rules,
+the browser can determine what styles to apply. The rules are:
+
+!important after CSS properties.
+Specificity of CSS rule selectors.
+Sequence of declaration. (last has superiority)
+*/
+
+/* FONTS */
+@font-face {
+    font-family: ancient;
+    src:url("../fonts/ancient-medium.ttf");
+}
+
+@font-face {
+    font-family: impact;
+    src:url("../fonts/impact.ttf");
+}
+
+@font-face {
+    font-family: noto;
+    src:url("../fonts/NotoSans-Regular.ttf");
+}
+/* DIVERSE UNUSED*/
+@keyframes fading{
+    0%{opacity:0}
+    50%{opacity:1}
+    100%{opacity:0}
+}
+.shop{
+    font: 16px noto, sans-serif;
+    color: black;
+}
+.shop-bg{
+    /* middle color is e6a919 */
+    background: linear-gradient(to right, #dc9014 0%, #efc11e 100%);
+}
+.shop-mid-bg{
+    background: #e6a919;
+}
+/* element targets */
+
+body {
+    background: #fff;
+    text-align: center;
+}
+
+footer{
+    font-size: 13px;
+}
+
+button{
+    width: 110px;
+    text-align: center;
+    background: #c3c8c3;
+}
+
+/* detail definitions */
+.greeny-bg {
+    background: #c3c8c3;
+}
+.nowrap {
+    white-space: nowrap;
+}
+.white-bg {
+    background: #fff !important;
+}
+/* hierarchy class targets */
+
+/* title */
+.title{
+    font-family: ancient;
+    font-size: 80px;
+    text-decoration: none;
+}
+
+.title.subscript {
+    font-size: 25px;
+    font-style: italic;
+}
+
+/* Login */
+.login {
+    text-align: right;
+    margin-right:25px;
+    margin-top:25px;
+}
+.login-label{
+    font-family: noto;
+    font-size: 16px;
+}
+
+/* inputs */
+.input{
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+}
+
+.input-login{
+    font-family: noto;
+    font-size: 16px;
+    width: 100px;
+    text-align: left;
+}
+
+.input-profile-name{
+    width: 180px;
+    text-align: left;
+}
+.input-weapon-name{
+    width: 170px;
+    text-align: left;
+}
+
+.input-dice{
+    width: 32px;
+}
+
+.input-dice.align-right{
+    text-align: right;
+}
+
+.input-dice.align-left{
+    text-align: left;
+}
+
+/* table */
+
+table {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+th {
+    font-weight: inherit;
+}
+
+.datasheet-header{
+    font: 20px impact;
+}
+
+
+th.weapon-flag {
+    color: #000;
+    background: #fff;
+    text-align: center;
+}
+
+th.profile-flag {
+    color: #fff;
+    text-align: center;
+}
+.profile-A-bg {
+    background: #DC3220;
+}
+.profile-B-bg {
+    background: #0C7BDC;
+}
+
+.datasheet-body{
+    font-size: 16px;
+    font-family: times new roman, serif;
+    font-weight: bold;
+}
+
+/* Style buttons */
+.logo-btn {
+  background-color: DodgerBlue; /* Blue background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 0px 0px; /* Some padding */
+  font-size: 20px; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+  width: 40px;
+}
+
+/* Darker background on mouse-over */
+.logo-btn:hover {
+  background-color: RoyalBlue;
+}
+
+/* chart */
+.chart{
+    min-width: 600px;
+}
+
+/* Logging */
+.w3-animate-fading-fast{
+    animation:fading 1s infinite
+}
+
+/* version */
+.version {
+    font-family: noto;
+    font-size: 13px;
+    text-align: left;
+    margin-left:25px;
+    margin-top: 25px;
+}
+
+
+/* ABOUT */
+.w3-content{
+    max-width: 96%
+}
+
+@media (max-width:1080px){
+    .w3-quarter{
+        width:50%
+    }
+}
+
+@media (max-width:700px){
+    .w3-quarter{
+        width:100%
+    }
+}
+
