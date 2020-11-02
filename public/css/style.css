@@ -169,12 +169,12 @@ th.profile-flag {
     font-weight: bold;
 }
 
-.modal {
+.w3-modal {
     text-align: center;
 }
 
 .option-select {
-    width: 58px;
+    width: 64px;
 }
 
 /* Style buttons */

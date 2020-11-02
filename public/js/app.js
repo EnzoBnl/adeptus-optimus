@@ -416,7 +416,7 @@ class WeaponRow extends React.Component {
                         <th><input maxLength="4" id="D" value={this.state.D} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
                         <th>
                             <div id={"options-menu" + this.id} className="w3-modal">
-                              <div className="w3-modal-content modal">
+                              <div className="w3-modal-content">
                                 <header className="w3-container greeny-bg datasheet-header">
                                   Options of weapon: {this.state.name}
                                 </header>
@@ -452,10 +452,10 @@ class SimpleValueOptionInput extends React.Component {
 
 class HitModifierOptionInput extends SimpleValueOptionInput {
     render () {
-        return <p className="option-select">
-                   Hit roll modifier: <select id="hit_modifier" className="w3-select" name="option" value={this.value} onChange={this.handleOptionChange}>
+        return <p>
+                   Hit roll modifier: <select id="hit_modifier" className="w3-select option-select" name="option" value={this.value} onChange={this.handleOptionChange}>
                    <option value="-1">-1</option>
-                   <option value="0">None</option>
+                   <option value="0"></option>
                    <option value="1">+1</option>
                    </select>
                </p>
@@ -464,10 +464,10 @@ class HitModifierOptionInput extends SimpleValueOptionInput {
 
 class WoundModifierOptionInput extends SimpleValueOptionInput {
     render () {
-        return <p className="option-select">
-                  Wound roll modifier: <select id="wound_modifier" className="w3-select" name="option" value={this.value} onChange={this.handleOptionChange}>
+        return <p>
+                  Wound roll modifier: <select id="wound_modifier" className="w3-select option-select" name="option" value={this.value} onChange={this.handleOptionChange}>
                   <option value="-1">-1</option>
-                  <option value="0">None</option>
+                  <option value="0"></option>
                   <option value="1">+1</option>
                   </select>
                 </p>
