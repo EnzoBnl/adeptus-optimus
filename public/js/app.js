@@ -455,8 +455,8 @@ class HitModifierOptionInput extends SimpleValueOptionInput {
         return <p className="option-select">
                    Hit roll modifier: <select id="hit_modifier" className="w3-select" name="option" value={this.value} onChange={this.handleOptionChange}>
                    <option value="-1">-1</option>
-                   <option value="0">0</option>
-                   <option value="1">1</option>
+                   <option value="0">None</option>
+                   <option value="1">+1</option>
                    </select>
                </p>
     }
@@ -467,8 +467,8 @@ class WoundModifierOptionInput extends SimpleValueOptionInput {
         return <p className="option-select">
                   Wound roll modifier: <select id="wound_modifier" className="w3-select" name="option" value={this.value} onChange={this.handleOptionChange}>
                   <option value="-1">-1</option>
-                  <option value="0">0</option>
-                  <option value="1">1</option>
+                  <option value="0">None</option>
+                  <option value="1">+1</option>
                   </select>
                 </p>
     }
