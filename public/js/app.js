@@ -137,7 +137,7 @@ class App extends React.Component {
             <br/>
             <div className="w3-bar shop-bg"><div className="w3-bar-item"></div></div>
             <Help />
-            <p className="version">engine ALPHA v0.0.0</p>
+            <p className="version">v1.0</p>
         </div>
     }
 
