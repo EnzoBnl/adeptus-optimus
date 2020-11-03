@@ -1,4 +1,4 @@
-# Adeptus Optimus Frontend
+# Adeptus Optimus Frontend v1
 
 # First deployment with Firebase
 In root:

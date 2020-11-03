@@ -424,7 +424,7 @@ class WeaponRow extends React.Component {
                                     <HitModifierOptionInput updateOption={this.updateOption} initValue={this.state.options["hit_modifier"]}/>
                                     <WoundModifierOptionInput updateOption={this.updateOption} initValue={this.state.options["wound_modifier"]}/>
                                 </div>
-                                <span className="w3-button w3-margin-bottom greeny-bg shop" onClick={this.closeOptionsMenu}>save and close</span>
+                                <span className="w3-button w3-margin-bottom greeny-bg shop" onClick={this.closeOptionsMenu}>Save and close</span>
                               </div>
                             </div>
                             <button className="logo-btn" onClick={this.openOptionsMenu}><i className="fa fa-cogs"></i></button>
