@@ -21,11 +21,11 @@ function plotComparatorChart(xValues, yValues, zValues, ratios, scores, callWhen
             }
             label += "<br><br>Profile A details:"
             for (var ia = 0; ia < scores[i][j][0].length; ia++) {
-                label += "<br>  weapon #" + (ia + 1) + " should destroy " + round(scores[i][j][0][ia], 4) + " models per phase";
+                label += "<br>  weapon #" + (ia + 1) + " should destroy " + scores[i][j][0][ia] + " models per phase";
             }
             label += "<br>Profile B details:"
             for (var ib = 0; ib < scores[i][j][1].length; ib++) {
-                label += "<br>  weapon #" + (ib + 1) + " should destroy " + round(scores[i][j][1][ib], 4) + " models per phase";
+                label += "<br>  weapon #" + (ib + 1) + " should destroy " + scores[i][j][1][ib] + " models per phase";
             }
             line.push(label)
         }
@@ -51,7 +51,7 @@ function plotComparatorChart(xValues, yValues, zValues, ratios, scores, callWhen
       title:{
           "y" : 0.0015,
           "yanchor" : "bottom",
-          "text": "Generated using the Adeptus Optimus Engine"
+          "text": "Generated using adeptus-optimus.web.app"
       },
       titlefont: {
           size: 13
@@ -81,18 +81,12 @@ function plotComparatorChart(xValues, yValues, zValues, ratios, scores, callWhen
 
     for ( var i = 0; i < yValues.length; i++ ) {
       for ( var j = 0; j < xValues.length; j++ ) {
-        var currentValue = zValues[i][j];
-        if (currentValue != 0.0) {
-          var textColor = 'white';
-        } else {
-          var textColor = 'white';
-        }
         var result = {
           xref: 'x1',
           yref: 'y1',
           x: xValues[j],
           y: yValues[i],
-          text: "", // zValues[i][j],
+          text: "",
           font: {
             family: 'Arial',
             size: 14,
@@ -100,7 +94,7 @@ function plotComparatorChart(xValues, yValues, zValues, ratios, scores, callWhen
           },
           showarrow: false,
           font: {
-            color: textColor
+            color: 'white'
           }
         };
         layout.annotations.push(result);
