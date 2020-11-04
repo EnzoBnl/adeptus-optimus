@@ -189,7 +189,7 @@ class Login extends React.Component {
                    </span>
                    <span className="nowrap">
                        <span className="login-label"> token: </span>
-                       <input maxLength="128" id="token" type="text" className="input input-login" value={this.state.token} onChange={this.handleChange}></input>
+                       <input maxLength="512" id="token" type="text" className="input input-login" value={this.state.token} onChange={this.handleChange}></input>
                    </span>
                </div>
     }
