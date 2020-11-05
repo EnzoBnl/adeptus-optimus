@@ -1,16 +1,14 @@
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.sendParamChange = this.sendParamChange.bind(this);
+        this.syncAppParams = this.syncAppParams.bind(this);
         this.sendCredentialsToApp = this.sendCredentialsToApp.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-
-        this.initParams = getInitParams();
 
         this.state = {
             state: "idle",  // state in: "idle", "processing","error";
             msg: "",
-            params: this.initParams,
+            params: {},
             cache: {},
             id: "admin",
             token: "U2FsdGVkX197wfW/IY0sqa/Ckju8AeU3pRLPSra1aCxZeAHrWePPDPJlYTy5bwdU"
@@ -116,11 +114,11 @@ class App extends React.Component {
             <br/>
             <br/>
             <div style={{overflowX: "auto"}}>
-                <ParamsTable initParams={this.initParams} sendParamChange={this.sendParamChange} letter="A"/>
+                <ParamsTable syncAppParams={this.syncAppParams} letter="A"/>
                 <br/>
                 <br/>
                 <br/>
-                <ParamsTable initParams={this.initParams} sendParamChange={this.sendParamChange} letter="B"/>
+                <ParamsTable syncAppParams={this.syncAppParams} letter="B"/>
             </div>
             <br/>
             <br/>
@@ -141,13 +139,8 @@ class App extends React.Component {
         </div>
     }
 
-    sendParamChange(k, v) {
-        if (v == null) {
-            delete this.state.params[k];
-        } else {
-            this.state.params[k] = v;
-        }
-        this.setState({});
+    syncAppParams(params) {
+        this.setState({params: params})
     }
 
     sendCredentialsToApp(creds) {
@@ -178,7 +171,6 @@ class Login extends React.Component {
     }
     handleChange(event) {
         this.state[event.target.id] = event.target.value;
-        this.setState({});  // re render
         this.sendCredentialsToApp(this.state);
     }
     render() {
@@ -265,46 +257,83 @@ class ProgressLog extends React.Component {
 class ParamsTable extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {params: getInitParams()}
         if (this.props.letter == "A") {
             this.weaponsVisibility = [true, true, true, false, false];
+            this.initWeapon("A0");
+            this.initWeapon("A1");
+            this.initWeapon("A2");
         } else {
             this.weaponsVisibility = [true, false, false, false, false];
+            this.initWeapon("B0");
         }
-        this.addWeapon = this.addWeapon.bind(this);
-        this.removeWeapon = this.removeWeapon.bind(this);
+        this.showWeapon = this.showWeapon.bind(this);
+        this.updateParam = this.updateParam.bind(this);
+        this.updateOptionParam = this.updateOptionParam.bind(this);
+        this.onDelete = this.onDelete.bind(this);
     }
 
-    addWeapon() {
+    showWeapon() {
         for (var i = 0; i < this.weaponsVisibility.length; i++) {
             if (!this.weaponsVisibility[i]) {
                 this.weaponsVisibility[i] = true;
-                this.setState({})
                 break;
             }
         }
         if (i == this.weaponsVisibility.length) {
             alert("Maximum number of weapons by profile reached: " + i)
+        } else {
+            this.initWeapon(this.props.letter + i)
+            this.setState({})
         }
-        this.setState({})
     }
 
-    removeWeapon(index) {
+    initWeapon(id) {
+        // sync with app params and send defaults to app as a fallback (creation case)
+        this.state.params["name" + id] = ("name" + id) in this.state.params ? this.state.params["name" + id] : "Unnamed weapon"
+        this.state.params["A" + id] = ("A" + id) in this.state.params ? this.state.params["A" + id] : "1"
+        this.state.params["WSBS" + id] = ("WSBS" + id) in this.state.params ? this.state.params["WSBS" + id] : "4"
+        this.state.params["S" + id] = ("S" + id) in this.state.params ? this.state.params["S" + id] : "4"
+        this.state.params["AP" + id] = ("AP" + id) in this.state.params ? this.state.params["AP" + id] : "0"
+        this.state.params["D" + id] = ("D" + id) in this.state.params ? this.state.params["D" + id] : "1"
+        this.state.params["options" + id] = ("options" + id) in this.state.params ? this.state.params["options" + id] : {"hit_modifier": "0", "wound_modifier": "0"};
+        this.props.syncAppParams(this.state.params);
+    }
+
+
+    onDelete(id) {
+        var index = Number(id.slice(-1))
         this.weaponsVisibility[index] = false;
-        this.setState({});
+        Object.entries(this.state.params).forEach(([key, value]) => {
+            if (key.includes(id)) {
+                delete this.state.params[key] // triggers deletion in app params
+            }
+        });
+        this.props.syncAppParams(this.state.params);
+    }
+    
+    updateParam(k, v) {
+        this.state.params[k] = v;
+        this.props.syncAppParams(this.state.params);
+    }
+
+    updateOptionParam(optionsId, optionName, v) {
+        this.state.params[optionsId][optionName] = v;
+        this.props.syncAppParams(this.state.params);
     }
 
     render() {
         return <table className="w3-table nowrap">
-                <ProfileHeader bg={"profile-" + this.props.letter + "-bg"} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
-                <WeaponRow visible={this.weaponsVisibility[0]} removeWeapon={this.removeWeapon} index={0} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
-                <WeaponRow visible={this.weaponsVisibility[1]} removeWeapon={this.removeWeapon} index={1} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
-                <WeaponRow visible={this.weaponsVisibility[2]} removeWeapon={this.removeWeapon} index={2} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
-                <WeaponRow visible={this.weaponsVisibility[3]} removeWeapon={this.removeWeapon} index={3} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
-                <WeaponRow visible={this.weaponsVisibility[4]} removeWeapon={this.removeWeapon} index={4} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
-                <WeaponRow visible={this.weaponsVisibility[5]} removeWeapon={this.removeWeapon} index={5} letter={this.props.letter} initParams={this.props.initParams} sendParamChange={this.props.sendParamChange}/>
+                <ProfileHeader bg={"profile-" + this.props.letter + "-bg"} letter={this.props.letter} params={this.state.params} updateParam={this.updateParam}/>
+                <WeaponRow visible={this.weaponsVisibility[0]} onDelete={this.onDelete} index={0} letter={this.props.letter} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow visible={this.weaponsVisibility[1]} onDelete={this.onDelete} index={1} letter={this.props.letter} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow visible={this.weaponsVisibility[2]} onDelete={this.onDelete} index={2} letter={this.props.letter} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow visible={this.weaponsVisibility[3]} onDelete={this.onDelete} index={3} letter={this.props.letter} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow visible={this.weaponsVisibility[4]} onDelete={this.onDelete} index={4} letter={this.props.letter} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow visible={this.weaponsVisibility[5]} onDelete={this.onDelete} index={5} letter={this.props.letter} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
                 <tbody>
                   <tr>
-                    <th><button className="logo-btn" onClick={this.addWeapon}><i className="fa"><b>+</b></i></button></th>
+                    <th><button className="logo-btn" onClick={this.showWeapon}><i className="fa"><b>+</b></i></button></th>
                   </tr>
                 </tbody>
             </table>;
@@ -315,15 +344,15 @@ class ProfileHeader extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-        this.state.name = this.props.initParams["name" + this.props.letter];
-        this.state.points = this.props.initParams["points" + this.props.letter];
+        this.state.name = this.props.params["name" + this.props.letter];
+        this.state.points = this.props.params["points" + this.props.letter];
 
         this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(event) {
         this.state[event.target.id] = event.target.value;
-        this.props.sendParamChange(event.target.id + this.props.letter, event.target.value);
+        this.props.updateParam(event.target.id + this.props.letter, event.target.value);
     }
 
     render() {
@@ -353,47 +382,21 @@ class ProfileHeader extends React.Component {
 class WeaponRow extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
         this.id = this.props.letter + this.props.index;
-        this.state.name = this.props.initParams["name" + this.id];
-        this.state.A = this.props.initParams["A" + this.id];
-        this.state.WSBS = this.props.initParams["WSBS" + this.id];
-        this.state.S = this.props.initParams["S" + this.id];
-        this.state.AP = this.props.initParams["AP" + this.id];
-        this.state.D = this.props.initParams["D" + this.id];
-        // options do never initialize to undefined, pass a default initState as fallback
-        if (("options" + this.id) in this.props.initParams) {
-            this.state.options = this.props.initParams["options" + this.id];
-        } else {
-            this.state.options = {"hit_modifier": "0", "wound_modifier": "0"};
-        }
-
-        this.onDelete = this.onDelete.bind(this);
+        // params do never initialize to undefined, default fallback
         this.handleChange = this.handleChange.bind(this);
-        this.updateOption = this.updateOption.bind(this);
+        this.handleOptionChange = this.handleOptionChange.bind(this);
         this.openOptionsMenu = this.openOptionsMenu.bind(this);
         this.closeOptionsMenu = this.closeOptionsMenu.bind(this);
     }
 
     handleChange(event) {
-        this.state[event.target.id] = event.target.value;
-        this.props.sendParamChange(event.target.id + this.id, event.target.value);
-        // send options to cover at least the case where option remains default
-        this.props.sendParamChange("options" + this.id, this.state.options);
+        this.props.updateParam(event.target.id + this.id, event.target.value);
     }
 
-    updateOption(optionName, value) {
+    handleOptionChange(optionName, value) {
         // optionName example: "hit_modifier"
-        this.state.options[optionName] = value;
-        this.props.sendParamChange("options" + this.id, this.state.options);
-    }
-    
-    onDelete () {
-        this.props.removeWeapon(this.props.index);
-        Object.entries(this.state).forEach(([key, value]) => {
-           this.props.sendParamChange(key + this.id, null);
-        });
-        this.setState({});
+        this.props.updateOptionParam("options" + this.id, optionName, value);
     }
 
     openOptionsMenu () {
@@ -408,21 +411,21 @@ class WeaponRow extends React.Component {
         if(this.props.visible) {
             return <tbody>
                       <tr className="datasheet-body">
-                        <th><button className="logo-btn" onClick={this.onDelete}><i className="fa fa-trash"></i></button> <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-weapon-name" value={this.state.name} onChange={this.handleChange} ></input></th>
-                        <th><input maxLength="4" id="A" value={this.state.A} type="text" className="input input-dice align-right" onChange={this.handleChange}></input></th>
-                        <th><input maxLength="4" id="WSBS" value={this.state.WSBS} type="text" className="input input-dice align-right" onChange={this.handleChange}></input>+</th>
-                        <th><input maxLength="4" id="S" value={this.state.S} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
-                        <th>-<input maxLength="4" id="AP" value={this.state.AP} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
-                        <th><input maxLength="4" id="D" value={this.state.D} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
+                        <th><button className="logo-btn" onClick={(event) => {this.props.onDelete(this.id)}}><i className="fa fa-trash"></i></button> <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-weapon-name" value={this.props.params["name"+this.id]} onChange={this.handleChange} ></input></th>
+                        <th><input maxLength="4" id="A" value={this.props.params["A"+this.id]} type="text" className="input input-dice align-right" onChange={this.handleChange}></input></th>
+                        <th><input maxLength="4" id="WSBS" value={this.props.params["WSBS"+this.id]} type="text" className="input input-dice align-right" onChange={this.handleChange}></input>+</th>
+                        <th><input maxLength="4" id="S" value={this.props.params["S"+this.id]} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
+                        <th>-<input maxLength="4" id="AP" value={this.props.params["AP"+this.id]} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
+                        <th><input maxLength="4" id="D" value={this.props.params["D"+this.id]} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
                         <th>
                             <div id={"options-menu" + this.id} className="w3-modal">
                               <div className="w3-modal-content">
                                 <header className="w3-container greeny-bg datasheet-header">
-                                  Options of weapon: {this.state.name}
+                                  Options of weapon: {this.props.params["name"+this.id]}
                                 </header>
                                 <div className="w3-container shop">
-                                    <HitModifierOptionInput updateOption={this.updateOption} initValue={this.state.options["hit_modifier"]}/>
-                                    <WoundModifierOptionInput updateOption={this.updateOption} initValue={this.state.options["wound_modifier"]}/>
+                                    <HitModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.id]["hit_modifier"]}/>
+                                    <WoundModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.id]["wound_modifier"]}/>
                                 </div>
                                 <span className="w3-button w3-margin-bottom greeny-bg shop" onClick={this.closeOptionsMenu}>Save and close</span>
                               </div>
@@ -437,23 +440,11 @@ class WeaponRow extends React.Component {
     }
 }
 
-class SimpleValueOptionInput extends React.Component {
-    constructor (props) {
-        super(props);
-        this.value = this.props.initValue;
-        this.handleOptionChange = this.handleOptionChange.bind(this);
-    }
-    handleOptionChange(event) {
-        this.value = event.target.value;
-        this.props.updateOption(event.target.id, event.target.value)
-        this.setState({});
-    }
-}
 
-class HitModifierOptionInput extends SimpleValueOptionInput {
+class HitModifierOptionInput extends React.Component {
     render () {
         return <p>
-                   Hit roll modifier: <select id="hit_modifier" className="w3-select option-select" name="option" value={this.value} onChange={this.handleOptionChange}>
+                   Hit roll modifier: <select id="hit_modifier" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                    <option value="-1">-1</option>
                    <option value="0"></option>
                    <option value="1">+1</option>
@@ -462,10 +453,10 @@ class HitModifierOptionInput extends SimpleValueOptionInput {
     }
 }
 
-class WoundModifierOptionInput extends SimpleValueOptionInput {
+class WoundModifierOptionInput extends React.Component {
     render () {
         return <p>
-                  Wound roll modifier: <select id="wound_modifier" className="w3-select option-select" name="option" value={this.value} onChange={this.handleOptionChange}>
+                  Wound roll modifier: <select id="wound_modifier" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                   <option value="-1">-1</option>
                   <option value="0"></option>
                   <option value="1">+1</option>
