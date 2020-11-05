@@ -8,12 +8,15 @@ class App extends React.Component {
         this.state = {
             state: "idle",  // state in: "idle", "processing","error";
             msg: "",
-            params: {},
-            cache: {},
             id: "admin",
             token: "U2FsdGVkX197wfW/IY0sqa/Ckju8AeU3pRLPSra1aCxZeAHrWePPDPJlYTy5bwdU"
         };
-        this.state.cache[this.stringifyRelevantParams(this.state.params)] = getSample();
+        this.params = {
+            A: getInitParams("A"),
+            B: getInitParams("B")
+        }
+        this.cache = {};
+        this.cache[this.stringifyRelevantParams(this.params)] = getSample();
     }
 
 
@@ -21,9 +24,9 @@ class App extends React.Component {
         event.preventDefault();
         document.getElementById("chart").innerHTML = "";
         this.setState({state: "processing", msg: "Testing weapons..."/*"Firing on some captives Grots..."*/})
-        var paramsAsString = this.stringifyRelevantParams(this.state.params);
-        if (paramsAsString in this.state.cache) {
-            const cachedResponse = this.state.cache[paramsAsString];
+        var paramsAsString = this.stringifyRelevantParams(this.params);
+        if (paramsAsString in this.cache) {
+            const cachedResponse = this.cache[paramsAsString];
             plotComparatorChart(
                 cachedResponse["x"],
                 cachedResponse["y"],
@@ -47,7 +50,7 @@ class App extends React.Component {
                   console.log("console.log(xhr.responseText):");
                   console.log(xhr.response);
                   if (xhr.status == 200) {
-                      this.state.cache[paramsAsString] = { // ensures changing params during request is safe
+                      this.cache[paramsAsString] = { // ensures changing params during request is safe
                           x: xhr.response["x"],
                           y: xhr.response["y"],
                           z: xhr.response["z"],
@@ -104,6 +107,7 @@ class App extends React.Component {
     render() {
         console.log("App render() called")
         console.log(this.state);
+        console.log(this.params);
         return <div>
             <Login initState={{id: this.state.id, token: this.state.token}} sendCredentialsToApp={this.sendCredentialsToApp}/>
             <h1><a href="index.html" className="title">Adeptus <img src="images/logo.png" width="100px"/> Optimus</a></h1>
@@ -139,16 +143,19 @@ class App extends React.Component {
         </div>
     }
 
-    syncAppParams(params) {
-        this.setState({params: params})
+    syncAppParams(params, letter) {
+        this.params[letter] = params;
     }
 
     sendCredentialsToApp(creds) {
         this.setState(creds);
     }
 
-    getRelevantParamsKeys(Params) {
-        var tableRelevantState = {...Params};
+    getRelevantParamsKeys() {
+        var tableRelevantState = {
+            ...this.params.A,
+            ...this.params.B
+        };
         Object.entries(tableRelevantState).forEach(([key, value]) => {
             if (key.includes("name")) {
                 delete tableRelevantState[key];
@@ -257,15 +264,11 @@ class ProgressLog extends React.Component {
 class ParamsTable extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {params: getInitParams()}
+        this.state = {params: getInitParams(this.props.letter)};
         if (this.props.letter == "A") {
             this.weaponsVisibility = [true, true, true, false, false];
-            this.initWeapon("A0");
-            this.initWeapon("A1");
-            this.initWeapon("A2");
         } else {
             this.weaponsVisibility = [true, false, false, false, false];
-            this.initWeapon("B0");
         }
         this.showWeapon = this.showWeapon.bind(this);
         this.updateParam = this.updateParam.bind(this);
@@ -283,23 +286,18 @@ class ParamsTable extends React.Component {
         if (i == this.weaponsVisibility.length) {
             alert("Maximum number of weapons by profile reached: " + i)
         } else {
-            this.initWeapon(this.props.letter + i)
+            var id = this.props.letter + i
+            this.state.params["name" + id] = ("name" + id) in this.state.params ? this.state.params["name" + id] : "Unnamed weapon"
+            this.state.params["A" + id] = ("A" + id) in this.state.params ? this.state.params["A" + id] : "1"
+            this.state.params["WSBS" + id] = ("WSBS" + id) in this.state.params ? this.state.params["WSBS" + id] : "4"
+            this.state.params["S" + id] = ("S" + id) in this.state.params ? this.state.params["S" + id] : "4"
+            this.state.params["AP" + id] = ("AP" + id) in this.state.params ? this.state.params["AP" + id] : "0"
+            this.state.params["D" + id] = ("D" + id) in this.state.params ? this.state.params["D" + id] : "1"
+            this.state.params["options" + id] = ("options" + id) in this.state.params ? this.state.params["options" + id] : {"hit_modifier": "0", "wound_modifier": "0"};
+            this.props.syncAppParams(this.state.params, this.props.letter);
             this.setState({})
         }
     }
-
-    initWeapon(id) {
-        // sync with app params and send defaults to app as a fallback (creation case)
-        this.state.params["name" + id] = ("name" + id) in this.state.params ? this.state.params["name" + id] : "Unnamed weapon"
-        this.state.params["A" + id] = ("A" + id) in this.state.params ? this.state.params["A" + id] : "1"
-        this.state.params["WSBS" + id] = ("WSBS" + id) in this.state.params ? this.state.params["WSBS" + id] : "4"
-        this.state.params["S" + id] = ("S" + id) in this.state.params ? this.state.params["S" + id] : "4"
-        this.state.params["AP" + id] = ("AP" + id) in this.state.params ? this.state.params["AP" + id] : "0"
-        this.state.params["D" + id] = ("D" + id) in this.state.params ? this.state.params["D" + id] : "1"
-        this.state.params["options" + id] = ("options" + id) in this.state.params ? this.state.params["options" + id] : {"hit_modifier": "0", "wound_modifier": "0"};
-        this.props.syncAppParams(this.state.params);
-    }
-
 
     onDelete(id) {
         var index = Number(id.slice(-1))
@@ -309,28 +307,31 @@ class ParamsTable extends React.Component {
                 delete this.state.params[key] // triggers deletion in app params
             }
         });
-        this.props.syncAppParams(this.state.params);
+        this.props.syncAppParams(this.state.params, this.props.letter);
+        this.setState({})
     }
     
     updateParam(k, v) {
         this.state.params[k] = v;
-        this.props.syncAppParams(this.state.params);
+        this.props.syncAppParams(this.state.params, this.props.letter);
+        this.setState({})
     }
 
     updateOptionParam(optionsId, optionName, v) {
         this.state.params[optionsId][optionName] = v;
-        this.props.syncAppParams(this.state.params);
+        this.props.syncAppParams(this.state.params, this.props.letter);
+        this.setState({})
     }
 
     render() {
         return <table className="w3-table nowrap">
-                <ProfileHeader bg={"profile-" + this.props.letter + "-bg"} letter={this.props.letter} params={this.state.params} updateParam={this.updateParam}/>
-                <WeaponRow visible={this.weaponsVisibility[0]} onDelete={this.onDelete} index={0} letter={this.props.letter} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
-                <WeaponRow visible={this.weaponsVisibility[1]} onDelete={this.onDelete} index={1} letter={this.props.letter} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
-                <WeaponRow visible={this.weaponsVisibility[2]} onDelete={this.onDelete} index={2} letter={this.props.letter} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
-                <WeaponRow visible={this.weaponsVisibility[3]} onDelete={this.onDelete} index={3} letter={this.props.letter} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
-                <WeaponRow visible={this.weaponsVisibility[4]} onDelete={this.onDelete} index={4} letter={this.props.letter} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
-                <WeaponRow visible={this.weaponsVisibility[5]} onDelete={this.onDelete} index={5} letter={this.props.letter} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <ProfileHeader bg={"profile-" + this.props.letter + "-bg"} letter={this.props.letter} name={this.state.params["name" + this.props.letter]} points={this.state.params["points" + this.props.letter]} updateParam={this.updateParam}/>
+                <WeaponRow visible={this.weaponsVisibility[0]} onDelete={this.onDelete} id={this.props.letter + "0"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow visible={this.weaponsVisibility[1]} onDelete={this.onDelete} id={this.props.letter + "1"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow visible={this.weaponsVisibility[2]} onDelete={this.onDelete} id={this.props.letter + "2"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow visible={this.weaponsVisibility[3]} onDelete={this.onDelete} id={this.props.letter + "3"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow visible={this.weaponsVisibility[4]} onDelete={this.onDelete} id={this.props.letter + "4"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow visible={this.weaponsVisibility[5]} onDelete={this.onDelete} id={this.props.letter + "5"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
                 <tbody>
                   <tr>
                     <th><button className="logo-btn" onClick={this.showWeapon}><i className="fa"><b>+</b></i></button></th>
@@ -341,30 +342,16 @@ class ParamsTable extends React.Component {
 }
 
 class ProfileHeader extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-        this.state.name = this.props.params["name" + this.props.letter];
-        this.state.points = this.props.params["points" + this.props.letter];
-
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    handleChange(event) {
-        this.state[event.target.id] = event.target.value;
-        this.props.updateParam(event.target.id + this.props.letter, event.target.value);
-    }
-
     render() {
         return  <tbody>
                   <tr className="datasheet-body">
                     <th className={"datasheet-header profile-flag " + this.props.bg}>Attacking Profile {this.props.letter}</th>
                   </tr>
                   <tr className="datasheet-header">
-                    <th>Name: <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-profile-name" value={this.state.name} onChange={this.handleChange} ></input></th>
+                    <th>Name: <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-profile-name" value={this.props.name} onChange={(event) => {this.props.updateParam(event.target.id + this.props.letter, event.target.value)}} ></input></th>
                   </tr>
                   <tr className="datasheet-header">
-                    <th>Points: <input maxLength="4" id="points" value={this.state.points} type="text" className="white-bg datasheet-body input input-dice align-left" onChange={this.handleChange}></input></th>
+                    <th>Points: <input maxLength="4" id="points" value={this.props.points} type="text" className="white-bg datasheet-body input input-dice align-left" onChange={(event) => {this.props.updateParam(event.target.id + this.props.letter, event.target.value)}}></input></th>
                   </tr>
                   <tr className="datasheet-header">
                     <th>Weapons used ▼</th>
@@ -382,55 +369,43 @@ class ProfileHeader extends React.Component {
 class WeaponRow extends React.Component {
     constructor(props) {
         super(props);
-        this.id = this.props.letter + this.props.index;
-        // params do never initialize to undefined, default fallback
         this.handleChange = this.handleChange.bind(this);
         this.handleOptionChange = this.handleOptionChange.bind(this);
-        this.openOptionsMenu = this.openOptionsMenu.bind(this);
-        this.closeOptionsMenu = this.closeOptionsMenu.bind(this);
     }
 
     handleChange(event) {
-        this.props.updateParam(event.target.id + this.id, event.target.value);
+        this.props.updateParam(event.target.id + this.props.id, event.target.value);
     }
 
     handleOptionChange(optionName, value) {
         // optionName example: "hit_modifier"
-        this.props.updateOptionParam("options" + this.id, optionName, value);
-    }
-
-    openOptionsMenu () {
-        document.getElementById("options-menu" + this.id).style.display="block";
-    }
-
-    closeOptionsMenu () {
-        document.getElementById("options-menu" + this.id).style.display="none";
+        this.props.updateOptionParam("options" + this.props.id, optionName, value);
     }
 
     render() {
         if(this.props.visible) {
             return <tbody>
                       <tr className="datasheet-body">
-                        <th><button className="logo-btn" onClick={(event) => {this.props.onDelete(this.id)}}><i className="fa fa-trash"></i></button> <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-weapon-name" value={this.props.params["name"+this.id]} onChange={this.handleChange} ></input></th>
-                        <th><input maxLength="4" id="A" value={this.props.params["A"+this.id]} type="text" className="input input-dice align-right" onChange={this.handleChange}></input></th>
-                        <th><input maxLength="4" id="WSBS" value={this.props.params["WSBS"+this.id]} type="text" className="input input-dice align-right" onChange={this.handleChange}></input>+</th>
-                        <th><input maxLength="4" id="S" value={this.props.params["S"+this.id]} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
-                        <th>-<input maxLength="4" id="AP" value={this.props.params["AP"+this.id]} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
-                        <th><input maxLength="4" id="D" value={this.props.params["D"+this.id]} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
+                        <th><button className="logo-btn" onClick={(event) => {this.props.onDelete(this.props.id)}}><i className="fa fa-trash"></i></button> <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-weapon-name" value={this.props.params["name"+this.props.id]} onChange={this.handleChange} ></input></th>
+                        <th><input maxLength="4" id="A" value={this.props.params["A"+this.props.id]} type="text" className="input input-dice align-right" onChange={this.handleChange}></input></th>
+                        <th><input maxLength="4" id="WSBS" value={this.props.params["WSBS"+this.props.id]} type="text" className="input input-dice align-right" onChange={this.handleChange}></input>+</th>
+                        <th><input maxLength="4" id="S" value={this.props.params["S"+this.props.id]} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
+                        <th>-<input maxLength="4" id="AP" value={this.props.params["AP"+this.props.id]} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
+                        <th><input maxLength="4" id="D" value={this.props.params["D"+this.props.id]} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
                         <th>
-                            <div id={"options-menu" + this.id} className="w3-modal">
+                            <div id={"options-menu" + this.props.id} className="w3-modal">
                               <div className="w3-modal-content">
                                 <header className="w3-container greeny-bg datasheet-header">
-                                  Options of weapon: {this.props.params["name"+this.id]}
+                                  Options of weapon: {this.props.params["name"+this.props.id]}
                                 </header>
                                 <div className="w3-container shop">
-                                    <HitModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.id]["hit_modifier"]}/>
-                                    <WoundModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.id]["wound_modifier"]}/>
+                                    <HitModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["hit_modifier"]}/>
+                                    <WoundModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wound_modifier"]}/>
                                 </div>
-                                <span className="w3-button w3-margin-bottom greeny-bg shop" onClick={this.closeOptionsMenu}>Save and close</span>
+                                <span className="w3-button w3-margin-bottom greeny-bg shop" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="none"}}>Save and close</span>
                               </div>
                             </div>
-                            <button className="logo-btn" onClick={this.openOptionsMenu}><i className="fa fa-cogs"></i></button>
+                            <button className="logo-btn" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="block"}}><i className="fa fa-cogs"></i></button>
                         </th>
                       </tr>
                    </tbody>;
