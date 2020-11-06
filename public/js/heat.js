@@ -60,7 +60,7 @@ function plotComparatorChart(xValues, yValues, zValues, ratios, scores, callWhen
       xaxis: {
         ticks: '',
         side: 'top',
-        title: "Comparison of the average number of models slained by profile A and B <br> depending on defense caracteristics of the target unit",
+        title: "Comparison of the average number of models destroyed per point<br>over many different target's defense profiles",
         anchor: "free",
         position: 0.999,
         automargin: true
