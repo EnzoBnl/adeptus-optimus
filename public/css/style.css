@@ -174,7 +174,9 @@ th.profile-flag {
 }
 
 .option-select {
-    width: 64px;
+    width: 70px;
+    height: 35px;
+      padding: 0px 0px;
 }
 
 /* Style buttons */
