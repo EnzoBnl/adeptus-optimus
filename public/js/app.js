@@ -293,7 +293,15 @@ class ParamsTable extends React.Component {
             this.state.params["S" + id] = ("S" + id) in this.state.params ? this.state.params["S" + id] : "4"
             this.state.params["AP" + id] = ("AP" + id) in this.state.params ? this.state.params["AP" + id] : "0"
             this.state.params["D" + id] = ("D" + id) in this.state.params ? this.state.params["D" + id] : "1"
-            this.state.params["options" + id] = ("options" + id) in this.state.params ? this.state.params["options" + id] : {"hit_modifier": "0", "wound_modifier": "0"};
+            this.state.params["options" + id] = ("options" + id) in this.state.params ?
+                this.state.params["options" + id] :
+                {
+                "hit_modifier": "0",
+                "wound_modifier": "0",
+                "reroll_hits": "none",
+                "reroll_wounds": "none",
+                "dakka3": "none"
+                };
             this.props.syncAppParams(this.state.params, this.props.letter);
             this.setState({})
         }
@@ -401,6 +409,9 @@ class WeaponRow extends React.Component {
                                 <div className="w3-container shop">
                                     <HitModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["hit_modifier"]}/>
                                     <WoundModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wound_modifier"]}/>
+                                    <RerollHitsOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_hits"]}/>
+                                    <RerollWoundsOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_wounds"]}/>
+                                    <Dakka3OptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["dakka3"]}/>
                                 </div>
                                 <span className="w3-button w3-margin-bottom greeny-bg shop" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="none"}}>Save and close</span>
                               </div>
@@ -437,6 +448,44 @@ class WoundModifierOptionInput extends React.Component {
                   <option value="1">+1</option>
                   </select>
                 </p>
+    }
+}
+
+class RerollHitsOptionInput extends React.Component {
+    render () {
+        return <p>
+                   Hit rolls reroll: <select id="reroll_hits" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <option value="none"></option>
+                   <option value="ones">1s</option>
+                   <option value="onestwos">1s & 2s</option>
+                   <option value="full">full</option>
+                   </select>
+               </p>
+    }
+}
+
+class RerollWoundsOptionInput extends React.Component {
+    render () {
+        return <p>
+                   Wound rolls reroll: <select id="reroll_wounds" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <option value="none"></option>
+                   <option value="ones">1s</option>
+                   <option value="onestwos">1s & 2s</option>
+                   <option value="full">full</option>
+                   </select>
+               </p>
+    }
+}
+
+class Dakka3OptionInput extends React.Component {
+    render () {
+        return <p>
+                   <i>Dakka Dakka Dakka</i> on: <select id="dakka3" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <option value="none"></option>
+                   <option value="6">6+</option>
+                   <option value="5">5+</option>
+                   </select>
+               </p>
     }
 }
 
