@@ -10,20 +10,23 @@ function getInitParams(letter) {
             "wound_modifier": "0",
             "reroll_hits": "none",
             "reroll_wounds": "none",
-            "dakka3": "none"
+            "dakka3": "none",
+            "auto_wounds_on": "none"
         },
         optionsA1: {
             "hit_modifier": "0",
             "wound_modifier": "0",
             "reroll_hits": "none",
             "reroll_wounds": "none",
-            "dakka3": "none"
+            "dakka3": "none",
+            "auto_wounds_on": "none"
         }, optionsA2: {
             "hit_modifier": "0",
             "wound_modifier": "0",
             "reroll_hits": "none",
             "reroll_wounds": "none",
-            "dakka3": "none"
+            "dakka3": "none",
+            "auto_wounds_on": "none"
         }
         };
     } else if (letter == "B") {
@@ -33,7 +36,8 @@ function getInitParams(letter) {
             "wound_modifier": "0",
             "reroll_hits": "none",
             "reroll_wounds": "none",
-            "dakka3": "none"
+            "dakka3": "none",
+            "auto_wounds_on": "none"
           }
         };
     } else {
