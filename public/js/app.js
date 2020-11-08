@@ -301,7 +301,8 @@ class ParamsTable extends React.Component {
                 "reroll_wounds": "none",
                 "dakka3": "none",
                 "auto_wounds_on": "none",
-                "is_blast": "no"
+                "is_blast": "no",
+                "auto_hit": "no"
                 };
             this.props.syncAppParams(this.state.params, this.props.letter);
             this.setState({})
@@ -415,6 +416,7 @@ class WeaponRow extends React.Component {
                                     <Dakka3OptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["dakka3"]}/>
                                     <AutoWoundsOnOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_wounds_on"]}/>
                                     <IsBlastOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["is_blast"]}/>
+                                    <AutoHitOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_hit"]}/>
                                 </div>
                                 <span className="w3-button w3-margin-bottom greeny-bg shop" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="none"}}>Save and close</span>
                               </div>
@@ -508,6 +510,17 @@ class IsBlastOptionInput extends React.Component {
     render () {
         return <p>
                    Is a blast weapon: <select id="is_blast" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <option value="no">No</option>
+                   <option value="yes">Yes</option>
+                   </select>
+               </p>
+    }
+}
+
+class AutoHitOptionInput extends React.Component {
+    render () {
+        return <p>
+                   This weapon automatically hits its target: <select id="auto_hit" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                    <option value="no">No</option>
                    <option value="yes">Yes</option>
                    </select>
