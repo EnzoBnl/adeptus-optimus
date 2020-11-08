@@ -302,7 +302,8 @@ class ParamsTable extends React.Component {
                 "dakka3": "none",
                 "auto_wounds_on": "none",
                 "is_blast": "no",
-                "auto_hit": "no"
+                "auto_hit": "no",
+                "wounds_by_2D6": "no"
                 };
             this.props.syncAppParams(this.state.params, this.props.letter);
             this.setState({})
@@ -417,6 +418,7 @@ class WeaponRow extends React.Component {
                                     <AutoWoundsOnOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_wounds_on"]}/>
                                     <IsBlastOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["is_blast"]}/>
                                     <AutoHitOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_hit"]}/>
+                                    <WoundsBy2D6OptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wounds_by_2D6"]}/>
                                 </div>
                                 <span className="w3-button w3-margin-bottom greeny-bg shop" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="none"}}>Save and close</span>
                               </div>
@@ -521,6 +523,17 @@ class AutoHitOptionInput extends React.Component {
     render () {
         return <p>
                    This weapon automatically hits its target: <select id="auto_hit" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <option value="no">No</option>
+                   <option value="yes">Yes</option>
+                   </select>
+               </p>
+    }
+}
+
+class WoundsBy2D6OptionInput extends React.Component {
+    render () {
+        return <p>
+                   Wounds if 2D6 roll >= target’s Toughness: <select id="wounds_by_2D6" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                    <option value="no">No</option>
                    <option value="yes">Yes</option>
                    </select>

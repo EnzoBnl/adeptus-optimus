@@ -9,7 +9,8 @@ function getInitParams(letter) {
             "dakka3": "none",
             "auto_wounds_on": "none",
             "is_blast": "no",
-            "auto_hit": "no"
+            "auto_hit": "no",
+            "wounds_by_2D6": "no"
         },
         optionsA1: {
             "hit_modifier": "0",
@@ -19,7 +20,8 @@ function getInitParams(letter) {
             "dakka3": "none",
             "auto_wounds_on": "none",
             "is_blast": "no",
-            "auto_hit": "no"
+            "auto_hit": "no",
+            "wounds_by_2D6": "no"
         }, optionsA2: {
             "hit_modifier": "0",
             "wound_modifier": "0",
@@ -28,7 +30,8 @@ function getInitParams(letter) {
             "dakka3": "none",
             "auto_wounds_on": "none",
             "is_blast": "no",
-            "auto_hit": "no"
+            "auto_hit": "no",
+            "wounds_by_2D6": "no"
         }
         };
     } else if (letter == "B") {
@@ -41,7 +44,8 @@ function getInitParams(letter) {
             "dakka3": "none",
             "auto_wounds_on": "none",
             "is_blast": "no",
-            "auto_hit": "no"
+            "auto_hit": "no",
+            "wounds_by_2D6": "no"
           }
         };
     } else {
