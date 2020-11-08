@@ -16,7 +16,6 @@ class App extends React.Component {
             B: getInitParams("B")
         }
         this.cache = {};
-        this.cache[this.stringifyRelevantParams(this.params)] = getSample();
     }
 
 
@@ -301,7 +300,8 @@ class ParamsTable extends React.Component {
                 "reroll_hits": "none",
                 "reroll_wounds": "none",
                 "dakka3": "none",
-                "auto_wounds_on": "none"
+                "auto_wounds_on": "none",
+                "is_blast": "no"
                 };
             this.props.syncAppParams(this.state.params, this.props.letter);
             this.setState({})
@@ -414,6 +414,7 @@ class WeaponRow extends React.Component {
                                     <RerollWoundsOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_wounds"]}/>
                                     <Dakka3OptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["dakka3"]}/>
                                     <AutoWoundsOnOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_wounds_on"]}/>
+                                    <IsBlastOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["is_blast"]}/>
                                 </div>
                                 <span className="w3-button w3-margin-bottom greeny-bg shop" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="none"}}>Save and close</span>
                               </div>
@@ -499,6 +500,17 @@ class AutoWoundsOnOptionInput extends React.Component {
                    <option value="6">6+</option>
                    <option value="5">5+</option>
                    </select> automatically wounds the target
+               </p>
+    }
+}
+
+class IsBlastOptionInput extends React.Component {
+    render () {
+        return <p>
+                   Is a blast weapon: <select id="is_blast" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <option value="no">No</option>
+                   <option value="yes">Yes</option>
+                   </select>
                </p>
     }
 }
