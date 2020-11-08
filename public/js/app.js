@@ -303,7 +303,8 @@ class ParamsTable extends React.Component {
                 "auto_wounds_on": "none",
                 "is_blast": "no",
                 "auto_hit": "no",
-                "wounds_by_2D6": "no"
+                "wounds_by_2D6": "no",
+                "reroll_damages": "no"
                 };
             this.props.syncAppParams(this.state.params, this.props.letter);
             this.setState({})
@@ -420,6 +421,7 @@ class WeaponRow extends React.Component {
                                     <WoundModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wound_modifier"]}/>
                                     <RerollHitsOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_hits"]}/>
                                     <RerollWoundsOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_wounds"]}/>
+                                    <RerollDamagesOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_damages"]}/>
                                     <Dakka3OptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["dakka3"]}/>
                                     <AutoWoundsOnOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_wounds_on"]}/>
                                     <IsBlastOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["is_blast"]}/>
@@ -540,6 +542,17 @@ class WoundsBy2D6OptionInput extends React.Component {
     render () {
         return <p>
                    Wounds if 2D6 roll >= target’s Toughness: <select id="wounds_by_2D6" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <option value="no">No</option>
+                   <option value="yes">Yes</option>
+                   </select>
+               </p>
+    }
+}
+
+class RerollDamagesOptionInput extends React.Component {
+    render () {
+        return <p>
+                   Damage rolls reroll: <select id="reroll_damages" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                    <option value="no">No</option>
                    <option value="yes">Yes</option>
                    </select>

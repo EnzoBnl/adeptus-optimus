@@ -10,7 +10,8 @@ function getInitParams(letter) {
             "auto_wounds_on": "none",
             "is_blast": "no",
             "auto_hit": "no",
-            "wounds_by_2D6": "no"
+            "wounds_by_2D6": "no",
+            "reroll_damages": "no"
         },
         optionsA1: {
             "hit_modifier": "0",
@@ -21,7 +22,8 @@ function getInitParams(letter) {
             "auto_wounds_on": "none",
             "is_blast": "no",
             "auto_hit": "no",
-            "wounds_by_2D6": "no"
+            "wounds_by_2D6": "no",
+            "reroll_damages": "no"
         }, optionsA2: {
             "hit_modifier": "0",
             "wound_modifier": "0",
@@ -31,7 +33,8 @@ function getInitParams(letter) {
             "auto_wounds_on": "none",
             "is_blast": "no",
             "auto_hit": "no",
-            "wounds_by_2D6": "no"
+            "wounds_by_2D6": "no",
+            "reroll_damages": "no"
         }
         };
     } else if (letter == "B") {
@@ -45,7 +48,8 @@ function getInitParams(letter) {
             "auto_wounds_on": "none",
             "is_blast": "no",
             "auto_hit": "no",
-            "wounds_by_2D6": "no"
+            "wounds_by_2D6": "no",
+            "reroll_damages": "no"
           }
         };
     } else {
