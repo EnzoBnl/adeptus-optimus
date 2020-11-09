@@ -108,6 +108,7 @@ class App extends React.Component {
         console.log(this.state);
         console.log(this.params);
         return <div>
+            <div className="shop-bg"><div className="v9">Up to date with <img src="images/40klogo.png" height="20px"/> V9</div></div>
             <Login initState={{id: this.state.id, token: this.state.token}} sendCredentialsToApp={this.sendCredentialsToApp}/>
             <h1><a href="index.html" className="title">Adeptus <img src="images/logo.png" width="100px"/> Optimus</a></h1>
             <p className="title subscript">" Support wiser choices, on behalf of the Emperor."</p>
@@ -185,6 +186,7 @@ class Login extends React.Component {
                        <span className="login-label">id: </span>
                        <input maxLength="10" id="id" type="text" className="input input-login" value={this.state.id} onChange={this.handleChange}></input>
                    </span>
+                   <br/>
                    <span className="nowrap">
                        <span className="login-label"> token: </span>
                        <input maxLength="512" id="token" type="text" className="input input-login" value={this.state.token} onChange={this.handleChange}></input>

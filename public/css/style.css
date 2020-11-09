@@ -85,11 +85,11 @@ button{
 /* Login */
 .login {
     text-align: right;
+    margin-top: 25px;
     margin-right:25px;
-    margin-top:25px;
 }
 .login-label{
-    font-family: noto;
+    font-family: impact;
     font-size: 16px;
 }
 
@@ -171,6 +171,7 @@ th.profile-flag {
 
 .w3-modal {
     text-align: center;
+    /* TODO: handle a min-width */
 }
 
 .option-select {
@@ -213,7 +214,12 @@ th.profile-flag {
     margin-left:25px;
     margin-top: 25px;
 }
-
+/* V9 ready */
+.v9 {
+    font-family: impact;
+    font-size: 18px;
+    text-align: center;
+}
 
 /* ABOUT */
 .w3-content{
