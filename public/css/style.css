@@ -180,6 +180,14 @@ th.profile-flag {
       padding: 0px 0px;
 }
 
+.option-inactive{
+    color: #999;
+}
+
+.option-active{
+    color: #000;
+}
+
 span.param-tag {
     position:absolute;
     left:0px;

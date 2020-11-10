@@ -296,16 +296,16 @@ class ParamsTable extends React.Component {
             this.state.params["options" + id] = ("options" + id) in this.state.params ?
                 this.state.params["options" + id] :
                 {
-                "hit_modifier": "0",
-                "wound_modifier": "0",
-                "reroll_hits": "none",
-                "reroll_wounds": "none",
-                "dakka3": "none",
-                "auto_wounds_on": "none",
-                "is_blast": "no",
-                "auto_hit": "no",
-                "wounds_by_2D6": "no",
-                "reroll_damages": "no"
+                "hit_modifier": "",
+                "wound_modifier": "",
+                "reroll_hits": "",
+                "reroll_wounds": "",
+                "dakka3": "",
+                "auto_wounds_on": "",
+                "is_blast": "",
+                "auto_hit": "",
+                "wounds_by_2D6": "",
+                "reroll_damages": ""
                 };
             this.props.syncAppParams(this.state.params, this.props.letter);
             this.setState({})
@@ -365,7 +365,7 @@ class ProfileHeader extends React.Component {
         return  <tbody>
                   <tr className="datasheet-body">
                     <th className={"w3-tooltip datasheet-header profile-flag " + this.props.bg}>
-                        <span class="w3-text w3-tag profile-tag">An attacking profile represents one<br/>or more models and their weapons,<br/>with a cost associated with the whole</span>Attacking Profile {this.props.letter}
+                        <span className="w3-text w3-tag profile-tag">An attacking profile represents one<br/>or more models and their weapons,<br/>with a cost associated with the whole</span>Attacking Profile {this.props.letter}
                     </th>
                   </tr>
                   <tr className="datasheet-header">
@@ -451,10 +451,10 @@ class WeaponRow extends React.Component {
 
 class HitModifierOptionInput extends React.Component {
     render () {
-        return <p>
+        return <p className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
                    Hit roll modifier: <select id="hit_modifier" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                    <option value="-1">-1</option>
-                   <option value="0"></option>
+                   <option value=""></option>
                    <option value="1">+1</option>
                    </select>
                </p>
@@ -463,10 +463,10 @@ class HitModifierOptionInput extends React.Component {
 
 class WoundModifierOptionInput extends React.Component {
     render () {
-        return <p>
+        return <p className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
                   Wound roll modifier: <select id="wound_modifier" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                   <option value="-1">-1</option>
-                  <option value="0"></option>
+                  <option value=""></option>
                   <option value="1">+1</option>
                   </select>
                 </p>
@@ -475,9 +475,9 @@ class WoundModifierOptionInput extends React.Component {
 
 class RerollHitsOptionInput extends React.Component {
     render () {
-        return <p>
+        return <p className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
                    Hit rolls reroll: <select id="reroll_hits" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
-                   <option value="none"></option>
+                   <option value=""></option>
                    <option value="ones">1s</option>
                    <option value="onestwos">1s & 2s</option>
                    <option value="full">full</option>
@@ -488,9 +488,9 @@ class RerollHitsOptionInput extends React.Component {
 
 class RerollWoundsOptionInput extends React.Component {
     render () {
-        return <p>
+        return <p className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
                    Wound rolls reroll: <select id="reroll_wounds" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
-                   <option value="none"></option>
+                   <option value=""></option>
                    <option value="ones">1s</option>
                    <option value="onestwos">1s & 2s</option>
                    <option value="full">full</option>
@@ -501,9 +501,9 @@ class RerollWoundsOptionInput extends React.Component {
 
 class Dakka3OptionInput extends React.Component {
     render () {
-        return <p>
+        return <p className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
                    <i>Dakka Dakka Dakka</i> on <select id="dakka3" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
-                   <option value="none"></option>
+                   <option value=""></option>
                    <option value="6">6+</option>
                    <option value="5">5+</option>
                    </select>
@@ -513,9 +513,9 @@ class Dakka3OptionInput extends React.Component {
 
 class AutoWoundsOnOptionInput extends React.Component {
     render () {
-        return <p>
+        return <p className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
                    An unmodified hit roll of <select id="auto_wounds_on" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
-                   <option value="none"></option>
+                   <option value=""></option>
                    <option value="6">6+</option>
                    <option value="5">5+</option>
                    </select> automatically wounds the target
@@ -525,9 +525,9 @@ class AutoWoundsOnOptionInput extends React.Component {
 
 class IsBlastOptionInput extends React.Component {
     render () {
-        return <p>
+        return <p className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
                    Is a blast weapon: <select id="is_blast" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
-                   <option value="no">No</option>
+                   <option value="">No</option>
                    <option value="yes">Yes</option>
                    </select>
                </p>
@@ -536,9 +536,9 @@ class IsBlastOptionInput extends React.Component {
 
 class AutoHitOptionInput extends React.Component {
     render () {
-        return <p>
+        return <p className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
                    This weapon automatically hits its target: <select id="auto_hit" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
-                   <option value="no">No</option>
+                   <option value="">No</option>
                    <option value="yes">Yes</option>
                    </select>
                </p>
@@ -547,9 +547,9 @@ class AutoHitOptionInput extends React.Component {
 
 class WoundsBy2D6OptionInput extends React.Component {
     render () {
-        return <p>
+        return <p className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
                    Wounds if 2D6 roll >= target’s Toughness: <select id="wounds_by_2D6" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
-                   <option value="no">No</option>
+                   <option value="">No</option>
                    <option value="yes">Yes</option>
                    </select>
                </p>
@@ -558,9 +558,9 @@ class WoundsBy2D6OptionInput extends React.Component {
 
 class RerollDamagesOptionInput extends React.Component {
     render () {
-        return <p>
+        return <p className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
                    Damage rolls reroll: <select id="reroll_damages" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
-                   <option value="no">No</option>
+                   <option value="">No</option>
                    <option value="yes">Yes</option>
                    </select>
                </p>
