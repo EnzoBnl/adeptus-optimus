@@ -180,6 +180,24 @@ th.profile-flag {
       padding: 0px 0px;
 }
 
+span.param-tag {
+    position:absolute;
+    left:0px;
+    bottom:40px
+}
+
+span.param-options-tag {
+    position:absolute;
+    left:-10px;
+    bottom:40px
+}
+
+span.profile-tag {
+    position:absolute;
+    left:260px;
+    bottom:-35px
+}
+
 /* Style buttons */
 .logo-btn {
   background-color: DodgerBlue; /* Blue background */
