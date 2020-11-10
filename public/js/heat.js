@@ -74,7 +74,7 @@ function plotComparatorChart(xValues, yValues, zValues, ratios, scores, callWhen
       margin: {
         t: 130,
         b: 15,
-        l:200
+        l:175
       },
       height: 2000,
     };
