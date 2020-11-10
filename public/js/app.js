@@ -243,10 +243,7 @@ class ProgressLog extends React.Component {
     render() {
         if (this.props.state == "processing") {
             return <div>
-                        <img className="w3-animate-fading-fast" src="images/skull.png" width="32px"></img>
-                        <span className="shop"> {this.props.msg} </span>
-                        <img className="w3-animate-fading-fast" src="images/skull.png" width="32px"></img>
-
+                        <span className="w3-animate-fading-fast shop"> {this.props.msg} </span>
                         <p><img src="images/testing.gif" width="auto"></img></p>
                    </div>
         } else if (this.props.state == "error") {
@@ -403,6 +400,16 @@ class WeaponRow extends React.Component {
         this.props.updateOptionParam("options" + this.props.id, optionName, value);
     }
 
+    countActiveOptions() {
+        var count = 0;
+        Object.entries(this.props.params["options"+this.props.id]).forEach(([key, value]) => {
+            if (value != "") {
+                count += 1;
+            }
+        });
+        return count;
+    }
+
     render() {
         if(this.props.visible) {
             return <tbody>
@@ -439,6 +446,7 @@ class WeaponRow extends React.Component {
                               </div>
                             </div>
                             <button className="logo-btn" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="block"}}><i className="fa fa-cogs"></i></button>
+                            <i> ({this.countActiveOptions()} active)</i>
                         </th>
                       </tr>
                    </tbody>;
