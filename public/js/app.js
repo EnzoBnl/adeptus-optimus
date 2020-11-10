@@ -108,7 +108,7 @@ class App extends React.Component {
         console.log(this.state);
         console.log(this.params);
         return <div>
-            <div className="shop-bg"><div className="v9">Up to date with <img src="images/40klogo.png" height="20px"/> V9</div></div>
+            <div className="shop-bg"><div className="v9">Ready for <img src="images/40klogo.png" height="20px"/> V9</div></div>
             <Login initState={{id: this.state.id, token: this.state.token}} sendCredentialsToApp={this.sendCredentialsToApp}/>
             <h1><a href="index.html" className="title">Adeptus <img src="images/logo.png" width="100px"/> Optimus</a></h1>
             <p className="title subscript">" Support wiser choices, on behalf of the Emperor."</p>
@@ -139,7 +139,6 @@ class App extends React.Component {
             <br/>
             <div className="w3-bar shop-bg"><div className="w3-bar-item"></div></div>
             <Help />
-            <p className="version">v1.0</p>
         </div>
     }
 
@@ -365,7 +364,9 @@ class ProfileHeader extends React.Component {
     render() {
         return  <tbody>
                   <tr className="datasheet-body">
-                    <th className={"datasheet-header profile-flag " + this.props.bg}>Attacking Profile {this.props.letter}</th>
+                    <th className={"w3-tooltip datasheet-header profile-flag " + this.props.bg}>
+                        <span class="w3-text w3-tag profile-tag">An attacking profile represents one<br/>or more models and their weapons,<br/>with a cost associated with the whole</span>Attacking Profile {this.props.letter}
+                    </th>
                   </tr>
                   <tr className="datasheet-header">
                     <th>Name: <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-profile-name" value={this.props.name} onChange={(event) => {this.props.updateParam(event.target.id + this.props.letter, event.target.value)}} ></input></th>
@@ -373,14 +374,14 @@ class ProfileHeader extends React.Component {
                   <tr className="datasheet-header">
                     <th>Points: <input maxLength="4" id="points" value={this.props.points} type="text" className="white-bg datasheet-body input input-dice align-left" onChange={(event) => {this.props.updateParam(event.target.id + this.props.letter, event.target.value)}}></input></th>
                   </tr>
-                  <tr className="datasheet-header">
-                    <th>Weapons used ▼</th>
-                    <th className="greeny-bg">Attacks</th>
-                    <th className="greeny-bg">WS|BS</th>
-                    <th className="greeny-bg">S</th>
-                    <th className="greeny-bg">AP</th>
-                    <th className="greeny-bg">D</th>
-                    <th className="greeny-bg">Options</th>
+                  <tr className="datasheet-header greeny-bg">
+                    <th className="white-bg">Weapons used ▼</th>
+                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag">Total n° of attacks or shots made using the given weapon,<br/>by the models of the attacking profile during one phase</span>Attacks</th>
+                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag">Ballistic Skill or Weapon Skill</span>WS|BS</th>
+                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag">Strength</span>S</th>
+                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag">Armor Penetration</span>AP</th>
+                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag">n° of Damages</span>D</th>
+                    <th className="w3-tooltip"><span class="w3-text w3-tag param-options-tag">Click on<br/>the gears<br/>to open<br/>the menu</span>Options</th>
                   </tr>
                 </tbody>;
     }
