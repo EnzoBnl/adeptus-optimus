@@ -119,9 +119,11 @@ class App extends React.Component {
             <br/>
             <div style={{overflowX: "auto"}}>
                 <ParamsTable syncAppParams={this.syncAppParams} letter="A"/>
-                <br/>
-                <br/>
-                <br/>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <div style={{overflowX: "auto"}}>
                 <ParamsTable syncAppParams={this.syncAppParams} letter="B"/>
             </div>
             <br/>
@@ -372,7 +374,7 @@ class ProfileHeader extends React.Component {
                     <th>Points: <input maxLength="4" id="points" value={this.props.points} type="text" className="white-bg datasheet-body input input-dice align-left" onChange={(event) => {this.props.updateParam(event.target.id + this.props.letter, event.target.value)}}></input></th>
                   </tr>
                   <tr className="datasheet-header greeny-bg">
-                    <th className="white-bg">Weapons used ▼</th>
+                    <th className="white-bg"> ▼ Weapons used</th>
                     <th className="w3-tooltip"><span class="w3-text w3-tag param-tag">Total n° of attacks or shots made using the given weapon,<br/>by the models of the attacking profile during one phase</span>Attacks</th>
                     <th className="w3-tooltip"><span class="w3-text w3-tag param-tag">Ballistic Skill or Weapon Skill</span>WS|BS</th>
                     <th className="w3-tooltip"><span class="w3-text w3-tag param-tag">Strength</span>S</th>
@@ -412,6 +414,7 @@ class WeaponRow extends React.Component {
 
     render() {
         if(this.props.visible) {
+            var activeOptionsCount = this.countActiveOptions();
             return <tbody>
                       <tr className="datasheet-body">
                         <th><button className="logo-btn" onClick={(event) => {this.props.onDelete(this.props.id)}}><i className="fa fa-trash"></i></button> <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-weapon-name" value={this.props.params["name"+this.props.id]} onChange={this.handleChange} ></input></th>
@@ -446,7 +449,7 @@ class WeaponRow extends React.Component {
                               </div>
                             </div>
                             <button className="logo-btn" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="block"}}><i className="fa fa-cogs"></i></button>
-                            <i> ({this.countActiveOptions()} active)</i>
+                            <i className={activeOptionsCount == 0 ? "option-inactive": "option-active"}> ({activeOptionsCount} active)</i>
                         </th>
                       </tr>
                    </tbody>;
