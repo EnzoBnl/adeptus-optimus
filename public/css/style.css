@@ -176,16 +176,18 @@ th.profile-flag {
 
 .option-select {
     width: 70px;
-    height: 35px;
-      padding: 0px 0px;
+    height: 25px;
+    padding: 0px 0px;
 }
 
 .option-inactive{
     color: #999;
+    margin-bottom: 3px;
 }
 
 .option-active{
     color: #000;
+    margin-bottom: 3px;
 }
 
 span.param-tag {
