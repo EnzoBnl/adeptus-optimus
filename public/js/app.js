@@ -12,13 +12,10 @@ class App extends React.Component {
             token: "U2FsdGVkX197wfW/IY0sqa/Ckju8AeU3pRLPSra1aCxZeAHrWePPDPJlYTy5bwdU"
         };
         var queryStringParams = new URLSearchParams(window.location.search);
-        console.log("Query string=" + queryStringParams + queryStringParams.has("A"))
         this.params = {
-            A: queryStringParams.has("A") ? queryStringParams.get("A") : getInitParams("A"),
-            B: queryStringParams.has("B") ? queryStringParams.get("B") : getInitParams("B")
+            A: queryStringParams.has("params") ? JSON.parse(queryStringParams.get("params"))["A"] : getInitParams("A"),
+            B: queryStringParams.has("params") ? JSON.parse(queryStringParams.get("params"))["B"] : getInitParams("B")
         }
-        console.log(JSON.stringify(this.params));
-
         this.cache = {};
     }
 
@@ -376,13 +373,13 @@ class ProfileHeader extends React.Component {
                     <th>Points: <input maxLength="4" id="points" value={this.props.points} type="text" className="white-bg datasheet-body input input-dice align-left" onChange={(event) => {this.props.updateParam(event.target.id + this.props.letter, event.target.value)}}></input></th>
                   </tr>
                   <tr className="datasheet-header greeny-bg">
-                    <th className="white-bg w3-tooltip"><span class="w3-text w3-tag weapons-tag tag">Each different combination of characteristics and<br/>options must be declared in a separate weapon line</span> ▼ Weapons used</th>
-                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag tag">Total n° of attacks or shots made using the given weapon,<br/>by the models of the attacking profile during one phase</span>Attacks</th>
-                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag tag">Ballistic Skill or Weapon Skill</span>WS|BS</th>
-                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag tag">Strength</span>S</th>
-                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag tag">Armor Penetration</span>AP</th>
-                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag tag">n° of Damages</span>D</th>
-                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag tag">Click on the<br/>gears to open<br/>the menu</span>Options</th>
+                    <th className="white-bg w3-tooltip"><span className="w3-text w3-tag weapons-tag tag">Each different combination of characteristics and<br/>options must be declared in a separate weapon line</span> ▼ Weapons used</th>
+                    <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Total n° of attacks or shots made using the given weapon,<br/>by the models of the attacking profile during one phase</span>Attacks</th>
+                    <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Ballistic Skill or Weapon Skill</span>WS|BS</th>
+                    <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Strength</span>S</th>
+                    <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Armor Penetration</span>AP</th>
+                    <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">n° of Damages</span>D</th>
+                    <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Click on the<br/>gears to open<br/>the menu</span>Options</th>
                   </tr>
                 </tbody>;
     }
