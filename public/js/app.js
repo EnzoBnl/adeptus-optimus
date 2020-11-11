@@ -310,7 +310,18 @@ class ParamsTable extends React.Component {
         }
     }
 
-
+    getWeaponRank(index) {
+        var count = 0;
+        var i = 0;
+        while (i < index){
+            if (this.weaponsVisibility[i]) {
+                count += 1
+            }
+            i += 1 ;
+        }
+        
+        return "#" + (count + 1);
+    }
 
     onDelete(id) {
         var index = Number(id.slice(-1))
@@ -346,11 +357,11 @@ class ParamsTable extends React.Component {
 
         return <table className="w3-table nowrap">
                 <ProfileHeader bg={"profile-" + this.props.letter + "-bg"} letter={this.props.letter} name={this.state.params["name" + this.props.letter]} points={this.state.params["points" + this.props.letter]} updateParam={this.updateParam}/>
-                <WeaponRow visible={this.weaponsVisibility[0]} onDelete={this.onDelete} id={this.props.letter + "0"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
-                <WeaponRow visible={this.weaponsVisibility[1]} onDelete={this.onDelete} id={this.props.letter + "1"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
-                <WeaponRow visible={this.weaponsVisibility[2]} onDelete={this.onDelete} id={this.props.letter + "2"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
-                <WeaponRow visible={this.weaponsVisibility[3]} onDelete={this.onDelete} id={this.props.letter + "3"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
-                <WeaponRow visible={this.weaponsVisibility[4]} onDelete={this.onDelete} id={this.props.letter + "4"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow rank={this.getWeaponRank(0)} visible={this.weaponsVisibility[0]} onDelete={this.onDelete} id={this.props.letter + "0"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow rank={this.getWeaponRank(1)} visible={this.weaponsVisibility[1]} onDelete={this.onDelete} id={this.props.letter + "1"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow rank={this.getWeaponRank(2)} visible={this.weaponsVisibility[2]} onDelete={this.onDelete} id={this.props.letter + "2"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow rank={this.getWeaponRank(3)} visible={this.weaponsVisibility[3]} onDelete={this.onDelete} id={this.props.letter + "3"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow rank={this.getWeaponRank(4)} visible={this.weaponsVisibility[4]} onDelete={this.onDelete} id={this.props.letter + "4"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
                 <tbody>
                   <tr>
                     <th><button className="logo-btn" onClick={this.showWeapon}><i className="fa"><b>+</b></i></button></th>
@@ -418,7 +429,7 @@ class WeaponRow extends React.Component {
             var activeOptionsCount = this.countActiveOptions();
             return <tbody>
                       <tr className="datasheet-body">
-                        <th><button className="logo-btn" onClick={(event) => {this.props.onDelete(this.props.id)}}><i className="fa fa-trash"></i></button> <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-weapon-name" value={this.props.params["name"+this.props.id]} onChange={this.handleChange} ></input></th>
+                        <th><button className="logo-btn" onClick={(event) => {this.props.onDelete(this.props.id)}}><i className="fa fa-trash"></i></button> {this.props.rank} <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-weapon-name" value={this.props.params["name"+this.props.id]} onChange={this.handleChange} ></input></th>
                         <th><input maxLength="4" id="A" value={this.props.params["A"+this.props.id]} type="text" className="input input-dice align-right" onChange={this.handleChange}></input></th>
                         <th><input maxLength="4" id="WSBS" value={this.props.params["WSBS"+this.props.id]} type="text" className="input input-dice align-right" onChange={this.handleChange}></input>+</th>
                         <th><input maxLength="4" id="S" value={this.props.params["S"+this.props.id]} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
@@ -428,7 +439,7 @@ class WeaponRow extends React.Component {
                             <div id={"options-menu" + this.props.id} className="w3-modal">
                               <div className="w3-modal-content">
                                 <header className="w3-container greeny-bg datasheet-header">
-                                  Options of weapon: {this.props.params["name"+this.props.id]}
+                                  Profile {this.props.id.substring(0, 1)}, weapon {this.props.rank}: {this.props.params["name"+this.props.id]} | {activeOptionsCount} {activeOptionsCount <= 1 ? "active option" : "active options"}
                                 </header>
                                 <div className="w3-container shop">
                                     <h3>Attacks</h3>
