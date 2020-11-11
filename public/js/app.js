@@ -308,7 +308,8 @@ class ParamsTable extends React.Component {
                 "is_blast": "",
                 "auto_hit": "",
                 "wounds_by_2D6": "",
-                "reroll_damages": ""
+                "reroll_damages": "",
+                "roll_damages_twice": ""
                 };
             this.props.syncAppParams(this.state.params, this.props.letter);
             this.setState({})
@@ -463,6 +464,7 @@ class WeaponRow extends React.Component {
                                     <SaveModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["save_modifier"]}/>
                                     <h3>Damages</h3>
                                     <RerollDamagesOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_damages"]}/>
+                                    <RollDamagesTwiceOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["roll_damages_twice"]}/>
                                 </div>
                                 <span className="w3-button w3-margin-bottom greeny-bg shop" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="none"}}>Save and close</span>
                               </div>
@@ -606,6 +608,17 @@ class RerollDamagesOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
                    Damage rolls reroll: <select id="reroll_damages" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <option value="">No</option>
+                   <option value="yes">Yes</option>
+                   </select>
+               </div>
+    }
+}
+
+class RollDamagesTwiceOptionInput extends React.Component {
+    render () {
+        return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
+                   Make random damage rolls twice and discard the lowest result: <select id="roll_damages_twice" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                    <option value="">No</option>
                    <option value="yes">Yes</option>
                    </select>
