@@ -11,10 +11,14 @@ class App extends React.Component {
             id: "admin",
             token: "U2FsdGVkX197wfW/IY0sqa/Ckju8AeU3pRLPSra1aCxZeAHrWePPDPJlYTy5bwdU"
         };
+        var queryStringParams = new URLSearchParams(window.location.search);
+        console.log("Query string=" + queryStringParams + queryStringParams.has("A"))
         this.params = {
-            A: getInitParams("A"),
-            B: getInitParams("B")
+            A: queryStringParams.has("A") ? queryStringParams.get("A") : getInitParams("A"),
+            B: queryStringParams.has("B") ? queryStringParams.get("B") : getInitParams("B")
         }
+        console.log(JSON.stringify(this.params));
+
         this.cache = {};
     }
 
@@ -118,29 +122,30 @@ class App extends React.Component {
             <br/>
             <br/>
             <div style={{overflowX: "auto"}}>
-                <ParamsTable syncAppParams={this.syncAppParams} letter="A"/>
+                <ParamsTable syncAppParams={this.syncAppParams} params={this.params} letter="A"/>
             </div>
             <br/>
             <br/>
             <br/>
             <div style={{overflowX: "auto"}}>
-                <ParamsTable syncAppParams={this.syncAppParams} letter="B"/>
+                <ParamsTable syncAppParams={this.syncAppParams} params={this.params} letter="B"/>
             </div>
             <br/>
             <br/>
             <br/>
             <div className="w3-bar shop-bg"><div className="w3-bar-item"></div></div>
-            <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.handleSubmit}>COMPARE</button>
+            <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.handleSubmit}>▼ COMPARE ▼</button>
             <br/>
             <br/>
             <ProgressLog state={this.state.state} msg={this.state.msg}/>
             <div style={{overflowX: "auto", overflowY: "hidden",  "transform": "rotateX(180deg)"}}>
                 <div id="chart" className="chart" style={{"transform": "rotateX(180deg)"}}></div>
             </div>
-            <br/>
-            <br/>
             <div className="w3-bar shop-bg"><div className="w3-bar-item"></div></div>
             <Help />
+            <br/>
+            <br/>
+            <div className="w3-bar shop-mid-bg"><div className="w3-bar-item"></div></div>
         </div>
     }
 
@@ -211,9 +216,8 @@ class InfoBox extends React.Component {
 class Help extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {visible: true};
+        this.state = {visible: false};
         this.helpButtonAction = this.helpButtonAction.bind(this);
-        this.button = <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.helpButtonAction}>ABOUT</button>;
     }
 
     helpButtonAction() {
@@ -223,7 +227,7 @@ class Help extends React.Component {
     render() {
         if (this.state.visible) {
              return <div>
-                        {this.button}
+                        <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.helpButtonAction}>▲ ABOUT ▲</button>
                         <div className="w3-content">
                             <div className="w3-row-padding w3-center w3-margin-top w3-margin-bottom shop">
                                 <InfoBox title="Adeptus Optimus" body={<p>The <i>Adeptus Optimus</i> is an analytics organization attached to the <i>Adeptus Mechanicus</i>. The <i>Adeptus Optimus Engine</i> has been built by an <i>Archmagos computus</i> to give to lords of war an <b>intuitive and rigorous tool</b> to guide their equipments choices.</p>}/>
@@ -232,11 +236,9 @@ class Help extends React.Component {
                                 <InfoBox title="Ultimate Accuracy" body={<p>The entire dice rolls sequences are theoretically modeled, making the <i>Adeptus Optimus Engine</i> the only tool correctly handling the <b>complex effects of random damages characteristics and <i>Feel No Pains</i></b> during the sequential damage allocation step, or the <b>threshold effects</b> introduced by a <b>random <i>Strength</i> characteristic</b>, among others.</p>}/>
                             </div>
                         </div>
-                        <div className="w3-bar shop-mid-bg"><div className="w3-bar-item"></div></div>
-
                     </div>
         } else {
-            return <span>{this.button}</span>
+            return <span><button className="w3-btn shop-mid-bg datasheet-header" onClick={this.helpButtonAction}>▼ ABOUT ▼</button></span>
         }
     }
 }
@@ -263,7 +265,7 @@ class ProgressLog extends React.Component {
 class ParamsTable extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {params: getInitParams(this.props.letter)};
+        this.state = {params: this.props.params[this.props.letter]};
         if (this.props.letter == "A") {
             this.weaponsVisibility = [true, true, true, false, false];
         } else {
@@ -364,7 +366,7 @@ class ProfileHeader extends React.Component {
         return  <tbody>
                   <tr className="datasheet-body">
                     <th className={"w3-tooltip datasheet-header profile-flag " + this.props.bg}>
-                        <span className="w3-text w3-tag profile-tag">An attacking profile represents one<br/>or more models and their weapons,<br/>with a cost associated with the whole</span>Attacking Profile {this.props.letter}
+                        <span className="w3-text w3-tag profile-tag tag">An attacking profile represents one<br/>or more models and their weapons,<br/>with a cost associated with the whole</span>Attacking Profile {this.props.letter}
                     </th>
                   </tr>
                   <tr className="datasheet-header">
@@ -374,13 +376,13 @@ class ProfileHeader extends React.Component {
                     <th>Points: <input maxLength="4" id="points" value={this.props.points} type="text" className="white-bg datasheet-body input input-dice align-left" onChange={(event) => {this.props.updateParam(event.target.id + this.props.letter, event.target.value)}}></input></th>
                   </tr>
                   <tr className="datasheet-header greeny-bg">
-                    <th className="white-bg"> ▼ Weapons used</th>
-                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag">Total n° of attacks or shots made using the given weapon,<br/>by the models of the attacking profile during one phase</span>Attacks</th>
-                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag">Ballistic Skill or Weapon Skill</span>WS|BS</th>
-                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag">Strength</span>S</th>
-                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag">Armor Penetration</span>AP</th>
-                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag">n° of Damages</span>D</th>
-                    <th className="w3-tooltip"><span class="w3-text w3-tag param-options-tag">Click on<br/>the gears<br/>to open<br/>the menu</span>Options</th>
+                    <th className="white-bg w3-tooltip"><span class="w3-text w3-tag weapons-tag tag">Each different combination of characteristics and<br/>options must be declared in a separate weapon line</span> ▼ Weapons used</th>
+                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag tag">Total n° of attacks or shots made using the given weapon,<br/>by the models of the attacking profile during one phase</span>Attacks</th>
+                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag tag">Ballistic Skill or Weapon Skill</span>WS|BS</th>
+                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag tag">Strength</span>S</th>
+                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag tag">Armor Penetration</span>AP</th>
+                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag tag">n° of Damages</span>D</th>
+                    <th className="w3-tooltip"><span class="w3-text w3-tag param-tag tag">Click on the<br/>gears to open<br/>the menu</span>Options</th>
                   </tr>
                 </tbody>;
     }

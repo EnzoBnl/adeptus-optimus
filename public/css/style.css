@@ -53,7 +53,7 @@ footer{
 }
 
 button{
-    width: 110px;
+    width: 150px;
     text-align: center;
     background: #c3c8c3;
 }
@@ -190,22 +190,26 @@ th.profile-flag {
     margin-bottom: 3px;
 }
 
-span.param-tag {
+span.tag {
     position:absolute;
-    left:0px;
-    bottom:40px
+    z-index: 1;
+    font-family: noto;
+    font-size: 17px;
 }
 
-span.param-options-tag {
-    position:absolute;
-    left:-10px;
-    bottom:40px
+span.param-tag {
+    left:0px;
+    bottom:41px;
+}
+
+span.weapons-tag {
+    left:257px;
+    bottom:0px;
 }
 
 span.profile-tag {
-    position:absolute;
-    left:260px;
-    bottom:-35px
+    left:257px;
+    bottom:-30px;
 }
 
 /* Style buttons */
