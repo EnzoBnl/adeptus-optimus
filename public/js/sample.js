@@ -4,6 +4,7 @@ function getInitParams(letter) {
         optionsA0: {
             "hit_modifier": "",
             "wound_modifier": "",
+            "save_modifier": "",
             "reroll_hits": "",
             "reroll_wounds": "",
             "dakka3": "",
@@ -16,6 +17,7 @@ function getInitParams(letter) {
         optionsA1: {
             "hit_modifier": "",
             "wound_modifier": "",
+            "save_modifier": "",
             "reroll_hits": "",
             "reroll_wounds": "",
             "dakka3": "",
@@ -27,6 +29,7 @@ function getInitParams(letter) {
         }, optionsA2: {
             "hit_modifier": "",
             "wound_modifier": "",
+            "save_modifier": "",
             "reroll_hits": "",
             "reroll_wounds": "",
             "dakka3": "",
@@ -42,6 +45,7 @@ function getInitParams(letter) {
         optionsB0: {
             "hit_modifier": "",
             "wound_modifier": "",
+            "save_modifier": "",
             "reroll_hits": "",
             "reroll_wounds": "",
             "dakka3": "",

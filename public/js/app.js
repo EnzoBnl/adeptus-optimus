@@ -22,84 +22,88 @@ class App extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        document.getElementById("chart").innerHTML = "";
-        this.setState({state: "processing", msg: "Testing weapons..."/*"Firing on some captives Grots..."*/})
-        var paramsAsString = this.stringifyRelevantParams(this.params);
-        if (paramsAsString in this.cache) {
-            const cachedResponse = this.cache[paramsAsString];
-            plotComparatorChart(
-                cachedResponse["x"],
-                cachedResponse["y"],
-                cachedResponse["z"],
-                cachedResponse["ratios"],
-                cachedResponse["scores"],
-                () => {this.setState({state: "idle", msg: ""});}
-                )
+        if (this.state.state == "processing") {
+            alert("One of our Magi is still working on your last demand.");
         } else {
-            var serverIp = getServerIp(this.state.id, this.state.token);
-            if (serverIp == "") {
-                this.setState({
-                    state: "error",
-                    msg: "Invalid id/token: id:'" + this.state.id + "', token='" + this.state.token + "'."
-                });
+            document.getElementById("chart").innerHTML = "";
+            this.setState({state: "processing", msg: "Testing weapons..."/*"Firing on some captives Grots..."*/})
+            var paramsAsString = this.stringifyRelevantParams(this.params);
+            if (paramsAsString in this.cache) {
+                const cachedResponse = this.cache[paramsAsString];
+                plotComparatorChart(
+                    cachedResponse["x"],
+                    cachedResponse["y"],
+                    cachedResponse["z"],
+                    cachedResponse["ratios"],
+                    cachedResponse["scores"],
+                    () => {this.setState({state: "idle", msg: ""});}
+                    )
             } else {
-                var xhr = new XMLHttpRequest();
-                xhr.responseType = "json";
-                // get a callback when the server responds
-                xhr.onload = () => {
-                  console.log("console.log(xhr.responseText):");
-                  console.log(xhr.response);
-                  if (xhr.status == 200) {
-                      this.cache[paramsAsString] = { // ensures changing params during request is safe
-                          x: xhr.response["x"],
-                          y: xhr.response["y"],
-                          z: xhr.response["z"],
-                          ratios: xhr.response["ratios"],
-                          scores: xhr.response["scores"]
+                var serverIp = getServerIp(this.state.id, this.state.token);
+                if (serverIp == "") {
+                    this.setState({
+                        state: "error",
+                        msg: "Invalid id/token: id:'" + this.state.id + "', token='" + this.state.token + "'."
+                    });
+                } else {
+                    var xhr = new XMLHttpRequest();
+                    xhr.responseType = "json";
+                    // get a callback when the server responds
+                    xhr.onload = () => {
+                      console.log("console.log(xhr.responseText):");
+                      console.log(xhr.response);
+                      if (xhr.status == 200) {
+                          this.cache[paramsAsString] = { // ensures changing params during request is safe
+                              x: xhr.response["x"],
+                              y: xhr.response["y"],
+                              z: xhr.response["z"],
+                              ratios: xhr.response["ratios"],
+                              scores: xhr.response["scores"]
+                          }
+                          plotComparatorChart(
+                              xhr.response["x"],
+                              xhr.response["y"],
+                              xhr.response["z"],
+                              xhr.response["ratios"],
+                              xhr.response["scores"],
+                              () => {this.setState({state: "idle", msg: ""});});
+                      } else if (xhr.status == 422 || xhr.status == 500) {
+                        this.setState({
+                            state: "error",
+                            msg: "SERVER ERROR " + xhr.status + ": " + xhr.response["msg"]
+                        });
+                      } else if (xhr.status == 429) {
+                        this.setState({
+                            state: "error",
+                            msg: "SERVER ERROR 429: Too Many Requests: There is no Magos available now, please retry in a few moments."
+                        });
                       }
-                      plotComparatorChart(
-                          xhr.response["x"],
-                          xhr.response["y"],
-                          xhr.response["z"],
-                          xhr.response["ratios"],
-                          xhr.response["scores"],
-                          () => {this.setState({state: "idle", msg: ""});});
-                  } else if (xhr.status == 422 || xhr.status == 500) {
-                    this.setState({
-                        state: "error",
-                        msg: "SERVER ERROR " + xhr.status + ": " + xhr.response["msg"]
-                    });
-                  } else if (xhr.status == 429) {
-                    this.setState({
-                        state: "error",
-                        msg: "SERVER ERROR 429: Too Many Requests: There is no Magos available for the supervision of the analysis you requested."
-                    });
-                  }
-                  else if (xhr.status == 408) {
-                    this.setState({
-                      state: "error",
-                      msg: "SERVER ERROR 408: Timeout: The Magos in charge of your request has passed out"
-                    });
-                    }
-                  else {
-                    this.setState({
-                        state: "error",
-                        msg: "SERVER ERROR " + xhr.status
-                    });
-                  }
-                };
-                // get a callback when net::ERR_CONNECTION_REFUSED
-                xhr.onerror = () => {
-                    console.log("console.log(xhr.responseText):");
-                    console.log(xhr.response);
-                    this.setState({
-                        state: "error",
-                        msg: "SERVER DOWN: The Forge World of the Adeptus Optimus must be facing an onslaught of heretics."
-                    });
-                };
-                xhr.open("GET", serverIp + "?params=" + paramsAsString);
-                // send the request
-                xhr.send();
+                      else if (xhr.status == 408) {
+                        this.setState({
+                          state: "error",
+                          msg: "SERVER ERROR 408: Timeout: The Magos in charge of your request has passed out"
+                        });
+                        }
+                      else {
+                        this.setState({
+                            state: "error",
+                            msg: "SERVER ERROR " + xhr.status
+                        });
+                      }
+                    };
+                    // get a callback when net::ERR_CONNECTION_REFUSED
+                    xhr.onerror = () => {
+                        console.log("console.log(xhr.responseText):");
+                        console.log(xhr.response);
+                        this.setState({
+                            state: "error",
+                            msg: "SERVER DOWN: The Forge World of the Adeptus Optimus must be facing an onslaught of heretics."
+                        });
+                    };
+                    xhr.open("GET", serverIp + "?params=" + paramsAsString);
+                    // send the request
+                    xhr.send();
+                }
             }
         }
     }
@@ -296,6 +300,7 @@ class ParamsTable extends React.Component {
                 {
                 "hit_modifier": "",
                 "wound_modifier": "",
+                "save_modifier": "",
                 "reroll_hits": "",
                 "reroll_wounds": "",
                 "dakka3": "",
@@ -454,6 +459,8 @@ class WeaponRow extends React.Component {
                                     <RerollWoundsOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_wounds"]}/>
                                     <AutoWoundsOnOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_wounds_on"]}/>
                                     <WoundsBy2D6OptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wounds_by_2D6"]}/>
+                                    <h3>Saves</h3>
+                                    <SaveModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["save_modifier"]}/>
                                     <h3>Damages</h3>
                                     <RerollDamagesOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_damages"]}/>
                                 </div>
@@ -491,6 +498,22 @@ class WoundModifierOptionInput extends React.Component {
                   <option value="-1">-1</option>
                   <option value=""></option>
                   <option value="1">+1</option>
+                  </select>
+                </div>
+    }
+}
+
+class SaveModifierOptionInput extends React.Component {
+    render () {
+        return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
+                  Save roll modifier: <select id="save_modifier" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                  <option value="-3">-3</option>
+                  <option value="-2">-2</option>
+                  <option value="-1">-1</option>
+                  <option value=""></option>
+                  <option value="1">+1</option>
+                  <option value="2">+2</option>
+                  <option value="3">+3</option>
                   </select>
                 </div>
     }
