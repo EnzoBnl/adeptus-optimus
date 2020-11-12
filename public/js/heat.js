@@ -21,11 +21,11 @@ function plotComparatorChart(xValues, yValues, zValues, ratios, scores, callWhen
             }
             label += "<br><br>Profile A details:"
             for (var ia = 0; ia < scores[i][j][0].length; ia++) {
-                label += "<br>  #" + (ia + 1) + " should destroy " + scores[i][j][0][ia] + " models per phase";
+                label += "<br> weapon #" + (ia + 1) + " should destroy " + scores[i][j][0][ia] + " models per phase";
             }
             label += "<br>Profile B details:"
             for (var ib = 0; ib < scores[i][j][1].length; ib++) {
-                label += "<br>  #" + (ib + 1) + " should destroy " + scores[i][j][1][ib] + " models per phase";
+                label += "<br> weapon #" + (ib + 1) + " should destroy " + scores[i][j][1][ib] + " models per phase";
             }
             line.push(label)
         }
