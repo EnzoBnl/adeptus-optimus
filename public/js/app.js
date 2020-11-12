@@ -113,7 +113,10 @@ class App extends React.Component {
         console.log(this.state);
         console.log(this.params);
         return <div>
-            <div className="shop-bg"><div className="v9">Ready for <img src="images/40klogo.png" height="20px"/> V9</div></div>
+            <span className="tipeee" >
+                <a href="https://en.tipeee.com/adeptus-optimus"><img src="images/tipeee.svg" width="250px"></img></a>
+            </span>
+            <div className="shop-bg"><div className="v9">UP TO DATE WITH WARHAMMER 40K v9</div></div>
             <Login initState={{id: this.state.id, token: this.state.token}} sendCredentialsToApp={this.sendCredentialsToApp}/>
             <h1><a href="index.html" className="title">Adeptus <img src="images/logo.png" width="100px"/> Optimus</a></h1>
             <p className="title subscript">" Support wiser choices, on behalf of the Emperor."</p>
@@ -198,6 +201,7 @@ class Login extends React.Component {
                        <span className="login-label"> token: </span>
                        <input maxLength="512" id="token" type="text" className="input input-login" value={this.state.token} onChange={this.handleChange}></input>
                    </span>
+                   <br/>
                </div>
     }
 }
@@ -231,7 +235,7 @@ class Help extends React.Component {
                         <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.helpButtonAction}>▲ ABOUT ▲</button>
                         <div className="w3-content">
                             <div className="w3-row-padding w3-center w3-margin-top w3-margin-bottom shop">
-                                <InfoBox title="Adeptus Optimus" body={<p>The <i>Adeptus Optimus</i> is an analytics organization attached to the <i>Adeptus Mechanicus</i>. The <i>Adeptus Optimus Engine</i> has been built by an <i>Archmagos computus</i> to give to lords of war an <b>intuitive and rigorous tool</b> to guide their equipments choices.</p>}/>
+                                <InfoBox title="Adeptus Optimus" body={<p>The <i>Adeptus Optimus</i> is an analytics organization attached to the <i>Adeptus Mechanicus</i>. The <i>Adeptus Optimus Engine</i> has been built by an <i>Archmagos computus</i> to give to lords of war an <b>intuitive and rigorous tool</b> to guide their equipment choices.</p>}/>
                                 <InfoBox title="Attacking profiles" body={<p>The engine performs a comparison between two attacking profiles. Each <b>profile represents one or more models and their weapons</b>, with a cost associated with the whole. Each different weapon used by the attacking profile has to be declared along with a total number of <i>Attacks</i> made with it during one phase, by the models of the profile.</p>}/>
                                 <InfoBox title="Results" body={<p>The engine computes a precise <i>average number of target unit's models killed per profile point</i> for profiles A and B, against a <b>large variety of target units defense profiles</b>. The engine leverages advanced algorithmic to compute deterministic calculus leading to almost exact results.</p>}/>
                                 <InfoBox title="Ultimate Accuracy" body={<p>The entire dice rolls sequences are theoretically modeled, making the <i>Adeptus Optimus Engine</i> the only tool correctly handling the <b>complex effects of random damages characteristics and <i>Feel No Pains</i></b> during the sequential damage allocation step, or the <b>threshold effects</b> introduced by a <b>random <i>Strength</i> characteristic</b>, among others.</p>}/>
