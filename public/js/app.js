@@ -179,6 +179,27 @@ class App extends React.Component {
     }
 }
 
+class Share extends React.Component {
+    handleChange(event) {
+        this.state[event.target.id] = event.target.value;
+        this.sendCredentialsToApp(this.state);
+    }
+    render() {
+        return <div className="login">
+                   <span className="nowrap">
+                       <span className="login-label">id: </span>
+                       <input maxLength="10" id="id" type="text" className="input input-login" value={this.state.id} onChange={this.handleChange}></input>
+                   </span>
+                   <br/>
+                   <span className="nowrap">
+                       <span className="login-label"> token: </span>
+                       <input maxLength="512" id="token" type="text" className="input input-login" value={this.state.token} onChange={this.handleChange}></input>
+                   </span>
+                   <br/>
+               </div>
+    }
+}
+
 class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -446,37 +467,38 @@ class WeaponRow extends React.Component {
                         <th>-<input maxLength="4" id="AP" value={this.props.params["AP"+this.props.id]} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
                         <th><input maxLength="4" id="D" value={this.props.params["D"+this.props.id]} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
                         <th>
-                            <div id={"options-menu" + this.props.id} className="w3-modal">
-                              <div className="w3-modal-content">
-                                <header className="w3-container greeny-bg datasheet-header">
-                                  Profile {this.props.id.substring(0, 1)}, weapon {this.props.rank}: {this.props.params["name"+this.props.id]} | {activeOptionsCount} {activeOptionsCount <= 1 ? "active option" : "active options"}
-                                </header>
-                                <div className="w3-container shop">
-                                    <h3>Attacks</h3>
-                                    <IsBlastOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["is_blast"]}/>
-                                    <Dakka3OptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["dakka3"]}/>
-                                    <h3>Hits</h3>
-                                    <HitModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["hit_modifier"]}/>
-                                    <RerollHitsOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_hits"]}/>
-                                    <AutoHitOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_hit"]}/>
-                                    <h3>Wounds</h3>
-                                    <WoundModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wound_modifier"]}/>
-                                    <RerollWoundsOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_wounds"]}/>
-                                    <AutoWoundsOnOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_wounds_on"]}/>
-                                    <WoundsBy2D6OptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wounds_by_2D6"]}/>
-                                    <h3>Saves</h3>
-                                    <SaveModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["save_modifier"]}/>
-                                    <h3>Damages</h3>
-                                    <RerollDamagesOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_damages"]}/>
-                                    <RollDamagesTwiceOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["roll_damages_twice"]}/>
-                                </div>
-                                <span className="w3-button w3-margin-bottom greeny-bg shop" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="none"}}>Save and close</span>
-                              </div>
-                            </div>
                             <button className="logo-btn" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="block"}}><i className="fa fa-cogs"></i></button>
                             <i className={activeOptionsCount == 0 ? "option-inactive": "option-active"}> ({activeOptionsCount} active)</i>
                         </th>
                       </tr>
+                      <div id={"options-menu" + this.props.id} className="w3-modal">
+                        <div className="w3-modal-content">
+                          <header className="w3-container shop-bg datasheet-header">
+                            Profile {this.props.id.substring(0, 1)}, weapon {this.props.rank}: {this.props.params["name"+this.props.id]} | {activeOptionsCount} {activeOptionsCount <= 1 ? "active option" : "active options"}
+                          </header>
+                          <div className="w3-container shop">
+                              <h3>Attacks</h3>
+                              <IsBlastOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["is_blast"]}/>
+                              <Dakka3OptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["dakka3"]}/>
+                              <h3>Hits</h3>
+                              <HitModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["hit_modifier"]}/>
+                              <RerollHitsOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_hits"]}/>
+                              <AutoHitOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_hit"]}/>
+                              <h3>Wounds</h3>
+                              <WoundModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wound_modifier"]}/>
+                              <RerollWoundsOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_wounds"]}/>
+                              <AutoWoundsOnOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_wounds_on"]}/>
+                              <WoundsBy2D6OptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wounds_by_2D6"]}/>
+                              <h3>Saves</h3>
+                              <SaveModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["save_modifier"]}/>
+                              <h3>Damages</h3>
+                              <RerollDamagesOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_damages"]}/>
+                              <RollDamagesTwiceOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["roll_damages_twice"]}/>
+                          </div>
+                          <br/>
+                          <span className="w3-button w3-margin-bottom button shop-mid-bg datasheet-header" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="none"}}>Save and close</span>
+                        </div>
+                      </div>
                    </tbody>;
         } else {
             return <tbody></tbody>
