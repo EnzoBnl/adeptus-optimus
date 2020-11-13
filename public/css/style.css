@@ -11,8 +11,8 @@ Sequence of declaration. (last has superiority)
 
 /* FONTS */
 @font-face {
-    font-family: ancient;
-    src:url("../fonts/ancient-medium.ttf");
+    font-family: medieval-gothic;
+    src:url("../fonts/Iglesia.ttf");  /* 100% free */
 }
 
 @font-face {
@@ -22,8 +22,9 @@ Sequence of declaration. (last has superiority)
 
 @font-face {
     font-family: noto;
-    src:url("../fonts/NotoSans-Regular.ttf");
+    src:url("../fonts/NotoSans-Regular.ttf");  /* From Google, Apache Licence 2.0 */
 }
+
 /* DIVERSE UNUSED*/
 @keyframes fading{
     0%{opacity:0}
@@ -53,7 +54,8 @@ footer{
 }
 
 button{
-    width: 150px;
+    width: 160px;
+    height: 40px;
     text-align: center;
     background: #c3c8c3;
 }
@@ -62,9 +64,11 @@ button{
 .greeny-bg {
     background: #c3c8c3;
 }
+
 .nowrap {
     white-space: nowrap;
 }
+
 .white-bg {
     background: #fff;
 }
@@ -72,13 +76,13 @@ button{
 
 /* title */
 .title{
-    font-family: ancient;
+    font-family: medieval-gothic;
     font-size: 80px;
     text-decoration: none;
 }
 
 .title.subscript {
-    font-size: 25px;
+    font-size: 32px;
     font-style: italic;
 }
 
@@ -92,6 +96,7 @@ button{
     margin-top: 25px;
     margin-right:25px;
 }
+
 .login-label{
     font-family: impact;
     font-size: 16px;
