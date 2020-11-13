@@ -16,7 +16,7 @@ Sequence of declaration. (last has superiority)
 }
 
 @font-face {
-    font-family: impact;
+    font-family: 'Anton', sans-serif;
     src:url("../fonts/impact.ttf");
 }
 
@@ -98,7 +98,7 @@ button{
 }
 
 .login-label{
-    font-family: impact;
+    font-family: 'Anton', sans-serif;
     font-size: 16px;
 }
 
@@ -151,7 +151,8 @@ th {
 }
 
 .datasheet-header{
-    font: 20px impact !important;
+    font-family: 'Anton', sans-serif;
+    font-size: 20px;
 }
 
 
@@ -208,12 +209,12 @@ span.tag {
 
 span.param-tag {
     left:0px;
-    bottom:41px;
+    bottom:45px;
 }
 
 span.weapons-tag {
-    left:257px;
-    bottom:0px;
+    left:0px;
+    bottom:45px;
 }
 
 span.profile-tag {
@@ -257,7 +258,7 @@ span.profile-tag {
 }
 /* V9 ready */
 .v9 {
-    font-family: impact;
+    font-family: 'Anton', sans-serif;
     font-size: 18px;
     text-align: center;
 }
