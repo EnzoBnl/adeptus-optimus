@@ -15,16 +15,6 @@ Sequence of declaration. (last has superiority)
     src:url("../fonts/Iglesia.ttf");  /* 100% free */
 }
 
-@font-face {
-    font-family: 'Anton', sans-serif;
-    src:url("../fonts/impact.ttf");
-}
-
-@font-face {
-    font-family: noto;
-    src:url("../fonts/NotoSans-Regular.ttf");  /* From Google, Apache Licence 2.0 */
-}
-
 /* DIVERSE UNUSED*/
 @keyframes fading{
     0%{opacity:0}
@@ -32,7 +22,8 @@ Sequence of declaration. (last has superiority)
     100%{opacity:0}
 }
 .shop{
-    font: 16px noto, sans-serif;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 16px;
     color: black;
 }
 .shop-bg{
@@ -57,7 +48,6 @@ button{
     width: 160px;
     height: 40px;
     text-align: center;
-    background: #c3c8c3;
 }
 
 /* detail definitions */
@@ -110,7 +100,7 @@ button{
 }
 
 .input-login{
-    font-family: noto;
+    font-family: 'Noto Sans JP', sans-serif;
     font-size: 16px;
     width: 200px;
     text-align: left;
@@ -203,7 +193,7 @@ th.profile-flag {
 span.tag {
     position:absolute;
     z-index: 1;
-    font-family: noto;
+    font-family: 'Noto Sans JP', sans-serif;
     font-size: 17px;
 }
 
@@ -250,7 +240,7 @@ span.profile-tag {
 
 /* version */
 .version {
-    font-family: noto;
+    font-family: 'Noto Sans JP', sans-serif;
     font-size: 13px;
     text-align: left;
     margin-left:25px;
