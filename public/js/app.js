@@ -384,7 +384,7 @@ class ParamsTable extends React.Component {
 class ProfileHeader extends React.Component {
     render() {
         return  <tbody>
-                  <tr className="datasheet-body">
+                  <tr className="datasheet-header">
                     <th className={"w3-tooltip datasheet-header profile-flag " + this.props.bg}>
                         <span className="w3-text w3-tag profile-tag tag">An attacking profile represents one<br/>or more models and their weapons,<br/>with a cost associated with the whole</span>Attacking Profile {this.props.letter}
                     </th>
@@ -396,12 +396,12 @@ class ProfileHeader extends React.Component {
                     <th>Points: <input maxLength="4" id="points" value={this.props.points} type="text" className="white-bg datasheet-body input input-dice align-left" onChange={(event) => {this.props.updateParam(event.target.id + this.props.letter, event.target.value)}}></input></th>
                   </tr>
                   <tr className="datasheet-header greeny-bg">
-                    <th className="white-bg w3-tooltip"><span className="w3-text w3-tag weapons-tag tag">Each different combination of characteristics and<br/>options must be declared in a separate weapon line</span> ▼ Weapons used</th>
+                    <th className="white-bg"><span className=" w3-tooltip"><span className="w3-text w3-tag weapons-tag tag">Each different combination of characteristics and<br/>options must be declared as a separate weapon line</span> ▼</span> Weapons used</th>
                     <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Total number of attacks or shots made using the given weapon,<br/>by the models of the attacking profile during one phase</span>Attacks</th>
                     <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Ballistic Skill or Weapon Skill</span>WS|BS</th>
                     <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Strength</span>S</th>
                     <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Armor Penetration</span>AP</th>
-                    <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">n° of Damages</span>D</th>
+                    <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Number of Damages</span>D</th>
                     <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Click on the<br/>gears to open<br/>the menu</span>Options</th>
                   </tr>
                 </tbody>;
