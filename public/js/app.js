@@ -11,10 +11,10 @@ class App extends React.Component {
             id: "admin",
             token: "U2FsdGVkX197wfW/IY0sqa/Ckju8AeU3pRLPSra1aCxZeAHrWePPDPJlYTy5bwdU"
         };
-        var queryStringParams = new URLSearchParams(window.location.search);
+        var queryStringValue = new URLSearchParams(window.location.search);
         this.params = {
-            A: queryStringParams.has("params") ? JSON.parse(queryStringParams.get("params"))["A"] : getInitParams("A"),
-            B: queryStringParams.has("params") ? JSON.parse(queryStringParams.get("params"))["B"] : getInitParams("B")
+            A: queryStringValue.has("share_settings") ? JSON.parse(queryStringValue.get("share_settings"))["A"] : getInitParams("A"),
+            B: queryStringValue.has("share_settings") ? JSON.parse(queryStringValue.get("share_settings"))["B"] : getInitParams("B")
         }
         this.cache = {};
     }
@@ -67,7 +67,7 @@ class App extends React.Component {
                               xhr.response["ratios"],
                               xhr.response["scores"],
                               () => {this.setState({state: "idle", msg: ""});});
-                      } else if (xhr.status == 422 || xhr.status == 500) {
+                      } else if (xhr.status == 422 /*bad input*/ || xhr.status == 500) {
                         this.setState({
                             state: "error",
                             msg: "SERVER ERROR " + xhr.status + ": " + xhr.response["msg"]
@@ -125,6 +125,7 @@ class App extends React.Component {
             <br/>
             <br/>
             <br/>
+            <Share queryStringValue={"share_settings=" + JSON.stringify(this.params)} serverIp={getServerIp(this.state.id, this.state.token)}/>
             <div style={{overflowX: "auto"}}>
                 <ParamsTable syncAppParams={this.syncAppParams} params={this.params} letter="A"/>
             </div>
@@ -180,23 +181,71 @@ class App extends React.Component {
 }
 
 class Share extends React.Component {
-    handleChange(event) {
-        this.state[event.target.id] = event.target.value;
-        this.sendCredentialsToApp(this.state);
+    constructor(props) {
+        super(props)
+        this.state = {
+            link: "",
+        }
+        this.displayLink = this.displayLink.bind(this);
     }
+
+    displayLink() {
+        if (this.props.serverIp == "") {
+            this.setState({
+                link: "Invalid id/token: id:'" + this.state.id + "', token='" + this.state.token + "'."
+            });
+        } else {
+            this.state.link = <i className="fa fa-refresh w3-xlarge w3-spin"></i>;
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = "json";
+            // get a callback when the server responds
+            xhr.onload = () => {
+              console.log("console.log(xhr.responseText):");
+              console.log(xhr.response);
+              if (xhr.status == 200) {
+                this.setState({
+                    link: xhr.response["link"]
+                });
+              } else if (xhr.status == 500) {
+                this.setState({
+                    link: "SERVER ERROR " + xhr.status + ": " + xhr.response["msg"]
+                });
+              } else {
+                this.setState({
+                    link: "SERVER ERROR " + xhr.status
+                });
+              }
+            };
+            // get a callback when net::ERR_CONNECTION_REFUSED
+            xhr.onerror = () => {
+                console.log("console.log(xhr.responseText):");
+                console.log(xhr.response);
+                this.setState({
+                    link: "SERVER DOWN: The Forge World of the Adeptus Optimus must be facing an onslaught of heretics."
+                });
+            };
+            xhr.open("GET", this.props.serverIp + "?" + this.props.queryStringValue);
+            // send the request
+            xhr.send();
+    
+            document.getElementById("link-modal").style.display="block";
+            this.setState({})
+        }
+    }
+
     render() {
-        return <div className="login">
-                   <span className="nowrap">
-                       <span className="login-label">id: </span>
-                       <input maxLength="10" id="id" type="text" className="input input-login" value={this.state.id} onChange={this.handleChange}></input>
-                   </span>
-                   <br/>
-                   <span className="nowrap">
-                       <span className="login-label"> token: </span>
-                       <input maxLength="512" id="token" type="text" className="input input-login" value={this.state.token} onChange={this.handleChange}></input>
-                   </span>
-                   <br/>
-               </div>
+        return <div className="share">
+                    <div id="link-modal" className="w3-modal">
+                        <div className="w3-modal-content link-modal">
+                          <header className="w3-container datasheet-header">Link to current settings:</header>
+                          <span className="w3-btn w3-display-topright close" onClick={(event) => {document.getElementById("link-modal").style.display="none"}}><i className="fa fa-close"></i></span>
+                          <div className="w3-container shop">
+                          <i>{this.state.link}</i>
+                          </div>
+                        </div>
+                    </div>
+                   <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.displayLink}>Share profiles <i className="fa fa-link"></i></button>
+               </div>;
     }
 }
 
@@ -256,10 +305,10 @@ class Help extends React.Component {
                         <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.helpButtonAction}>▲ ABOUT ▲</button>
                         <div className="w3-content">
                             <div className="w3-row-padding w3-center w3-margin-top w3-margin-bottom shop">
-                                <InfoBox title="Adeptus Optimus" body={<p>The <i>Adeptus Optimus</i> is an analytics organization attached to the <i>Adeptus Mechanicus</i>. The <i>Adeptus Optimus Engine</i> has been built by an <i>Archmagos computus</i> to give to lords of war an <b>intuitive and rigorous tool</b> to guide their equipment choices.</p>}/>
-                                <InfoBox title="Attacking profiles" body={<p>The engine performs a comparison between two attacking profiles. Each <b>profile represents one or more models and their weapons</b>, with a cost associated with the whole. Each different weapon used by the attacking profile has to be declared along with a total number of <i>Attacks</i> made with it during one phase, by the models of the profile.</p>}/>
-                                <InfoBox title="Results" body={<p>The engine computes a precise <i>average number of target unit's models killed per profile point</i> for profiles A and B, against a <b>large variety of target units defense profiles</b>. The engine leverages advanced algorithmic to compute deterministic calculus leading to almost exact results.</p>}/>
-                                <InfoBox title="Ultimate Accuracy" body={<p>The entire dice rolls sequences are theoretically modeled, making the <i>Adeptus Optimus Engine</i> the only tool correctly handling the <b>complex effects of random damages characteristics and <i>Feel No Pains</i></b> during the sequential damage allocation step, or the <b>threshold effects</b> introduced by a <b>random <i>Strength</i> characteristic</b>, among others.</p>}/>
+                                <InfoBox title="Adeptus Optimus" body={<p>The Adeptus Optimus is an analytics organization attached to the Adeptus Mechanicus. The Adeptus Optimus Engine has been built by an Archmagos computus to give to lords of war an <b>intuitive and rigorous tool</b> to guide their equipment choices.</p>}/>
+                                <InfoBox title="Attacking profiles" body={<p>The engine performs a comparison between two attacking profiles. Each <b>profile represents one or more models and their weapons</b>, with a cost associated with the whole. Each different weapon used by the attacking profile has to be declared along with a total number of Attacks made with it during one phase, by the models of the profile.</p>}/>
+                                <InfoBox title="Results" body={<p>The engine computes a precise average number of target unit's models killed per profile point for profiles A and B, against a <b>large variety of target units defense profiles</b>. The engine leverages advanced algorithmic to compute deterministic calculus leading to almost exact results.</p>}/>
+                                <InfoBox title="Ultimate Accuracy" body={<p>The entire dice rolls sequences are theoretically modeled, making the Adeptus Optimus Engine the only tool correctly handling the <b>complex effects of random damages characteristics and Feel No Pains</b> during the sequential damage allocation step, or the <b>threshold effects</b> introduced by a <b>random Strength characteristic</b>, among others.</p>}/>
                             </div>
                         </div>
                     </div>
@@ -350,7 +399,7 @@ class ParamsTable extends React.Component {
             }
             i += 1 ;
         }
-        
+
         return "#" + (count + 1);
     }
 
@@ -365,7 +414,7 @@ class ParamsTable extends React.Component {
         this.props.syncAppParams(this.state.params, this.props.letter);
         this.setState({})
     }
-    
+
     updateParam(k, v) {
         this.state.params[k] = v;
         this.props.syncAppParams(this.state.params, this.props.letter);
@@ -496,7 +545,7 @@ class WeaponRow extends React.Component {
                               <RollDamagesTwiceOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["roll_damages_twice"]}/>
                           </div>
                           <br/>
-                          <span className="w3-button w3-margin-bottom button shop-mid-bg datasheet-header" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="none"}}>Save and close</span>
+                          <span className="w3-btn w3-margin-bottom button shop-mid-bg datasheet-header" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="none"}}>Save and close</span>
                         </div>
                       </div>
                    </tbody>;

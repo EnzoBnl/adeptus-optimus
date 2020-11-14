@@ -45,8 +45,8 @@ footer{
 }
 
 button{
-    width: 160px;
-    height: 40px;
+    width: 180px;
+    height: 42px;
     text-align: center;
 }
 
@@ -92,6 +92,22 @@ button{
     font-size: 16px;
 }
 
+/* Share */
+.share {
+    text-align: right;
+    margin-right: 50px;
+}
+
+.close {
+    height: 25px;
+    padding-top: 2px;
+    background: #ee5555;
+}
+
+.link-modal {
+    max-width: 400px;
+}
+
 /* inputs */
 .input{
     border: none;
@@ -126,6 +142,7 @@ button{
 .input-dice.align-left{
     text-align: left;
 }
+
 
 /* table */
 
@@ -164,7 +181,7 @@ th.profile-flag {
 }
 
 .datasheet-body{
-    font-size: 16px;
+    font-size: 17px;
     font-family: times new roman, serif;
     font-weight: bold;
 }
