@@ -156,6 +156,7 @@ class App extends React.Component {
 
     syncAppParams(params, letter) {
         this.params[letter] = params;
+        this.setState({});
     }
 
     sendCredentialsToApp(creds) {
