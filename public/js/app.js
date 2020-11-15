@@ -741,8 +741,8 @@ class SnipeOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
                    For each <select id="x" className="w3-select option-select" name="option" value={this.state.x} onChange={this.onChange}><option value=""></option><option value="wound">wound</option><option value="strength">strength</option></select> roll
-                    of <input maxLength="4" id="y" value={this.state.y} type="text" className="input input-dice align-right" onChange={this.onChange}></input>+
-                   , inflicts <input maxLength="4" id="z" value={this.state.z} type="text" className="input input-dice align-right" onChange={this.onChange}></input> mortal wound(s)
+                    of <input maxLength="2" id="y" value={this.state.y} type="text" className="input input-dice align-right" onChange={this.onChange}></input>+
+                   , inflicts <input maxLength="3" id="z" value={this.state.z} type="text" className="input input-dice align-right" onChange={this.onChange}></input> mortal wound(s)
                </div>
     }
 }
