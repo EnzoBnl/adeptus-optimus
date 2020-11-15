@@ -1,4 +1,67 @@
-class App extends React.Component {
+class CloudFunctionClient extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            state: "idle",  // state in: "idle", "processing","error";
+            msg: ""
+        }
+    }
+    getErrorLog(xhr) {
+        if (xhr.status == 422 /*bad input*/ || xhr.status == 500) {
+            return "SERVER ERROR " + xhr.status + ": " + xhr.response["msg"];
+        } else if (xhr.status == 429) {
+            return "SERVER ERROR 429: Too Many Requests: There is no Magos available now, please retry in a few moments. (Our Tipeee is entirely dedicated to our servers improvement)";
+        }
+        else if (xhr.status == 408) {
+        return "SERVER ERROR 408: Timeout: The Magos in charge of your request has passed out";
+        }
+        else {
+        this.setState({
+            state: "error",
+            msg: "SERVER ERROR " + xhr.status
+        });
+        }
+    }
+    buildAndRunXHR(serverIp, queryString, on200) {
+        if (serverIp == "") {
+            this.setState({
+                state: "error",
+                msg: "Invalid id/token: id:'" + this.state.id + "', token='" + this.state.token + "'."
+            });
+        } else {
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = "json";
+            xhr.onload = () => {
+              console.log("console.log(xhr.responseText):");
+              console.log(xhr.response);
+              if (xhr.status == 200) {
+                  on200(xhr);
+              } else {
+                this.setState({
+                    state: "error",
+                    msg: this.getErrorLog(xhr)
+                })
+              }
+            };
+            // get a callback when net::ERR_CONNECTION_REFUSED
+            xhr.onerror = () => {
+                console.log("console.log(xhr.responseText):");
+                console.log(xhr.response);
+                this.setState({
+                    state: "error",
+                    msg: "SERVER DOWN: The Forge World of the Adeptus Optimus must be facing an onslaught of heretics."
+                });
+            };
+            // get a callback when the server responds
+            xhr.open("GET", serverIp + "?" + queryString);
+            // send the request
+            xhr.send();
+        }
+    }
+
+}
+
+class App extends CloudFunctionClient {
     constructor(props) {
         super(props);
         this.syncAppParams = this.syncAppParams.bind(this);
@@ -6,15 +69,13 @@ class App extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
 
         this.state = {
-            state: "idle",  // state in: "idle", "processing","error";
-            msg: "",
             id: "admin",
             token: "U2FsdGVkX197wfW/IY0sqa/Ckju8AeU3pRLPSra1aCxZeAHrWePPDPJlYTy5bwdU"
         };
-        var queryStringValue = new URLSearchParams(window.location.search);
+        var queryString = new URLSearchParams(window.location.search);
         this.params = {
-            A: queryStringValue.has("share_settings") ? JSON.parse(queryStringValue.get("share_settings"))["A"] : getInitParams("A"),
-            B: queryStringValue.has("share_settings") ? JSON.parse(queryStringValue.get("share_settings"))["B"] : getInitParams("B")
+            A: queryString.has("share_settings") ? JSON.parse(queryString.get("share_settings"))["A"] : getInitParams("A"),
+            B: queryString.has("share_settings") ? JSON.parse(queryString.get("share_settings"))["B"] : getInitParams("B")
         }
         this.cache = {};
     }
@@ -39,71 +100,26 @@ class App extends React.Component {
                     () => {this.setState({state: "idle", msg: ""});}
                     )
             } else {
-                var serverIp = getServerIp(this.state.id, this.state.token);
-                if (serverIp == "") {
-                    this.setState({
-                        state: "error",
-                        msg: "Invalid id/token: id:'" + this.state.id + "', token='" + this.state.token + "'."
-                    });
-                } else {
-                    var xhr = new XMLHttpRequest();
-                    xhr.responseType = "json";
-                    // get a callback when the server responds
-                    xhr.onload = () => {
-                      console.log("console.log(xhr.responseText):");
-                      console.log(xhr.response);
-                      if (xhr.status == 200) {
-                          this.cache[paramsAsString] = { // ensures changing params during request is safe
-                              x: xhr.response["x"],
-                              y: xhr.response["y"],
-                              z: xhr.response["z"],
-                              ratios: xhr.response["ratios"],
-                              scores: xhr.response["scores"]
-                          }
-                          plotComparatorChart(
-                              xhr.response["x"],
-                              xhr.response["y"],
-                              xhr.response["z"],
-                              xhr.response["ratios"],
-                              xhr.response["scores"],
-                              () => {this.setState({state: "idle", msg: ""});});
-                      } else if (xhr.status == 422 /*bad input*/ || xhr.status == 500) {
-                        this.setState({
-                            state: "error",
-                            msg: "SERVER ERROR " + xhr.status + ": " + xhr.response["msg"]
-                        });
-                      } else if (xhr.status == 429) {
-                        this.setState({
-                            state: "error",
-                            msg: "SERVER ERROR 429: Too Many Requests: There is no Magos available now, please retry in a few moments."
-                        });
-                      }
-                      else if (xhr.status == 408) {
-                        this.setState({
-                          state: "error",
-                          msg: "SERVER ERROR 408: Timeout: The Magos in charge of your request has passed out"
-                        });
+                this.buildAndRunXHR(
+                    getServerIp(this.state.id, this.state.token),
+                    "params=" + paramsAsString,
+                    (xhr) => {  // on200
+                        this.cache[paramsAsString] = { // ensures changing params during request is safe
+                            x: xhr.response["x"],
+                            y: xhr.response["y"],
+                            z: xhr.response["z"],
+                            ratios: xhr.response["ratios"],
+                            scores: xhr.response["scores"]
                         }
-                      else {
-                        this.setState({
-                            state: "error",
-                            msg: "SERVER ERROR " + xhr.status
-                        });
-                      }
-                    };
-                    // get a callback when net::ERR_CONNECTION_REFUSED
-                    xhr.onerror = () => {
-                        console.log("console.log(xhr.responseText):");
-                        console.log(xhr.response);
-                        this.setState({
-                            state: "error",
-                            msg: "SERVER DOWN: The Forge World of the Adeptus Optimus must be facing an onslaught of heretics."
-                        });
-                    };
-                    xhr.open("GET", serverIp + "?params=" + paramsAsString);
-                    // send the request
-                    xhr.send();
-                }
+                        plotComparatorChart(
+                            xhr.response["x"],
+                            xhr.response["y"],
+                            xhr.response["z"],
+                            xhr.response["ratios"],
+                            xhr.response["scores"],
+                            () => {this.setState({state: "idle", msg: ""});});
+                    }
+                );
             }
         }
     }
@@ -125,7 +141,7 @@ class App extends React.Component {
             <br/>
             <br/>
             <br/>
-            <Share queryStringValue={"share_settings=" + JSON.stringify(this.params)} serverIp={getServerIp(this.state.id, this.state.token)}/>
+            <Share queryString={"share_settings=" + JSON.stringify(this.params)} serverIp={getServerIp(this.state.id, this.state.token)}/>
             <div style={{overflowX: "auto"}}>
                 <ParamsTable syncAppParams={this.syncAppParams} params={this.params} letter="A"/>
             </div>
@@ -139,7 +155,7 @@ class App extends React.Component {
             <br/>
             <br/>
             <div className="w3-bar shop-bg"><div className="w3-bar-item"></div></div>
-            <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.handleSubmit}>▼ COMPARE ▼</button>
+            <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.handleSubmit}><i className="fa fa-play-circle w3-xlarge"></i> Compare</button>
             <br/>
             <br/>
             <ProgressLog state={this.state.state} msg={this.state.msg}/>
@@ -181,57 +197,24 @@ class App extends React.Component {
     }
 }
 
-class Share extends React.Component {
+class Share extends CloudFunctionClient {
     constructor(props) {
         super(props)
-        this.state = {
-            link: "",
-        }
         this.displayLink = this.displayLink.bind(this);
     }
 
     displayLink() {
-        if (this.props.serverIp == "") {
-            this.setState({
-                link: "Invalid id/token: id:'" + this.state.id + "', token='" + this.state.token + "'."
-            });
-        } else {
-            this.state.link = <i className="fa fa-refresh w3-xlarge w3-spin"></i>;
-            var xhr = new XMLHttpRequest();
-            xhr.responseType = "json";
-            // get a callback when the server responds
-            xhr.onload = () => {
-              console.log("console.log(xhr.responseText):");
-              console.log(xhr.response);
-              if (xhr.status == 200) {
+        this.setState({msg: <i className="fa fa-gear w3-xxlarge w3-spin"></i>});
+        document.getElementById("link-modal").style.display="block";
+        this.buildAndRunXHR(
+            this.props.serverIp,
+            this.props.queryString,
+            (xhr) => {  // on200
                 this.setState({
-                    link: xhr.response["link"]
+                    msg: xhr.response["link"]
                 });
-              } else if (xhr.status == 500) {
-                this.setState({
-                    link: "SERVER ERROR " + xhr.status + ": " + xhr.response["msg"]
-                });
-              } else {
-                this.setState({
-                    link: "SERVER ERROR " + xhr.status
-                });
-              }
-            };
-            // get a callback when net::ERR_CONNECTION_REFUSED
-            xhr.onerror = () => {
-                console.log("console.log(xhr.responseText):");
-                console.log(xhr.response);
-                this.setState({
-                    link: "SERVER DOWN: The Forge World of the Adeptus Optimus must be facing an onslaught of heretics."
-                });
-            };
-            xhr.open("GET", this.props.serverIp + "?" + this.props.queryStringValue);
-            // send the request
-            xhr.send();
-    
-            document.getElementById("link-modal").style.display="block";
-            this.setState({})
-        }
+            }
+        );
     }
 
     render() {
@@ -241,11 +224,11 @@ class Share extends React.Component {
                           <header className="w3-container datasheet-header">Link to current settings:</header>
                           <span className="w3-btn w3-display-topright close" onClick={(event) => {document.getElementById("link-modal").style.display="none"}}><i className="fa fa-close"></i></span>
                           <div className="w3-container shop">
-                          <i>{this.state.link}</i>
+                          <i>{this.state.msg}</i>
                           </div>
                         </div>
                     </div>
-                   <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.displayLink}>Share profiles <i className="fa fa-link"></i></button>
+                   <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.displayLink}><i className="fa fa-link"></i> Share Profiles</button>
                </div>;
     }
 }
@@ -303,7 +286,7 @@ class Help extends React.Component {
     render() {
         if (this.state.visible) {
              return <div>
-                        <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.helpButtonAction}>▲ ABOUT ▲</button>
+                        <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.helpButtonAction}><i className="fa fa-angle-double-up w3-xlarge"></i> About <i className="fa fa-angle-double-up w3-xlarge"></i></button>
                         <div className="w3-content">
                             <div className="w3-row-padding w3-center w3-margin-top w3-margin-bottom shop">
                                 <InfoBox title="Adeptus Optimus" body={<p>The Adeptus Optimus is an analytics organization attached to the Adeptus Mechanicus. The Adeptus Optimus Engine has been built by an Archmagos computus to give to lords of war an <b>intuitive and rigorous tool</b> to guide their equipment choices.</p>}/>
@@ -314,7 +297,7 @@ class Help extends React.Component {
                         </div>
                     </div>
         } else {
-            return <span><button className="w3-btn shop-mid-bg datasheet-header" onClick={this.helpButtonAction}>▼ ABOUT ▼</button></span>
+            return <span><button className="w3-btn shop-mid-bg datasheet-header" onClick={this.helpButtonAction}><i className="fa fa-angle-double-down w3-xlarge"></i> About <i className="fa fa-angle-double-down w3-xlarge"></i></button></span>
         }
     }
 }
@@ -323,13 +306,22 @@ class ProgressLog extends React.Component {
     render() {
         if (this.props.state == "processing") {
             return <div>
-                        <span className="w3-animate-fading-fast shop"> {this.props.msg} </span>
-                        <p><img src="images/testing.gif" width="auto"></img></p>
+                        <div className="w3-animate-fading-fast shop">{this.props.msg}</div>
+                        <p className="fa fa-gear w3-xxxlarge w3-spin"></p>
+                        <br/>
                    </div>
         } else if (this.props.state == "error") {
             return <div>
-                        <img src="images/chaos.png" width="50px"></img>
-                        <div className="datasheet-body"> {this.props.msg}</div>
+                        <div className="fa fa-microchip w3-xxlarge"></div>
+                        <p className="datasheet-body"> {this.props.msg}</p>
+                        <br/>
+                        <div className="option-inactive">
+                        If blocked, please contact adeptus.optimus@gmail.com with:<ul>
+                            <li>a copy of the above error message</li>
+                            <li>a link to current profiles (generate it using the <i>Share Profiles</i> button)</li>
+                        </ul>
+                        </div>
+
                    </div>
         } else {
             return <span></span>;
@@ -524,7 +516,7 @@ class WeaponRow extends React.Component {
                       <div id={"options-menu" + this.props.id} className="w3-modal">
                         <div className="w3-modal-content">
                           <header className="w3-container shop-bg datasheet-header">
-                            Profile {this.props.id.substring(0, 1)}, weapon {this.props.rank}: {this.props.params["name"+this.props.id]} | {activeOptionsCount} {activeOptionsCount <= 1 ? "active option" : "active options"}
+                            Profile {this.props.id.substring(0, 1)} - weapon {this.props.rank} - {this.props.params["name"+this.props.id]} - {activeOptionsCount} {activeOptionsCount <= 1 ? "active option" : "active options"}
                           </header>
                           <div className="w3-container shop">
                               <h3>Attacks</h3>
@@ -546,7 +538,7 @@ class WeaponRow extends React.Component {
                               <RollDamagesTwiceOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["roll_damages_twice"]}/>
                           </div>
                           <br/>
-                          <span className="w3-btn w3-margin-bottom button shop-mid-bg datasheet-header" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="none"}}>Save and close</span>
+                          <span className="w3-btn w3-margin-bottom button shop-mid-bg datasheet-header" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="none"}}><i className="fa fa-save"></i> Save & Close</span>
                         </div>
                       </div>
                    </tbody>;
