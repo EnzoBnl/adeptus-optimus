@@ -212,22 +212,22 @@ span.tag {
     position:absolute;
     z-index: 1;
     font-family: 'Noto Sans JP', sans-serif;
-    font-size: 17px;
+    font-size: 15px;
 }
 
 span.param-tag {
-    left:0px;
-    bottom:45px;
+    left:-55px;
+    bottom:38px;
 }
 
 span.weapons-tag {
     left:0px;
-    bottom:45px;
+    bottom:38px;
 }
 
 span.profile-tag {
-    left:257px;
-    bottom:-30px;
+    left:58px;
+    bottom:-29px;
 }
 
 /* Style buttons */
