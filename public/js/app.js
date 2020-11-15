@@ -396,7 +396,8 @@ class ParamsTable extends React.Component {
                 "auto_hit": "",
                 "wounds_by_2D6": "",
                 "reroll_damages": "",
-                "roll_damages_twice": ""
+                "roll_damages_twice": "",
+                "snipe": ""
                 };
             this.props.syncAppParams(this.state.params, this.props.letter);
             this.setState({})
@@ -550,6 +551,7 @@ class WeaponRow extends React.Component {
                               <WoundModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wound_modifier"]}/>
                               <RerollWoundsOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_wounds"]}/>
                               <AutoWoundsOnOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_wounds_on"]}/>
+                              <SnipeOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["snipe"]}/>
                               <WoundsBy2D6OptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wounds_by_2D6"]}/>
                               <h3>Saves</h3>
                               <SaveModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["save_modifier"]}/>
@@ -684,7 +686,7 @@ class AutoHitOptionInput extends React.Component {
 class WoundsBy2D6OptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   Wounds if 2D6 roll >= target’s Toughness: <select id="wounds_by_2D6" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   Wounds if the result of 2D6 is greater or equal to target’s Toughness: <select id="wounds_by_2D6" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                    <option value="">No</option>
                    <option value="yes">Yes</option>
                    </select>
@@ -718,16 +720,29 @@ class SnipeOptionInput extends React.Component {
     constructor(props) {
         super(props);
         this.onChange = this.onChange.bind(this);
+        this.state = {
+            x: "",
+            y: "",
+            z: ""
+        }
+    }
+    collapseState() {
+        if (this.state.x == "" || this.state.y == "" || this.state.z == "") {
+            // Each param has to be entered to activate option
+            return "";
+        } else {
+            return this.state.x + "," + this.state.y + "," + this.state.z;
+        }
     }
     onChange(event) {
-        this.props.handleOptionChange(event.target.id, event.target.value)
+        this.state[event.target.id] = event.target.value;
+        this.props.handleOptionChange("snipe", this.collapseState());
     }
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   Make random damage rolls twice and discard the lowest result: <select id="snipe" className="w3-select option-select" name="option" value={this.props.value} onChange={this.onChange}>
-                   <option value="">No</option>
-                   <option value="yes">Yes</option>
-                   </select>
+                   For each <select id="x" className="w3-select option-select" name="option" value={this.state.x} onChange={this.onChange}><option value=""></option><option value="wound">wound</option><option value="strength">strength</option></select> roll
+                    of <input maxLength="4" id="y" value={this.state.y} type="text" className="input input-dice align-right" onChange={this.onChange}></input>+
+                   , inflicts <input maxLength="4" id="z" value={this.state.z} type="text" className="input input-dice align-right" onChange={this.onChange}></input> mortal wound(s)
                </div>
     }
 }
