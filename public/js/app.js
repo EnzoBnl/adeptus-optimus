@@ -332,7 +332,7 @@ class ProgressLog extends React.Component {
                    </div>
         } else if (this.props.state == "error") {
             return <div>
-                        <div className="fa fa-microchip w3-xxlarge"></div>
+                        <div className="fa fa-server w3-xxlarge"></div>
                         <p className="datasheet-body"> {this.props.msg}</p>
                         <br/>
                         <div className="option-inactive">
@@ -468,8 +468,8 @@ class ProfileHeader extends React.Component {
     render() {
         return  <tbody>
                   <tr className="datasheet-header">
-                    <th className={"w3-tooltip datasheet-header profile-flag " + this.props.bg}>
-                        <span className="w3-text w3-tag profile-tag tag">An attacking profile represents one<br/>or more models and their weapons,<br/>with a cost associated with the whole</span>Attacking Profile {this.props.letter}
+                    <th className={"datasheet-header profile-flag " + this.props.bg}>
+                        Attacking Profile {this.props.letter} <span className="w3-tooltip"><span className="w3-text w3-tag profile-tag tag">An attacking profile represents one<br/>or more models and their weapons,<br/>with a cost associated with the whole</span><sup className="fa fa-question-circle"></sup></span>
                     </th>
                   </tr>
                   <tr className="datasheet-header">
@@ -479,13 +479,13 @@ class ProfileHeader extends React.Component {
                     <th>Points: <input maxLength="4" id="points" value={this.props.points} type="text" className="white-bg datasheet-body input input-dice align-left" onChange={(event) => {this.props.updateParam(event.target.id + this.props.letter, event.target.value)}}></input></th>
                   </tr>
                   <tr className="datasheet-header greeny-bg">
-                    <th className="white-bg"><span className=" w3-tooltip"><span className="w3-text w3-tag weapons-tag tag">Each different combination of characteristics and<br/>options must be declared as a separate weapon line</span> ▼</span> Weapons used</th>
-                    <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Total number of attacks or shots made using the given weapon,<br/>by the models of the attacking profile during one phase</span>Attacks</th>
-                    <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Ballistic Skill or Weapon Skill</span>WS|BS</th>
-                    <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Strength</span>S</th>
-                    <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Armor Penetration</span>AP</th>
-                    <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Number of Damages</span>D</th>
-                    <th className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Click on the<br/>gears to open<br/>the menu</span>Options</th>
+                    <th className="white-bg">Weapons used <span className=" w3-tooltip"><span className="w3-text w3-tag weapons-tag tag">Each different combination of characteristics and<br/>options must be declared as a separate weapon line</span> <sup className="fa fa-question-circle"></sup></span></th>
+                    <th>Attacks <span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Total number of attacks or shots made using the given weapon,<br/>by the models of the attacking profile during one phase</span><sup className="fa fa-question-circle"></sup></span></th>
+                    <th>WS|BS <span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Ballistic Skill or Weapon Skill</span><sup className="fa fa-question-circle"></sup></span></th>
+                    <th>S <span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Strength</span><sup className="fa fa-question-circle"></sup></span></th>
+                    <th>AP <span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Armor Penetration</span><sup className="fa fa-question-circle"></sup></span></th>
+                    <th>D <span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Number of Damages</span><sup className="fa fa-question-circle"></sup></span></th>
+                    <th>Options <span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Click on the<br/>gears to open<br/>the menu</span><sup className="fa fa-question-circle"></sup></span></th>
                   </tr>
                 </tbody>;
     }
@@ -707,6 +707,24 @@ class RollDamagesTwiceOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
                    Make random damage rolls twice and discard the lowest result: <select id="roll_damages_twice" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <option value="">No</option>
+                   <option value="yes">Yes</option>
+                   </select>
+               </div>
+    }
+}
+
+class SnipeOptionInput extends React.Component {
+    constructor(props) {
+        super(props);
+        this.onChange = this.onChange.bind(this);
+    }
+    onChange(event) {
+        this.props.handleOptionChange(event.target.id, event.target.value)
+    }
+    render () {
+        return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
+                   Make random damage rolls twice and discard the lowest result: <select id="snipe" className="w3-select option-select" name="option" value={this.props.value} onChange={this.onChange}>
                    <option value="">No</option>
                    <option value="yes">Yes</option>
                    </select>
