@@ -3,7 +3,24 @@ class CloudFunctionClient extends React.Component {
         super(props);
         this.state = {
             state: "idle",  // state in: "idle", "processing","error";
-            msg: ""
+            msg: "",
+            id: "",
+            token: ""
+        }
+    }
+
+    getServerIp() {
+        var decrypted = CryptoJS.AES.decrypt(this.state.token, this.state.id);
+        try {
+          var res = decrypted.toString(CryptoJS.enc.Utf8);
+        }
+        catch(err) { /* malformed URL */
+          return ""
+        }
+        if (!res.includes("http")) {
+            return "";
+        } else {
+            return res;
         }
     }
     getErrorLog(xhr) {
@@ -22,11 +39,12 @@ class CloudFunctionClient extends React.Component {
         });
         }
     }
-    buildAndRunXHR(serverIp, queryString, on200) {
+    buildAndRunXHR(queryString, on200) {
+        var serverIp = this.getServerIp();
         if (serverIp == "") {
             this.setState({
                 state: "error",
-                msg: "Invalid id/token: id:'" + this.state.id + "', token='" + this.state.token + "'."
+                msg: "Invalid id/token pair: id:'" + this.state.id + "', token='" + this.state.token + "'"
             });
         } else {
             var xhr = new XMLHttpRequest();
@@ -101,7 +119,6 @@ class App extends CloudFunctionClient {
                     )
             } else {
                 this.buildAndRunXHR(
-                    getServerIp(this.state.id, this.state.token),
                     "params=" + paramsAsString,
                     (xhr) => {  // on200
                         this.cache[paramsAsString] = { // ensures changing params during request is safe
@@ -141,7 +158,7 @@ class App extends CloudFunctionClient {
             <br/>
             <br/>
             <br/>
-            <Share queryString={"share_settings=" + JSON.stringify(this.params)} serverIp={getServerIp(this.state.id, this.state.token)}/>
+            <Share queryString={"share_settings=" + JSON.stringify(this.params)} id={this.state.id} token={this.state.token}/>
             <div style={{overflowX: "auto"}}>
                 <ParamsTable syncAppParams={this.syncAppParams} params={this.params} letter="A"/>
             </div>
@@ -200,6 +217,8 @@ class App extends CloudFunctionClient {
 class Share extends CloudFunctionClient {
     constructor(props) {
         super(props)
+        this.state.id = this.props.id;
+        this.state.token = this.props.token;
         this.displayLink = this.displayLink.bind(this);
     }
 
@@ -207,7 +226,6 @@ class Share extends CloudFunctionClient {
         this.setState({msg: <i className="fa fa-gear w3-xxlarge w3-spin"></i>});
         document.getElementById("link-modal").style.display="block";
         this.buildAndRunXHR(
-            this.props.serverIp,
             this.props.queryString,
             (xhr) => {  // on200
                 this.setState({
@@ -218,6 +236,8 @@ class Share extends CloudFunctionClient {
     }
 
     render() {
+        this.state.id = this.props.id;
+        this.state.token = this.props.token;
         return <div className="share">
                     <div id="link-modal" className="w3-modal">
                         <div className="w3-modal-content link-modal">
