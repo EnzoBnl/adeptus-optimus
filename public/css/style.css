@@ -50,6 +50,10 @@ button{
     text-align: center;
 }
 
+sup {
+    opacity: 0.3;
+}
+
 /* detail definitions */
 .greeny-bg {
     background: #c3c8c3;
