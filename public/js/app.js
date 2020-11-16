@@ -417,7 +417,7 @@ class ParamsTable extends React.Component {
     getNumberOfActiveWeapons() {
         var count = 0;
         var i = 0;
-        while (i < 5){
+        while (i < this.weaponsVisibility.length){
             if (this.weaponsVisibility[i]) {
                 count += 1
             }
@@ -451,7 +451,7 @@ class ParamsTable extends React.Component {
     }
 
     render() {
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < this.weaponsVisibility.length; i++) {
             var id = this.props.letter + i;
             if (("options" + id) in this.state.params && this.state.params["options" + id]["wounds_by_2D6"] == "yes") {
                 this.state.params["S" + id] = "*";
@@ -465,7 +465,7 @@ class ParamsTable extends React.Component {
                 <WeaponRow rank={this.getWeaponRank(2)} visible={this.weaponsVisibility[2]} onDelete={this.onDelete} id={this.props.letter + "2"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
                 <WeaponRow rank={this.getWeaponRank(3)} visible={this.weaponsVisibility[3]} onDelete={this.onDelete} id={this.props.letter + "3"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
                 <WeaponRow rank={this.getWeaponRank(4)} visible={this.weaponsVisibility[4]} onDelete={this.onDelete} id={this.props.letter + "4"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
-                {this.getNumberOfActiveWeapons() == 5 ? "": <tbody>
+                {this.getNumberOfActiveWeapons() == this.weaponsVisibility.length ? <tbody></tbody>: <tbody>
                   <tr>
                     <th><button className="logo-btn" onClick={this.showWeapon}><i className="fa"><b>+</b></i></button></th>
                   </tr>
