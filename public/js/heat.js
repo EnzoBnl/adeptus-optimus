@@ -100,7 +100,6 @@ function plotComparatorChart(xValues, yValues, zValues, ratios, scores, callWhen
         layout.annotations.push(result);
       }
     }
-    const sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds))
     Plotly.newPlot('chart', data, layout);
     callWhenDone();
 }
