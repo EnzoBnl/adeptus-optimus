@@ -25,17 +25,17 @@ class CloudFunctionClient extends React.Component {
     }
     getErrorLog(xhr) {
         if (xhr.status == 422 /*bad input*/ || xhr.status == 500) {
-            return "SERVER ERROR " + xhr.status + ": " + xhr.response["msg"];
+            return "Error " + xhr.status + ": " + xhr.response["msg"];
         } else if (xhr.status == 429) {
-            return "SERVER ERROR 429: Too Many Requests: There is no Magos available now, please retry in a few moments. (Our Tipeee is entirely dedicated to our servers improvement)";
+            return "Error 429: Too Many Requests: There is no Magos available now, please retry in a few moments. (Our Tipeee is entirely dedicated to our servers improvement)";
         }
         else if (xhr.status == 408) {
-        return "SERVER ERROR 408: Timeout: The Magos in charge of your request has passed out";
+        return "Error 408: Timeout: The Magos in charge of your request has passed out";
         }
         else {
         this.setState({
             state: "error",
-            msg: "SERVER ERROR " + xhr.status
+            msg: "Error " + xhr.status
         });
         }
     }
@@ -366,42 +366,40 @@ class ParamsTable extends React.Component {
     }
 
     showWeapon() {
+        // never called if all weapon slots used thanks to conditional button hiding
         for (var i = 0; i < this.weaponsVisibility.length; i++) {
             if (!this.weaponsVisibility[i]) {
                 this.weaponsVisibility[i] = true;
                 break;
             }
         }
-        if (i == this.weaponsVisibility.length) {
-            alert("Maximum number of weapons by profile reached: " + i)
-        } else {
-            var id = this.props.letter + i
-            this.state.params["name" + id] = ("name" + id) in this.state.params ? this.state.params["name" + id] : "Unnamed weapon"
-            this.state.params["A" + id] = ("A" + id) in this.state.params ? this.state.params["A" + id] : "1"
-            this.state.params["WSBS" + id] = ("WSBS" + id) in this.state.params ? this.state.params["WSBS" + id] : "4"
-            this.state.params["S" + id] = ("S" + id) in this.state.params ? this.state.params["S" + id] : "4"
-            this.state.params["AP" + id] = ("AP" + id) in this.state.params ? this.state.params["AP" + id] : "0"
-            this.state.params["D" + id] = ("D" + id) in this.state.params ? this.state.params["D" + id] : "1"
-            this.state.params["options" + id] = ("options" + id) in this.state.params ?
-                this.state.params["options" + id] :
-                {
-                "hit_modifier": "",
-                "wound_modifier": "",
-                "save_modifier": "",
-                "reroll_hits": "",
-                "reroll_wounds": "",
-                "dakka3": "",
-                "auto_wounds_on": "",
-                "is_blast": "",
-                "auto_hit": "",
-                "wounds_by_2D6": "",
-                "reroll_damages": "",
-                "roll_damages_twice": "",
-                "snipe": ""
-                };
-            this.props.syncAppParams(this.state.params, this.props.letter);
-            this.setState({})
-        }
+
+        var id = this.props.letter + i
+        this.state.params["name" + id] = ("name" + id) in this.state.params ? this.state.params["name" + id] : "Unnamed weapon"
+        this.state.params["A" + id] = ("A" + id) in this.state.params ? this.state.params["A" + id] : "1"
+        this.state.params["WSBS" + id] = ("WSBS" + id) in this.state.params ? this.state.params["WSBS" + id] : "4"
+        this.state.params["S" + id] = ("S" + id) in this.state.params ? this.state.params["S" + id] : "4"
+        this.state.params["AP" + id] = ("AP" + id) in this.state.params ? this.state.params["AP" + id] : "0"
+        this.state.params["D" + id] = ("D" + id) in this.state.params ? this.state.params["D" + id] : "1"
+        this.state.params["options" + id] = ("options" + id) in this.state.params ?
+            this.state.params["options" + id] :
+            {
+            "hit_modifier": "",
+            "wound_modifier": "",
+            "save_modifier": "",
+            "reroll_hits": "",
+            "reroll_wounds": "",
+            "dakka3": "",
+            "auto_wounds_on": "",
+            "is_blast": "",
+            "auto_hit": "",
+            "wounds_by_2D6": "",
+            "reroll_damages": "",
+            "roll_damages_twice": "",
+            "snipe": ""
+            };
+        this.props.syncAppParams(this.state.params, this.props.letter);
+        this.setState({})
     }
 
     getWeaponRank(index) {
@@ -413,8 +411,19 @@ class ParamsTable extends React.Component {
             }
             i += 1 ;
         }
-
         return "#" + (count + 1);
+    }
+
+    getNumberOfActiveWeapons() {
+        var count = 0;
+        var i = 0;
+        while (i < 5){
+            if (this.weaponsVisibility[i]) {
+                count += 1
+            }
+            i += 1 ;
+        }
+        return count;
     }
 
     onDelete(id) {
@@ -456,11 +465,11 @@ class ParamsTable extends React.Component {
                 <WeaponRow rank={this.getWeaponRank(2)} visible={this.weaponsVisibility[2]} onDelete={this.onDelete} id={this.props.letter + "2"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
                 <WeaponRow rank={this.getWeaponRank(3)} visible={this.weaponsVisibility[3]} onDelete={this.onDelete} id={this.props.letter + "3"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
                 <WeaponRow rank={this.getWeaponRank(4)} visible={this.weaponsVisibility[4]} onDelete={this.onDelete} id={this.props.letter + "4"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
-                <tbody>
+                {this.getNumberOfActiveWeapons() == 5 ? "": <tbody>
                   <tr>
                     <th><button className="logo-btn" onClick={this.showWeapon}><i className="fa"><b>+</b></i></button></th>
                   </tr>
-                </tbody>
+                </tbody>}
             </table>;
     }
 }
@@ -470,23 +479,23 @@ class ProfileHeader extends React.Component {
         return  <tbody>
                   <tr className="datasheet-header">
                     <th className={"datasheet-header profile-flag " + this.props.bg}>
-                        Attacking Profile {this.props.letter} <span className="w3-tooltip"><span className="w3-text w3-tag profile-tag tag">An attacking profile represents one<br/>or more models and their weapons,<br/>with a cost associated with the whole</span><sup className="fa fa-question-circle"></sup></span>
+                        Attacking Profile {this.props.letter}<span className="w3-tooltip"><span className="w3-text w3-tag profile-tag tag">An attacking profile represents one<br/>or more models and their weapons,<br/>with a cost associated with the whole</span><sup className="fa fa-question-circle w3-medium"></sup></span>
                     </th>
                   </tr>
                   <tr className="datasheet-header">
                     <th>Name: <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-profile-name" value={this.props.name} onChange={(event) => {this.props.updateParam(event.target.id + this.props.letter, event.target.value)}} ></input></th>
                   </tr>
                   <tr className="datasheet-header">
-                    <th>Points<span className=" w3-tooltip"><span className="w3-text w3-tag weapons-tag tag">Points cost of the whole attacking profile.<br/>Example: For 5 Nobz with klaws you can enter either <b>135</b> or <b>5*(17+10)</b></span><sup className="fa fa-question-circle"></sup></span>: <input maxLength="32" id="points" value={this.props.points} type="text" className="white-bg datasheet-body input input-weapon-name align-left" onChange={(event) => {this.props.updateParam(event.target.id + this.props.letter, event.target.value)}}></input></th>
+                    <th>Points<span className=" w3-tooltip"><span className="w3-text w3-tag param-tag tag">Points cost of the whole attacking profile.<br/>Example: For 5 Nobz with klaws you can enter either <b>135</b> or <b>5*(17+10)</b></span><sup className="fa fa-question-circle w3-medium"></sup></span>: <input maxLength="32" id="points" value={this.props.points} type="text" className="white-bg datasheet-body input input-weapon-name align-left" onChange={(event) => {this.props.updateParam(event.target.id + this.props.letter, event.target.value)}}></input></th>
                   </tr>
                   <tr className="datasheet-header greeny-bg">
-                    <th className="white-bg">Weapons used<span className=" w3-tooltip"><span className="w3-text w3-tag weapons-tag tag">Each different combination of characteristics and options must be declared as a separate weapon line</span><sup className="fa fa-question-circle"></sup></span></th>
-                    <th>Attacks<span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Total number of attacks or shots made using the given weapon<br/>during one phase, by the models of the attacking profile. Examples: <b>1</b>, <b>87</b>, <b>D3</b>, <b>3D6</b>...</span><sup className="fa fa-question-circle"></sup></span></th>
-                    <th>WS|BS<span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Ballistic Skill or Weapon Skill. Examples: <b>2</b>, <b>6</b>...</span><sup className="fa fa-question-circle"></sup></span></th>
-                    <th>S<span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Strength. Examples: <b>1</b>, <b>5</b>, <b>2D6</b>...</span><sup className="fa fa-question-circle"></sup></span></th>
-                    <th>AP<span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Armor Penetration. Examples: <b>0</b>, <b>1</b>, <b>D6</b>...</span><sup className="fa fa-question-circle"></sup></span></th>
-                    <th>D<span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Number of Damages. Examples: <b>1</b>, <b>2</b>, <b>D3</b>...</span><sup className="fa fa-question-circle"></sup></span></th>
-                    <th>Options<span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Click on the gears<br/>to open the menu</span><sup className="fa fa-question-circle"></sup></span></th>
+                    <th className="white-bg">Weapons used<span className=" w3-tooltip"><span className="w3-text w3-tag weapons-tag tag">Each different combination of characteristics and options must be declared as a separate weapon line</span><sup className="fa fa-question-circle w3-medium"></sup></span></th>
+                    <th>Attacks<span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Total number of attacks or shots made using the given weapon<br/>during one phase, by the models of the attacking profile.<br/>Examples: <b>1</b>, <b>87</b>, <b>D3</b>, <b>3D6</b>...</span><sup className="fa fa-question-circle w3-medium"></sup></span></th>
+                    <th>WS|BS<span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Ballistic Skill or Weapon Skill.<br/>Examples: <b>2</b>, <b>6</b>...</span><sup className="fa fa-question-circle w3-medium"></sup></span></th>
+                    <th>S<span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Strength.<br/>Examples: <b>1</b>, <b>5</b>, <b>2D6</b>...</span><sup className="fa fa-question-circle w3-medium"></sup></span></th>
+                    <th>AP<span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Armor Penetration.<br/>Examples: <b>0</b>, <b>1</b>, <b>D6</b>...</span><sup className="fa fa-question-circle w3-medium"></sup></span></th>
+                    <th>D<span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Number of Damages.<br/>Examples: <b>1</b>, <b>2</b>, <b>D3</b>...</span><sup className="fa fa-question-circle w3-medium"></sup></span></th>
+                    <th>Options<span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Click on the gears<br/>to open the menu</span><sup className="fa fa-question-circle w3-medium"></sup></span></th>
                   </tr>
                 </tbody>;
     }

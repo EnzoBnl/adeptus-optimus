@@ -51,7 +51,7 @@ button{
 }
 
 sup {
-    opacity: 0.3;
+    opacity: 0.5;
 }
 
 /* detail definitions */
@@ -220,7 +220,7 @@ span.tag {
 }
 
 span.param-tag {
-    left:-118px;
+    left:-80px;
     bottom:38px;
 }
 
