@@ -241,9 +241,10 @@ span.profile-tag {
   border: none; /* Remove borders */
   color: white; /* White text */
   padding: 0px 0px; /* Some padding */
-  font-size: 20px; /* Set a font size */
+  font-size: 15px; /* Set a font size */
   cursor: pointer; /* Mouse pointer on hover */
   width: 40px;
+  height: 27px;
 }
 
 /* Darker background on mouse-over */
