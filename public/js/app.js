@@ -477,16 +477,16 @@ class ProfileHeader extends React.Component {
                     <th>Name: <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-profile-name" value={this.props.name} onChange={(event) => {this.props.updateParam(event.target.id + this.props.letter, event.target.value)}} ></input></th>
                   </tr>
                   <tr className="datasheet-header">
-                    <th>Points: <input maxLength="4" id="points" value={this.props.points} type="text" className="white-bg datasheet-body input input-dice align-left" onChange={(event) => {this.props.updateParam(event.target.id + this.props.letter, event.target.value)}}></input></th>
+                    <th>Points<span className=" w3-tooltip"><span className="w3-text w3-tag weapons-tag tag">Points cost of the whole attacking profile.<br/>Example: For 5 Nobz with klaws you can enter either <b>135</b> or <b>5*(17+10)</b></span><sup className="fa fa-question-circle"></sup></span>: <input maxLength="32" id="points" value={this.props.points} type="text" className="white-bg datasheet-body input input-weapon-name align-left" onChange={(event) => {this.props.updateParam(event.target.id + this.props.letter, event.target.value)}}></input></th>
                   </tr>
                   <tr className="datasheet-header greeny-bg">
-                    <th className="white-bg">Weapons used <span className=" w3-tooltip"><span className="w3-text w3-tag weapons-tag tag">Each different combination of characteristics and<br/>options must be declared as a separate weapon line</span> <sup className="fa fa-question-circle"></sup></span></th>
-                    <th>Attacks <span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Total number of attacks or shots made using the given weapon,<br/>by the models of the attacking profile during one phase</span><sup className="fa fa-question-circle"></sup></span></th>
-                    <th>WS|BS <span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Ballistic Skill or Weapon Skill</span><sup className="fa fa-question-circle"></sup></span></th>
-                    <th>S <span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Strength</span><sup className="fa fa-question-circle"></sup></span></th>
-                    <th>AP <span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Armor Penetration</span><sup className="fa fa-question-circle"></sup></span></th>
-                    <th>D <span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Number of Damages</span><sup className="fa fa-question-circle"></sup></span></th>
-                    <th>Options <span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Click on the<br/>gears to open<br/>the menu</span><sup className="fa fa-question-circle"></sup></span></th>
+                    <th className="white-bg">Weapons used<span className=" w3-tooltip"><span className="w3-text w3-tag weapons-tag tag">Each different combination of characteristics and options must be declared as a separate weapon line</span><sup className="fa fa-question-circle"></sup></span></th>
+                    <th>Attacks<span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Total number of attacks or shots made using the given weapon<br/>during one phase, by the models of the attacking profile. Examples: <b>1</b>, <b>87</b>, <b>D3</b>, <b>3D6</b>...</span><sup className="fa fa-question-circle"></sup></span></th>
+                    <th>WS|BS<span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Ballistic Skill or Weapon Skill. Examples: <b>2</b>, <b>6</b>...</span><sup className="fa fa-question-circle"></sup></span></th>
+                    <th>S<span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Strength. Examples: <b>1</b>, <b>5</b>, <b>2D6</b>...</span><sup className="fa fa-question-circle"></sup></span></th>
+                    <th>AP<span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Armor Penetration. Examples: <b>0</b>, <b>1</b>, <b>D6</b>...</span><sup className="fa fa-question-circle"></sup></span></th>
+                    <th>D<span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Number of Damages. Examples: <b>1</b>, <b>2</b>, <b>D3</b>...</span><sup className="fa fa-question-circle"></sup></span></th>
+                    <th>Options<span className="w3-tooltip"><span className="w3-text w3-tag param-tag tag">Click on the gears<br/>to open the menu</span><sup className="fa fa-question-circle"></sup></span></th>
                   </tr>
                 </tbody>;
     }
