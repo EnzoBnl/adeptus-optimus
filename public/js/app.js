@@ -656,7 +656,7 @@ class AutoWoundsOnOptionInput extends React.Component {
                    <option value=""></option>
                    <option value="6">6+</option>
                    <option value="5">5+</option>
-                   </select> automatically wounds the target
+                   </select> automatically wounds
                </div>
     }
 }
@@ -675,7 +675,7 @@ class IsBlastOptionInput extends React.Component {
 class AutoHitOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   This weapon automatically hits its target: <select id="auto_hit" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   Automatically hits: <select id="auto_hit" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                    <option value="">No</option>
                    <option value="yes">Yes</option>
                    </select>
@@ -721,17 +721,17 @@ class SnipeOptionInput extends React.Component {
         super(props);
         this.onChange = this.onChange.bind(this);
         this.state = {
-            x: "",
-            y: "",
-            z: ""
+            roll_type: "",
+            threshold: "",
+            n_mortals: ""
         }
     }
     collapseState() {
-        if (this.state.x == "" || this.state.y == "" || this.state.z == "") {
+        if (this.state.roll_type == "" || this.state.threshold == "" || this.state.n_mortals == "") {
             // Each param has to be entered to activate option
             return "";
         } else {
-            return this.state.x + "," + this.state.y + "," + this.state.z;
+            return this.state.roll_type + "," + this.state.threshold + "," + this.state.n_mortals;
         }
     }
     onChange(event) {
@@ -740,9 +740,9 @@ class SnipeOptionInput extends React.Component {
     }
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   For each <select id="x" className="w3-select option-select" name="option" value={this.state.x} onChange={this.onChange}><option value=""></option><option value="wound">wound</option><option value="strength">strength</option></select> roll
-                    of <input maxLength="2" id="y" value={this.state.y} type="text" className="input input-dice align-right" onChange={this.onChange}></input>+
-                   , inflicts <input maxLength="3" id="z" value={this.state.z} type="text" className="input input-dice align-right" onChange={this.onChange}></input> mortal wound(s)
+                   For each <select id="roll_type" className="w3-select option-select" name="option" value={this.state.roll_type} onChange={this.onChange}><option value=""></option><option value="wound">wound</option><option value="strength">strength</option></select> roll
+                    of <input maxLength="2" id="threshold" value={this.state.threshold} type="text" className="input input-dice align-right" onChange={this.onChange}></input>+
+                   , inflicts <input maxLength="3" id="n_mortals" value={this.state.n_mortals} type="text" className="input input-dice align-right" onChange={this.onChange}></input> mortal wound(s)
                </div>
     }
 }
