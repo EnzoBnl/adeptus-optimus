@@ -101,43 +101,40 @@ class App extends CloudFunctionClient {
 
     handleSubmit(event) {
         event.preventDefault();
-        if (this.state.state == "processing") {
-            alert("One of our Magi is still working on your last demand.");
+        // ensure not to run if already running thanks to 'compare' button hiding
+        document.getElementById("chart").innerHTML = "";
+        this.setState({state: "processing", msg: "Testing weapons..."/*"Firing on some captives Grots..."*/})
+        var paramsAsString = this.stringifyRelevantParams(this.params);
+        if (paramsAsString in this.cache) {
+            const cachedResponse = this.cache[paramsAsString];
+            plotComparatorChart(
+                cachedResponse["x"],
+                cachedResponse["y"],
+                cachedResponse["z"],
+                cachedResponse["ratios"],
+                cachedResponse["scores"],
+                () => {this.setState({state: "idle", msg: ""});}
+                )
         } else {
-            document.getElementById("chart").innerHTML = "";
-            this.setState({state: "processing", msg: "Testing weapons..."/*"Firing on some captives Grots..."*/})
-            var paramsAsString = this.stringifyRelevantParams(this.params);
-            if (paramsAsString in this.cache) {
-                const cachedResponse = this.cache[paramsAsString];
-                plotComparatorChart(
-                    cachedResponse["x"],
-                    cachedResponse["y"],
-                    cachedResponse["z"],
-                    cachedResponse["ratios"],
-                    cachedResponse["scores"],
-                    () => {this.setState({state: "idle", msg: ""});}
-                    )
-            } else {
-                this.buildAndRunXHR(
-                    "params=" + paramsAsString,
-                    (xhr) => {  // on200
-                        this.cache[paramsAsString] = { // ensures changing params during request is safe
-                            x: xhr.response["x"],
-                            y: xhr.response["y"],
-                            z: xhr.response["z"],
-                            ratios: xhr.response["ratios"],
-                            scores: xhr.response["scores"]
-                        }
-                        plotComparatorChart(
-                            xhr.response["x"],
-                            xhr.response["y"],
-                            xhr.response["z"],
-                            xhr.response["ratios"],
-                            xhr.response["scores"],
-                            () => {this.setState({state: "idle", msg: ""});});
+            this.buildAndRunXHR(
+                "params=" + paramsAsString,
+                (xhr) => {  // on200
+                    this.cache[paramsAsString] = { // ensures changing params during request is safe
+                        x: xhr.response["x"],
+                        y: xhr.response["y"],
+                        z: xhr.response["z"],
+                        ratios: xhr.response["ratios"],
+                        scores: xhr.response["scores"]
                     }
-                );
-            }
+                    plotComparatorChart(
+                        xhr.response["x"],
+                        xhr.response["y"],
+                        xhr.response["z"],
+                        xhr.response["ratios"],
+                        xhr.response["scores"],
+                        () => {this.setState({state: "idle", msg: ""});});
+                }
+            );
         }
     }
 
@@ -172,7 +169,7 @@ class App extends CloudFunctionClient {
             <br/>
             <br/>
             <div className="w3-bar shop-bg"><div className="w3-bar-item"></div></div>
-            <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.handleSubmit}><i className="fa fa-play-circle w3-xlarge"></i> Compare</button>
+            {this.state.state == "processing" ? "" : <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.handleSubmit}><i className="fa fa-play-circle w3-xlarge"></i> Compare</button>}
             <br/>
             <br/>
             <ProgressLog state={this.state.state} msg={this.state.msg}/>
