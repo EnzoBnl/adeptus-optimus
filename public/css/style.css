@@ -192,8 +192,19 @@ th.profile-flag {
 }
 
 .w3-modal {
+    text-align: left;
+}
+
+.w3-modal-content {
+    min-width: 700px !important;
+}
+
+header {
     text-align: center;
-    /* TODO: handle a min-width */
+}
+
+footer {
+    text-align: center;
 }
 
 .option-select {
