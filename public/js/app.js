@@ -27,7 +27,7 @@ class CloudFunctionClient extends React.Component {
         if (xhr.status == 422 /*bad input*/ || xhr.status == 500) {
             return "Error " + xhr.status + ": " + xhr.response["msg"];
         } else if (xhr.status == 429) {
-            return "Error 429: Too Many Requests: There is no Magos available now, please retry in a few moments. (Our Tipeee is entirely dedicated to our servers improvement)";
+            return "Error 429: Too Many Requests: There is no Magos available now, please retry in a few instants.";
         }
         else if (xhr.status == 408) {
         return "Error 408: Timeout: The Magos in charge of your request has passed out";
@@ -143,15 +143,11 @@ class App extends CloudFunctionClient {
         console.log(this.state);
         console.log(this.params);
         return <div>
-            <span className="tipeee" >
-                <a href="https://en.tipeee.com/adeptus-optimus"><img src="images/tipeee.svg" width="250px"></img></a>
-            </span>
             <div className="shop-bg"><div className="v9">UP TO DATE WITH WARHAMMER 40K v9</div></div>
             <Login initState={{id: this.state.id, token: this.state.token}} sendCredentialsToApp={this.sendCredentialsToApp}/>
             <h1><a href="index.html" className="title">Adeptus <img src="images/logo.png" width="100px"/> Optimus</a></h1>
             <p className="title subscript">" Support wiser choices, on behalf of the Emperor."</p>
-            <br/>
-            <br/>
+            <div className="tipeee"><a href="https://en.tipeee.com/adeptus-optimus"><img src="images/tipeee.svg" width="250px"></img></a></div>
             <br/>
             <br/>
             <br/>
@@ -267,7 +263,6 @@ class Login extends React.Component {
                        <span className="login-label">id: </span>
                        <input maxLength="10" id="id" type="text" className="input input-login" value={this.state.id} onChange={this.handleChange}></input>
                    </span>
-                   <br/>
                    <span className="nowrap">
                        <span className="login-label"> token: </span>
                        <input maxLength="512" id="token" type="text" className="input input-login" value={this.state.token} onChange={this.handleChange}></input>
