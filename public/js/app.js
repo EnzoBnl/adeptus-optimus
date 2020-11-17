@@ -502,10 +502,19 @@ class WeaponRow extends React.Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.handleOptionChange = this.handleOptionChange.bind(this);
+        this.diceInputChars = "0123456789D";
     }
 
     handleChange(event) {
-        this.props.updateParam(event.target.id + this.props.id, event.target.value);
+        if (event.target.id == "name") {
+            var value = event.target.value
+        } else {
+            var value = ""
+            for (var i = 0; i < event.target.value.length; i++) {
+                value += this.diceInputChars.includes(event.target.value[i]) ? event.target.value[i] : ""
+            }
+        }
+        this.props.updateParam(event.target.id + this.props.id, value);
     }
 
     handleOptionChange(optionName, value) {
@@ -753,9 +762,30 @@ class SnipeOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
                    <Check value={this.props.value}/> For each <select id="roll_type" className="w3-select option-select" name="option" value={this.state.roll_type} onChange={this.onChange}><option value=""></option><option value="wound">wound</option><option value="strength">strength</option></select> roll
-                    of <input maxLength="2" id="threshold" value={this.state.threshold} type="text" className="input input-dice align-right" onChange={this.onChange}></input>+
-                   , inflicts <input maxLength="3" id="n_mortals" value={this.state.n_mortals} type="text" className="input input-dice align-right" onChange={this.onChange}></input> mortal wound(s)
-               </div>
+                    of <select id="threshold" value={this.state.threshold} className="w3-select option-select" name="option" onChange={this.onChange}>
+                        <option value=""></option>
+                        <option value="1">1+</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                        <option value="4">4+</option>
+                        <option value="5">5+</option>
+                        <option value="6">6+</option>
+                        <option value="7">7+</option>
+                        <option value="8">8+</option>
+                        <option value="9">9+</option>
+                        <option value="10">10+</option>
+                        <option value="11">11+</option>
+                        <option value="12">12+</option>
+                    </select>
+                   , inflicts <select id="n_mortals" value={this.state.n_mortals} className="w3-select option-select" name="option" onChange={this.onChange}>
+                        <option value=""></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="D3">D3</option>
+                        <option value="D6">D6</option>
+                    </select> mortal wounds
+                </div>
     }
 }
 
