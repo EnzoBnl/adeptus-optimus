@@ -81,7 +81,7 @@ sup {
 }
 
 .tipeee {
-    text-align: left;
+    text-align: center;
 }
 
 /* Login */
@@ -100,7 +100,7 @@ sup {
 .share {
     text-align: right;
     margin-right: 50px;
-    margin-bottom: 50px;
+    margin-bottom: 0px;
 }
 
 .close {
