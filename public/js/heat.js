@@ -10,22 +10,26 @@ function plotComparatorChart(xValues, yValues, zValues, ratios, scores, callWhen
        var line = [];
         for (j = 0; j < zValues[0].length; j++) {
             var label = "";
-            var ratio = ratios[i][j]
-            if (ratio == 1.0) {
-                label += "Profile A and B should destroy the same number of models per point"
-            }
-            else if (zValues[i][j] > 0){
-                label += "Profile A should destroy " + ratio + " times more models per point than profile B";
+            if (zValues[i][j] != null) {
+                var ratio = ratios[i][j]
+                if (ratio == 1.0) {
+                    label += "Profile A and B should destroy the same number of models per point"
+                }
+                else if (zValues[i][j] > 0){
+                    label += "Profile A should destroy <b>" + ratio + "</b> times more models per point than profile B";
+                } else {
+                    label += "Profile B should destroy <b>" + ratio + "</b> times more models per point than profile A";
+                }
+                label += "<br><br>Profile A details:"
+                for (var ia = 0; ia < scores[i][j][0].length; ia++) {
+                    label += "<br> - weapon #" + (ia + 1) + " should destroy <b>" + scores[i][j][0][ia] + "</b> models per phase";
+                }
+                label += "<br>Profile B details:"
+                for (var ib = 0; ib < scores[i][j][1].length; ib++) {
+                    label += "<br> - weapon #" + (ib + 1) + " should destroy <b>" + scores[i][j][1][ib] + "</b> models per phase";
+                }
             } else {
-                label += "Profile B should destroy " + ratio + " times more models per point than profile A";
-            }
-            label += "<br><br>Profile A details:"
-            for (var ia = 0; ia < scores[i][j][0].length; ia++) {
-                label += "<br> weapon #" + (ia + 1) + " should destroy " + scores[i][j][0][ia] + " models per phase";
-            }
-            label += "<br>Profile B details:"
-            for (var ib = 0; ib < scores[i][j][1].length; ib++) {
-                label += "<br> weapon #" + (ib + 1) + " should destroy " + scores[i][j][1][ib] + " models per phase";
+                label += "<i>Not a common target profile</i>"
             }
             line.push(label)
         }
@@ -86,15 +90,14 @@ function plotComparatorChart(xValues, yValues, zValues, ratios, scores, callWhen
           yref: 'y1',
           x: xValues[j],
           y: yValues[i],
-          text: "",
+          text: zValues[i][j] == null ? "N/A" : "",
           font: {
             family: 'Arial',
-            size: 14,
-            color: 'rgb(50, 171, 96)'
+            size: 20,
           },
           showarrow: false,
           font: {
-            color: 'white'
+            color: 'grey'
           }
         };
         layout.annotations.push(result);
