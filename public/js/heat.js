@@ -1,4 +1,4 @@
-function plotComparatorChart(xValues, yValues, zValues, ratios, scores, callWhenDone) {
+function plotComparatorChart(xValues, yValues, zValues, ratios, scores) {
     var colorscaleValue = [ // ultramarine blue '#0d407f'  // buttons bg green '#7dae3e'
       [0, '#0C7BDC'],   // profile B
       [0.5, '#ffffff'],
@@ -90,7 +90,7 @@ function plotComparatorChart(xValues, yValues, zValues, ratios, scores, callWhen
           yref: 'y1',
           x: xValues[j],
           y: yValues[i],
-          text: zValues[i][j] == null ? "N/A" : "",
+          text: zValues[i][j] == null ? "x" : "",
           font: {
             family: 'Arial',
             size: 20,
@@ -104,6 +104,5 @@ function plotComparatorChart(xValues, yValues, zValues, ratios, scores, callWhen
       }
     }
     Plotly.newPlot('chart', data, layout);
-    callWhenDone();
 }
 

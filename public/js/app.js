@@ -2,11 +2,13 @@ class CloudFunctionClient extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            state: "idle",  // state in: "idle", "processing","error";
+            state: "idle",  // state among "idle", "processing", "error"...;
             msg: "",
             id: "",
-            token: ""
-        }
+            token: "",
+            cache: {},
+            processingMsg: "Processing..."
+        };
     }
 
     getServerIp() {
@@ -23,6 +25,7 @@ class CloudFunctionClient extends React.Component {
             return res;
         }
     }
+
     getErrorLog(xhr) {
         if (xhr.status == 422 /*bad input*/ || xhr.status == 500) {
             return "Error " + xhr.status + ": " + xhr.response["msg"];
@@ -39,41 +42,59 @@ class CloudFunctionClient extends React.Component {
         });
         }
     }
+
     buildAndRunXHR(queryString, on200) {
-        var serverIp = this.getServerIp();
-        if (serverIp == "") {
-            this.setState({
-                state: "error",
-                msg: "Invalid id/token pair: id:'" + this.state.id + "', token='" + this.state.token + "'"
-            });
+        if (this.state.state != "processing") {
+            this.setState(
+                {
+                    state:"processing",
+                    msg: this.state.processingMsg
+                },
+                () => {
+                    if (queryString in this.state.cache) {
+                        on200(this.state.cache[queryString]);
+                    } else {
+                        var serverIp = this.getServerIp();
+                        if (serverIp == "") {
+                            this.setState({
+                                state: "error",
+                                msg: "Invalid id/token pair: id:'" + this.state.id + "', token='" + this.state.token + "'"
+                            });
+                        } else {
+                            var xhr = new XMLHttpRequest();
+                            xhr.responseType = "json";
+                            xhr.onload = () => {
+                              console.log("console.log(xhr.responseText):");
+                              console.log(xhr.response);
+                              if (xhr.status == 200) {
+                                  this.state.cache[queryString] = xhr.response
+                                  on200(xhr.response);
+                              } else {
+                                this.setState({
+                                    state: "error",
+                                    msg: this.getErrorLog(xhr)
+                                })
+                              }
+                            };
+                            // get a callback when net::ERR_CONNECTION_REFUSED
+                            xhr.onerror = () => {
+                                console.log("console.log(xhr.responseText):");
+                                console.log(xhr.response);
+                                this.setState({
+                                    state: "error",
+                                    msg: "SERVER DOWN: The Forge World of the Adeptus Optimus must be facing an onslaught of heretics."
+                                });
+                            };
+                            // get a callback when the server responds
+                            xhr.open("GET", serverIp + "?" + queryString);
+                            // send the request
+                            xhr.send();
+                        }
+                    }
+                }
+            );
         } else {
-            var xhr = new XMLHttpRequest();
-            xhr.responseType = "json";
-            xhr.onload = () => {
-              console.log("console.log(xhr.responseText):");
-              console.log(xhr.response);
-              if (xhr.status == 200) {
-                  on200(xhr);
-              } else {
-                this.setState({
-                    state: "error",
-                    msg: this.getErrorLog(xhr)
-                })
-              }
-            };
-            // get a callback when net::ERR_CONNECTION_REFUSED
-            xhr.onerror = () => {
-                console.log("console.log(xhr.responseText):");
-                console.log(xhr.response);
-                this.setState({
-                    state: "error",
-                    msg: "SERVER DOWN: The Forge World of the Adeptus Optimus must be facing an onslaught of heretics."
-                });
-            };
-            // get a callback when the server responds
-            xhr.open("GET", serverIp + "?" + queryString);
-            // send the request
-            xhr.send();
+            console.log("call cancelled because already processing");
         }
     }
 
@@ -86,16 +107,15 @@ class App extends CloudFunctionClient {
         this.sendCredentialsToApp = this.sendCredentialsToApp.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
-        this.state = {
-            id: "admin",
-            token: "U2FsdGVkX197wfW/IY0sqa/Ckju8AeU3pRLPSra1aCxZeAHrWePPDPJlYTy5bwdU"
-        };
+        this.state.id = "admin";
+        this.state.token = "U2FsdGVkX197wfW/IY0sqa/Ckju8AeU3pRLPSra1aCxZeAHrWePPDPJlYTy5bwdU";
+        this.state.processingMsg = "Firing on some captive Grots...";
+
         var queryString = new URLSearchParams(window.location.search);
         this.params = {
             A: queryString.has("share_settings") ? JSON.parse(queryString.get("share_settings"))["A"] : getInitParams("A"),
             B: queryString.has("share_settings") ? JSON.parse(queryString.get("share_settings"))["B"] : getInitParams("B")
         }
-        this.cache = {};
     }
 
 
@@ -103,39 +123,20 @@ class App extends CloudFunctionClient {
         event.preventDefault();
         // ensure not to run if already running thanks to 'compare' button hiding
         document.getElementById("chart").innerHTML = "";
-        this.setState({state: "processing", msg: "Testing weapons..."/*"Firing on some captives Grots..."*/})
-        var paramsAsString = this.stringifyRelevantParams(this.params);
-        if (paramsAsString in this.cache) {
-            const cachedResponse = this.cache[paramsAsString];
-            plotComparatorChart(
-                cachedResponse["x"],
-                cachedResponse["y"],
-                cachedResponse["z"],
-                cachedResponse["ratios"],
-                cachedResponse["scores"],
-                () => {this.setState({state: "idle", msg: ""});}
-                )
-        } else {
-            this.buildAndRunXHR(
-                "params=" + paramsAsString,
-                (xhr) => {  // on200
-                    this.cache[paramsAsString] = { // ensures changing params during request is safe
-                        x: xhr.response["x"],
-                        y: xhr.response["y"],
-                        z: xhr.response["z"],
-                        ratios: xhr.response["ratios"],
-                        scores: xhr.response["scores"]
-                    }
-                    plotComparatorChart(
-                        xhr.response["x"],
-                        xhr.response["y"],
-                        xhr.response["z"],
-                        xhr.response["ratios"],
-                        xhr.response["scores"],
-                        () => {this.setState({state: "idle", msg: ""});});
-                }
-            );
-        }
+
+        this.buildAndRunXHR(
+            "params=" + this.stringifyRelevantParams(this.params),
+            (response) => {
+                plotComparatorChart(
+                    response["x"],
+                    response["y"],
+                    response["z"],
+                    response["ratios"],
+                    response["scores"]);
+                this.setState({state: "idle", msg: ""});
+            }
+        );
+
     }
 
     render() {
@@ -203,26 +204,29 @@ class App extends CloudFunctionClient {
     }
 
     stringifyRelevantParams(Params) {
-        return JSON.stringify(this.getRelevantParamsKeys(Params))
+        return JSON.stringify(this.getRelevantParamsKeys(Params));
     }
 }
 
 class Share extends CloudFunctionClient {
     constructor(props) {
-        super(props)
+        super(props);
+
         this.state.id = this.props.id;
         this.state.token = this.props.token;
+        this.state.processingMsg = <i className="fa fa-gear w3-xxlarge w3-spin"></i>;
+
+
         this.displayLink = this.displayLink.bind(this);
     }
 
     displayLink() {
-        this.setState({msg: <i className="fa fa-gear w3-xxlarge w3-spin"></i>});
-        document.getElementById("link-modal").style.display="block";
         this.buildAndRunXHR(
             this.props.queryString,
-            (xhr) => {  // on200
+            (response) => {  // on200
                 this.setState({
-                    msg: xhr.response["link"]
+                    state: "displaying",
+                    msg: response["link"]
                 });
             }
         );
@@ -232,10 +236,10 @@ class Share extends CloudFunctionClient {
         this.state.id = this.props.id;
         this.state.token = this.props.token;
         return <div className="share">
-                    <div id="link-modal" className="w3-modal">
+                    <div id="link-modal" className="w3-modal" style={{display: this.state.state != "idle" ? "block" : "none"}}>
                         <div className="w3-modal-content link-modal">
                           <header className="w3-container datasheet-header">Link to current settings:</header>
-                          <span className="w3-btn w3-display-topright close" onClick={(event) => {document.getElementById("link-modal").style.display="none"}}><i className="fa fa-close"></i></span>
+                          <span className="w3-btn w3-display-topright close" onClick={(event) => {this.setState({state: "idle"})}}><i className="fa fa-close"></i></span>
                           <div className="w3-container shop">
                           <i>{this.state.msg}</i>
                           </div>

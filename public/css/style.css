@@ -194,6 +194,7 @@ th.profile-flag {
 
 .w3-modal {
     text-align: left;
+    overflowX: auto;
 }
 
 .w3-modal-content {
