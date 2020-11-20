@@ -145,7 +145,6 @@ class App extends CloudFunctionClient {
         console.log(this.params);
         return <div>
             <div className="shop-bg"><div className="v9">UP TO DATE WITH WARHAMMER 40K v9</div></div>
-            <Login initState={{id: this.state.id, token: this.state.token}} sendCredentialsToApp={this.sendCredentialsToApp}/>
             <h1><a href="index.html" className="title">Adeptus <img src="images/logo.png" width="100px"/> Optimus</a></h1>
             <p className="title subscript">" Support wiser choices, on behalf of the Emperor."</p>
             <div className="tipeee"><a href="https://en.tipeee.com/adeptus-optimus"><img src="images/tipeee.svg" width="250px"></img></a></div>
@@ -178,6 +177,7 @@ class App extends CloudFunctionClient {
             <br/>
             <br/>
             <div className="w3-bar shop-mid-bg"><div className="w3-bar-item"></div></div>
+            <Login initState={{id: this.state.id, token: this.state.token}} sendCredentialsToApp={this.sendCredentialsToApp}/>
         </div>
     }
 
@@ -256,6 +256,7 @@ class Login extends React.Component {
         this.state = props.initState;  // TODO remove
         this.handleChange=this.handleChange.bind(this);
         this.sendCredentialsToApp = props.sendCredentialsToApp;
+        this.visible = true;
     }
     handleChange(event) {
         this.state[event.target.id] = event.target.value;
@@ -264,16 +265,16 @@ class Login extends React.Component {
     render() {
         if (this.visible) {
             return <div className="login">
-                   <span className="nowrap">
-                       <span className="login-label">id: </span>
-                       <input maxLength="10" id="id" type="text" className="input input-login" value={this.state.id} onChange={this.handleChange}></input>
-                   </span>
-                   <span className="nowrap">
-                       <span className="login-label"> token: </span>
-                       <input maxLength="512" id="token" type="text" className="input input-login" value={this.state.token} onChange={this.handleChange}></input>
-                   </span>
-                   <br/>
-               </div>
+                       <span className="nowrap">
+                           <span className="login-label">id: </span>
+                           <input maxLength="10" id="id" type="text" className="input input-login" value={this.state.id} onChange={this.handleChange}></input>
+                       </span>
+                       <span className="nowrap">
+                           <span className="login-label"> token: </span>
+                           <input maxLength="512" id="token" type="text" className="input input-login" value={this.state.token} onChange={this.handleChange}></input>
+                       </span>
+                       <br/>
+                   </div>
         } else {
             return <span></span>
         }
@@ -396,7 +397,8 @@ class ParamsTable extends React.Component {
             "wounds_by_2D6": "",
             "reroll_damages": "",
             "roll_damages_twice": "",
-            "snipe": ""
+            "snipe": "",
+            "hit_explodes": ""
             };
         this.props.syncAppParams(this.state.params, this.props.letter);
         this.setState({})
@@ -565,6 +567,7 @@ class WeaponRow extends React.Component {
                               <HitModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["hit_modifier"]}/>
                               <RerollHitsOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_hits"]}/>
                               <AutoHitOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_hit"]}/>
+                              <HitExplodesOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["hit_explodes"]}/>
                               <h3>Wounds</h3>
                               <WoundModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wound_modifier"]}/>
                               <RerollWoundsOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_wounds"]}/>
@@ -790,6 +793,18 @@ class SnipeOptionInput extends React.Component {
                         <option value="D6">D6</option>
                     </select> mortal wounds
                 </div>
+    }
+}
+
+class HitExplodesOptionInput extends React.Component {
+    render () {
+        return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
+                   <Check value={this.props.value}/> An unmodified hit roll of <select id="hit_explodes" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                    <option value=""></option>
+                    <option value="6">6+</option>
+                    <option value="5">5+</option>
+                    </select> scores one additional hit.
+               </div>
     }
 }
 

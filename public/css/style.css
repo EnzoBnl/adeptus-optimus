@@ -86,9 +86,8 @@ sup {
 
 /* Login */
 .login {
-    text-align: right;
-    margin-top: 25px;
-    margin-right:25px;
+    text-align: center;
+    margin-top: 2px;
 }
 
 .login-label{
