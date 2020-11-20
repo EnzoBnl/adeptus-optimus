@@ -334,7 +334,7 @@ class ProgressLog extends React.Component {
         } else if (this.props.state == "error") {
             return <div>
                         <div className="fa fa-server w3-xxlarge"></div>
-                        <p className="datasheet-body"> {this.props.msg}</p>
+                        <p className="datasheet-body">{this.props.msg}</p>
                         <br/>
                         <div className="option-inactive">
                         If blocked, please contact adeptus.optimus@gmail.com with:<ul>
@@ -568,10 +568,10 @@ class WeaponRow extends React.Component {
                               <AutoHitOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_hit"]}/>
                               <Dakka3OptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["dakka3"]}/>
                               <HitExplodesOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["hit_explodes"]}/>
+                              <AutoWoundsOnOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_wounds_on"]}/>
                               <h3>Wounds</h3>
                               <WoundModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wound_modifier"]}/>
                               <RerollWoundsOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_wounds"]}/>
-                              <AutoWoundsOnOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_wounds_on"]}/>
                               <SnipeOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["snipe"]}/>
                               <WoundsBy2D6OptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wounds_by_2D6"]}/>
                               <h3>Saves</h3>
@@ -684,7 +684,7 @@ class AutoWoundsOnOptionInput extends React.Component {
                    <option value=""></option>
                    <option value="6">6+</option>
                    <option value="5">5+</option>
-                   </select> automatically wounds
+                   </select> always hits and automatically wounds
                </div>
     }
 }
@@ -736,7 +736,7 @@ class RerollDamagesOptionInput extends React.Component {
 class RollDamagesTwiceOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   <Check value={this.props.value}/> Make random damage rolls twice and discard the lowest result: <select id="roll_damages_twice" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <Check value={this.props.value}/> Roll random damages twice and discard the lowest result: <select id="roll_damages_twice" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                    <option value="">No</option>
                    <option value="yes">Yes</option>
                    </select>
