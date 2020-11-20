@@ -562,11 +562,11 @@ class WeaponRow extends React.Component {
                           <div className="w3-container shop">
                               <h3>Attacks</h3>
                               <IsBlastOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["is_blast"]}/>
-                              <Dakka3OptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["dakka3"]}/>
                               <h3>Hits</h3>
                               <HitModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["hit_modifier"]}/>
                               <RerollHitsOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_hits"]}/>
                               <AutoHitOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_hit"]}/>
+                              <Dakka3OptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["dakka3"]}/>
                               <HitExplodesOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["hit_explodes"]}/>
                               <h3>Wounds</h3>
                               <WoundModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wound_modifier"]}/>
@@ -668,11 +668,11 @@ class RerollWoundsOptionInput extends React.Component {
 class Dakka3OptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   <Check value={this.props.value}/> <i>Dakka! Dakka! Dakka!</i> on <select id="dakka3" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <Check value={this.props.value}/> An unmodified hit roll of <select id="dakka3" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                    <option value=""></option>
                    <option value="6">6+</option>
                    <option value="5">5+</option>
-                   </select>
+                   </select> triggers one additional hit roll (<i>Dakka!<sup>3</sup></i>)
                </div>
     }
 }
