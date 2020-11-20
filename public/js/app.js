@@ -107,11 +107,22 @@ class App extends CloudFunctionClient {
         this.sendCredentialsToApp = this.sendCredentialsToApp.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
-        this.state.id = "admin";
-        this.state.token = "U2FsdGVkX197wfW/IY0sqa/Ckju8AeU3pRLPSra1aCxZeAHrWePPDPJlYTy5bwdU";
+        // dev query string:  id=admin&token=U2FsdGVkX197wfW/IY0sqa/Ckju8AeU3pRLPSra1aCxZeAHrWePPDPJlYTy5bwdU
+        var queryString = new URLSearchParams(window.location.search);
+
+        if (queryString.has("id")) {
+            this.state.id = queryString.get("id");
+        } else {
+            this.state.id = "standard_user";
+        }
+        if (queryString.has("token")) {
+            this.state.token = queryString.get("token");
+        } else {
+            this.state.token = "U2FsdGVkX18wtnoUOJJmr+GIeN2B08X1eu5+oV0/Cx1TZYBFhO/9L7mM1MBwtSMS19uZ6yXRKb/D8eu8oeOwBYVi4Irfvrlip0EKZ0y/gse8KnFz1Rq7HIsdeYXEXiZ9";
+        }
+
         this.state.processingMsg = "Firing on some captive Grots...";
 
-        var queryString = new URLSearchParams(window.location.search);
         this.params = {
             A: queryString.has("share_settings") ? JSON.parse(queryString.get("share_settings"))["A"] : getInitParams("A"),
             B: queryString.has("share_settings") ? JSON.parse(queryString.get("share_settings"))["B"] : getInitParams("B")
@@ -271,7 +282,7 @@ class Login extends React.Component {
                        </span>
                        <span className="nowrap">
                            <span className="login-label"> token: </span>
-                           <input maxLength="512" id="token" type="text" className="input input-login" value={this.state.token} onChange={this.handleChange}></input>
+                           <input maxLength="1024" id="token" type="text" className="input input-login" value={this.state.token} onChange={this.handleChange}></input>
                        </span>
                        <br/>
                    </div>
