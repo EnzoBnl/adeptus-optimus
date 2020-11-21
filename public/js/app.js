@@ -124,9 +124,10 @@ class App extends CloudFunctionClient {
         this.state.processingMsg = "Firing on some captive Grots...";
 
         this.params = {
-            A: queryString.has("share_settings") ? JSON.parse(queryString.get("share_settings"))["A"] : getInitParams("A"),
-            B: queryString.has("share_settings") ? JSON.parse(queryString.get("share_settings"))["B"] : getInitParams("B")
+            A: queryString.has("share_settings") ? JSON.parse(queryString.get("share_settings"))["A"] : {},
+            B: queryString.has("share_settings") ? JSON.parse(queryString.get("share_settings"))["B"] : {}
         }
+        console.log(this.params);
     }
 
 
@@ -366,11 +367,13 @@ class ParamsTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {params: this.props.params[this.props.letter]};
-        if (this.props.letter == "A") {
-            this.weaponsVisibility = [true, true, true, false, false];
-        } else {
-            this.weaponsVisibility = [true, false, false, false, false];
+        this.weaponsVisibility = [];
+        for (var i = 0; i < 5; i++) {
+            this.weaponsVisibility.push(
+                ("A" + this.props.letter + i) in this.state.params
+            );
         }
+
         this.showWeapon = this.showWeapon.bind(this);
         this.updateParam = this.updateParam.bind(this);
         this.updateOptionParam = this.updateOptionParam.bind(this);
