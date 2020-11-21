@@ -526,31 +526,10 @@ class WeaponRow extends React.Component {
         if (event.target.id == "name") {
             var value = event.target.value
         } else {
-            var cursorIndex = event.target.selectionStart;
-            var oldValue = this.props.params[event.target.id + this.props.id];
-            // added a char:
-            console.log("lengths new & old", event.target.value.length, oldValue.length);
-            if (event.target.value.length > oldValue.length) {
-                var addedChar = event.target.value[cursorIndex - 1];
-                console.log("added char", addedChar);
-                if (this.diceInputChars.includes(addedChar)) {
-                    var treatedAddedChar = addedChar;
-                } else if (addedChar == "d") {
-                    var treatedAddedChar = "D";
-                } else {
-                    var treatedAddedChar = "";
-                    event.target.selectionStart -= 1;
-                }
-                console.log(cursorIndex);
-                var value = oldValue.slice(0, cursorIndex) + treatedAddedChar + oldValue.slice(cursorIndex);
-            } else if (event.target.value.length < oldValue.length) {
-                console.log("deleted char");
-                var value = event.target.value;
-            } else {
-                alert("should not happen");
+            var value = ""
+            for (var i = 0; i < event.target.value.length; i++) {
+                value += this.diceInputChars.includes(event.target.value[i]) ? event.target.value[i] : ""
             }
-            console.log("oldValue", oldValue);
-
         }
         this.props.updateParam(event.target.id + this.props.id, value);
     }
