@@ -801,7 +801,6 @@ class SnipeOptionInput extends React.Component {
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="D3">D3</option>
-                        <option value="D6">D6</option>
                     </select> mortal wounds
                 </div>
     }
