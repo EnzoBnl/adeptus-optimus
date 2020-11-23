@@ -197,7 +197,7 @@ th.profile-flag {
 }
 
 .w3-modal-content {
-    min-width: 700px !important;
+    min-width: 700px;
 }
 
 header {
@@ -267,7 +267,7 @@ span.profile-tag {
 
 /* chart */
 .chart{
-    min-width: 600px;
+   min-width: 700px;
 }
 
 /* Logging */
