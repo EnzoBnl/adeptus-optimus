@@ -64,8 +64,8 @@ class CloudFunctionClient extends React.Component {
                             var xhr = new XMLHttpRequest();
                             xhr.responseType = "json";
                             xhr.onload = () => {
-                              console.log("console.log(xhr.responseText):");
-                              console.log(xhr.response);
+//                              console.log("console.log(xhr.responseText):");
+//                              console.log(xhr.response);
                               if (xhr.status == 200) {
                                   this.state.cache[queryString] = xhr.response
                                   on200(xhr.response);
@@ -78,8 +78,8 @@ class CloudFunctionClient extends React.Component {
                             };
                             // get a callback when net::ERR_CONNECTION_REFUSED
                             xhr.onerror = () => {
-                                console.log("console.log(xhr.responseText):");
-                                console.log(xhr.response);
+//                                console.log("console.log(xhr.responseText):");
+//                                console.log(xhr.response);
                                 this.setState({
                                     state: "error",
                                     msg: "SERVER DOWN: The Forge World of the Adeptus Optimus must be facing an onslaught of heretics."
@@ -94,7 +94,7 @@ class CloudFunctionClient extends React.Component {
                 }
             );
         } else {
-            console.log("call cancelled because already processing");
+//            console.log("call cancelled because already processing");
         }
     }
 
@@ -122,13 +122,12 @@ class App extends CloudFunctionClient {
         }
 
         this.state.processingMsg = "Firing on some captive Grots...";
-        var defaultProfileAState = {"nameA":"Anonymous Profile","pointsA":"10","nameA0":"Anonymous Weapon","AA0":"1","WSBSA0":"4","SA0":"4","APA0":"0","DA0":"1","optionsA0":{"hit_modifier":"","wound_modifier":"","save_modifier":"","reroll_hits":"","reroll_wounds":"","dakka3":"","auto_wounds_on":"","is_blast":"","auto_hit":"","wounds_by_2D6":"","reroll_damages":"","roll_damages_twice":"","snipe":"","hit_explodes":""}};
-        var defaultProfileBState = {"nameB":"Anonymous Profile","pointsB":"10","nameB0":"Anonymous Weapon","AB0":"1","WSBSB0":"4","SB0":"4","APB0":"0","DB0":"1","optionsB0":{"hit_modifier":"","wound_modifier":"","save_modifier":"","reroll_hits":"","reroll_wounds":"","dakka3":"","auto_wounds_on":"","is_blast":"","auto_hit":"","wounds_by_2D6":"","reroll_damages":"","roll_damages_twice":"","snipe":"","hit_explodes":""}};
+        var defaultProfileAState = {"nameA":"Anonymous Profile","pointsA":"10","nameA0":"Anonymous Weapon","AA0":"1","WSBSA0":"4","SA0":"4","APA0":"0","DA0":"1","optionsA0":{}};
+        var defaultProfileBState = {"nameB":"Anonymous Profile","pointsB":"10","nameB0":"Anonymous Weapon","AB0":"1","WSBSB0":"4","SB0":"4","APB0":"0","DB0":"1","optionsB0":{}};
         this.params = {
             A: queryString.has("share_settings") ? JSON.parse(queryString.get("share_settings"))["A"] : defaultProfileAState,
             B: queryString.has("share_settings") ? JSON.parse(queryString.get("share_settings"))["B"] : defaultProfileBState
         }
-        console.log(this.params);
     }
 
 
@@ -157,14 +156,14 @@ class App extends CloudFunctionClient {
         console.log(this.state);
         console.log(this.params);
         return <div>
-            <div className="shop-bg"><div className="v9">UP TO DATE WITH WARHAMMER 40K v9</div></div>
+            <div className="shop-bg"><div className="v9">Ready for 40K v9</div></div>
             <h1><a href="index.html" className="title">Adeptus <img src="images/logo.png" width="100px"/> Optimus</a></h1>
             <p className="title subscript">" Support wiser choices, on behalf of the Emperor."</p>
             <div className="tipeee"><a href="https://en.tipeee.com/adeptus-optimus"><img src="images/tipeee.svg" width="250px"></img></a></div>
             <br/>
             <br/>
             <br/>
-            <Share queryString={"share_settings=" + encodeURIComponent(JSON.stringify(this.params))} id={this.state.id} token={this.state.token}/>
+            <Share queryString={"share_settings=" + encodeURIComponent(JSON.stringify(this.withoutEmptyOptions(this.params)))} id={this.state.id} token={this.state.token}/>
             <div style={{overflowX: "auto"}}>
                 <ParamsTable syncAppParams={this.syncAppParams} params={this.params} letter="A"/>
             </div>
@@ -211,6 +210,8 @@ class App extends CloudFunctionClient {
         Object.entries(tableRelevantState).forEach(([key, value]) => {
             if (key.includes("name")) {
                 delete tableRelevantState[key];
+            } else if (key.includes("option")) {
+                tableRelevantState[key] = this.withoutEntryHavingEmptyValues(value);
             }
         });
         return tableRelevantState;
@@ -218,6 +219,31 @@ class App extends CloudFunctionClient {
 
     stringifyRelevantParams(Params) {
         return JSON.stringify(this.getRelevantParamsKeys(Params));
+    }
+
+    withoutEntryHavingEmptyValues(dict) {
+        var res = {};
+        Object.entries(dict).forEach(([key, value]) => {
+            if (value != "") {
+                res[key] = value;
+            }
+        });
+        return res;
+    }
+
+    withoutEmptyOptions(params) {
+        var res = {};
+        for(var letter of "AB"){
+           var paramsCopy = {...this.params[letter]};
+           Object.entries(paramsCopy).forEach(([key, value]) => {
+               if (key.includes("option")) {
+                   paramsCopy[key] = this.withoutEntryHavingEmptyValues(value);
+               }
+           });
+           res = {...res, ...{[letter]: paramsCopy}};
+        }
+
+        return res;
     }
 }
 
@@ -367,12 +393,33 @@ class ProgressLog extends React.Component {
 class ParamsTable extends React.Component {
     constructor(props) {
         super(props);
+        this.defaultOptions = {
+            "hit_modifier": "",
+            "wound_modifier": "",
+            "save_modifier": "",
+            "reroll_hits": "",
+            "reroll_wounds": "",
+            "dakka3": "",
+            "auto_wounds_on": "",
+            "is_blast": "",
+            "auto_hit": "",
+            "wounds_by_2D6": "",
+            "reroll_damages": "",
+            "roll_damages_twice": "",
+            "snipe": "",
+            "hit_explodes": ""
+        }
+
         this.state = {params: this.props.params[this.props.letter]};
         this.weaponsVisibility = [];
         for (var i = 0; i < 5; i++) {
-            this.weaponsVisibility.push(
-                ("A" + this.props.letter + i) in this.state.params
-            );
+            var id = this.props.letter + i;
+            if (("A" + id) in this.state.params) {
+                this.weaponsVisibility.push(true);
+                this.state.params["options" + id] = {...this.defaultOptions, ...this.state.params["options" + id]};
+            } else {
+                this.weaponsVisibility.push(false);
+            }
         }
 
         this.showWeapon = this.showWeapon.bind(this);
@@ -391,31 +438,17 @@ class ParamsTable extends React.Component {
         }
 
         var id = this.props.letter + i
-        this.state.params["name" + id] = ("name" + id) in this.state.params ? this.state.params["name" + id] : "Anonymous Weapon"
-        this.state.params["A" + id] = ("A" + id) in this.state.params ? this.state.params["A" + id] : "1"
-        this.state.params["WSBS" + id] = ("WSBS" + id) in this.state.params ? this.state.params["WSBS" + id] : "4"
-        this.state.params["S" + id] = ("S" + id) in this.state.params ? this.state.params["S" + id] : "4"
-        this.state.params["AP" + id] = ("AP" + id) in this.state.params ? this.state.params["AP" + id] : "0"
-        this.state.params["D" + id] = ("D" + id) in this.state.params ? this.state.params["D" + id] : "1"
-        this.state.params["options" + id] = ("options" + id) in this.state.params ?
-            this.state.params["options" + id] :
-            {
-            "hit_modifier": "",
-            "wound_modifier": "",
-            "save_modifier": "",
-            "reroll_hits": "",
-            "reroll_wounds": "",
-            "dakka3": "",
-            "auto_wounds_on": "",
-            "is_blast": "",
-            "auto_hit": "",
-            "wounds_by_2D6": "",
-            "reroll_damages": "",
-            "roll_damages_twice": "",
-            "snipe": "",
-            "hit_explodes": ""
-            };
+
+        this.state.params["name" + id] = "Anonymous Weapon";
+        this.state.params["A" + id] = "1";
+        this.state.params["WSBS" + id] = "4";
+        this.state.params["S" + id] = "4";
+        this.state.params["AP" + id] = "0";
+        this.state.params["D" + id] =  "1";
+        this.state.params["options" + id] = {...this.defaultOptions};
+        console.log("this.defaultOptions", this.defaultOptions)
         this.props.syncAppParams(this.state.params, this.props.letter);
+
         this.setState({})
     }
 
