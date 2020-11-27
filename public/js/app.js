@@ -122,8 +122,8 @@ class App extends CloudFunctionClient {
         }
 
         this.state.processingMsg = "Firing on some captive Grots...";
-        var defaultProfileAState = {"nameA":"Anonymous+Profile","pointsA":"10","nameA0":"Anonymous+Weapon","AA0":"1","WSBSA0":"4","SA0":"4","APA0":"0","DA0":"1","optionsA0":{"hit_modifier":"","wound_modifier":"","save_modifier":"","reroll_hits":"","reroll_wounds":"","dakka3":"","auto_wounds_on":"","is_blast":"","auto_hit":"","wounds_by_2D6":"","reroll_damages":"","roll_damages_twice":"","snipe":"","hit_explodes":""}};
-        var defaultProfileBState = {"nameB":"Anonymous+Profile","pointsB":"10","nameB0":"Anonymous+Weapon","AB0":"1","WSBSB0":"4","SB0":"4","APB0":"0","DB0":"1","optionsB0":{"hit_modifier":"","wound_modifier":"","save_modifier":"","reroll_hits":"","reroll_wounds":"","dakka3":"","auto_wounds_on":"","is_blast":"","auto_hit":"","wounds_by_2D6":"","reroll_damages":"","roll_damages_twice":"","snipe":"","hit_explodes":""}};
+        var defaultProfileAState = {"nameA":"Anonymous Profile","pointsA":"10","nameA0":"Anonymous Weapon","AA0":"1","WSBSA0":"4","SA0":"4","APA0":"0","DA0":"1","optionsA0":{"hit_modifier":"","wound_modifier":"","save_modifier":"","reroll_hits":"","reroll_wounds":"","dakka3":"","auto_wounds_on":"","is_blast":"","auto_hit":"","wounds_by_2D6":"","reroll_damages":"","roll_damages_twice":"","snipe":"","hit_explodes":""}};
+        var defaultProfileBState = {"nameB":"Anonymous Profile","pointsB":"10","nameB0":"Anonymous Weapon","AB0":"1","WSBSB0":"4","SB0":"4","APB0":"0","DB0":"1","optionsB0":{"hit_modifier":"","wound_modifier":"","save_modifier":"","reroll_hits":"","reroll_wounds":"","dakka3":"","auto_wounds_on":"","is_blast":"","auto_hit":"","wounds_by_2D6":"","reroll_damages":"","roll_damages_twice":"","snipe":"","hit_explodes":""}};
         this.params = {
             A: queryString.has("share_settings") ? JSON.parse(queryString.get("share_settings"))["A"] : defaultProfileAState,
             B: queryString.has("share_settings") ? JSON.parse(queryString.get("share_settings"))["B"] : defaultProfileBState
