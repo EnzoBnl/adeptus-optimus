@@ -325,8 +325,8 @@ class Help extends React.Component {
                             <div className="w3-row-padding w3-center w3-margin-top w3-margin-bottom shop">
                                 <InfoBox title="Adeptus Optimus" body={<p>The Adeptus Optimus is an analytics organization attached to the Adeptus Mechanicus. The Adeptus Optimus Engine has been built by an Archmagos computus to give to lords of war an <b>intuitive and rigorous tool</b> to guide their equipment choices.</p>}/>
                                 <InfoBox title="Attacking Profiles" body={<p>The engine performs a comparison between two attacking profiles. Each <b>profile represents one or more models and their weapons</b>, with a cost associated with the whole. Each different weapon used by the attacking profile has to be declared along with a total number of Attacks made with it during one phase, by the models of the profile.</p>}/>
-                                <InfoBox title="Results" body={<p>The engine computes a precise average number of target unit's models killed per profile point for profiles A and B, against a <b>large variety of target units defense profiles</b>. The engine leverages advanced algorithmic to compute deterministic calculus leading to almost exact results.</p>}/>
-                                <InfoBox title="Accuracy" body={<p>The entire dice rolls sequences are theoretically modeled, making the Adeptus Optimus Engine the only tool correctly handling the <b>mixed effects of random damages characteristics and Feel No Pains</b> during the sequential damage allocation step, or the <b>threshold effects</b> introduced by a <b>random Strength characteristic</b>, among others.</p>}/>
+                                <InfoBox title="Results" body={<p>The engine computes a precise average number of target unit's models killed per profile point for profiles A and B, against a <b>large variety of target units defense profiles</b>. The engine leverages advanced algorithmics to compute deterministic calculus leading to almost exact results.</p>}/>
+                                <InfoBox title="Accuracy" body={<p>The entire dice rolls sequences are theoretically modeled, making the Adeptus Optimus Engine the only tool correctly handling the <b>mixed effects of random damage characteristics and Feel No Pains</b> during the sequential damage allocation step, or the <b>threshold effects</b> introduced by a <b>random Strength characteristic</b>, among others.</p>}/>
                             </div>
                         </div>
                     </div>
@@ -793,7 +793,7 @@ class SnipeOptionInput extends React.Component {
     }
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   <Check value={this.props.value}/> For each <select id="roll_type" className="w3-select option-select" name="option" value={this.state.roll_type} onChange={this.onChange}><option value=""></option><option value="wound">wound</option><option value="strength">strength</option></select> roll
+                   <Check value={this.props.value}/> Each <select id="roll_type" className="w3-select option-select" name="option" value={this.state.roll_type} onChange={this.onChange}><option value=""></option><option value="wound">wound</option><option value="strength">strength</option></select> roll
                     of <select id="threshold" value={this.state.threshold} className="w3-select option-select" name="option" onChange={this.onChange}>
                         <option value=""></option>
                         <option value="1">1+</option>
@@ -815,7 +815,7 @@ class SnipeOptionInput extends React.Component {
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="D3">D3</option>
-                    </select> mortal wounds
+                    </select> mortal wound(s)
                 </div>
     }
 }
