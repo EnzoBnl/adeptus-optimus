@@ -352,7 +352,7 @@ class Help extends React.Component {
                                 <InfoBox title="Adeptus Optimus" body={<p>The Adeptus Optimus is an analytics organization attached to the Adeptus Mechanicus. The Adeptus Optimus Engine has been built by an Archmagos computus to give to lords of war an <b>intuitive and rigorous tool</b> to guide their equipment choices.</p>}/>
                                 <InfoBox title="Attacking Profiles" body={<p>The engine performs a comparison between two attacking profiles. Each <b>profile represents one or more models and their weapons</b>, with a cost associated with the whole. Each different weapon used by the attacking profile has to be declared along with a total number of Attacks made with it during one phase, by the models of the profile.</p>}/>
                                 <InfoBox title="Results" body={<p>The engine computes a precise average number of target unit's models killed per profile point for profiles A and B, against a <b>large variety of target units defense profiles</b>. The engine leverages advanced algorithmics to compute deterministic calculus leading to almost exact results.</p>}/>
-                                <InfoBox title="Accuracy" body={<p>The entire dice rolls sequences are theoretically modeled, making the Adeptus Optimus Engine the only tool correctly handling the <b>mixed effects of random damage characteristics and Feel No Pains</b> during the sequential damage allocation step, or the <b>threshold effects</b> introduced by a <b>random Strength characteristic</b>, among others.</p>}/>
+                                <InfoBox title="Accuracy" body={<p>Thanks to our rigorous approach, we are the only tool to accurately handle complex events such as: the <b>interaction of random damage characteristics + additional mortal wounds + Feel No Pains</b> during the damage allocation step, or the threshold effect of <b>random Strength characteristics</b>, and many other mixes of optional effects...</p>}/>
                             </div>
                         </div>
                     </div>
@@ -690,7 +690,7 @@ class SaveModifierOptionInput extends React.Component {
 class RerollHitsOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   <Check value={this.props.value}/> Hit rolls reroll: <select id="reroll_hits" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <Check value={this.props.value}/> Hit roll reroll: <select id="reroll_hits" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                    <option value=""></option>
                    <option value="ones">1s</option>
                    <option value="onestwos">1s & 2s</option>
@@ -703,7 +703,7 @@ class RerollHitsOptionInput extends React.Component {
 class RerollWoundsOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   <Check value={this.props.value}/> Wound rolls reroll: <select id="reroll_wounds" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <Check value={this.props.value}/> Wound roll reroll: <select id="reroll_wounds" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                    <option value=""></option>
                    <option value="ones">1s</option>
                    <option value="onestwos">1s & 2s</option>
@@ -773,7 +773,7 @@ class WoundsBy2D6OptionInput extends React.Component {
 class RerollDamagesOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   <Check value={this.props.value}/> Damage rolls reroll: <select id="reroll_damages" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <Check value={this.props.value}/> Damage roll reroll: <select id="reroll_damages" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                    <option value="">No</option>
                    <option value="yes">Yes</option>
                    </select>
