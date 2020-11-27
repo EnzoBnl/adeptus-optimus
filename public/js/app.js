@@ -763,11 +763,21 @@ class SnipeOptionInput extends React.Component {
     constructor(props) {
         super(props);
         this.onChange = this.onChange.bind(this);
-        this.state = {
-            roll_type: "",
-            threshold: "",
-            n_mortals: ""
+        if (this.props.value == "") {
+            this.state = {
+                roll_type: "",
+                threshold: "",
+                n_mortals: ""
+            }
+        } else {
+            var valueArray = this.props.value.split(",");
+            this.state = {
+                roll_type: valueArray[0],
+                threshold: valueArray[1],
+                n_mortals: valueArray[2]
+            }
         }
+
     }
     collapseState() {
         if (this.state.roll_type == "" || this.state.threshold == "" || this.state.n_mortals == "") {
