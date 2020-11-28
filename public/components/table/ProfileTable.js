@@ -47,7 +47,7 @@ class ProfileTable extends React.Component {
 
         var id = this.props.letter + i
 
-        this.state.params["name" + id] = "Anonymous Weapon";
+        this.state.params["name" + id] = "Anonymous";
         this.state.params["A" + id] = "1";
         this.state.params["WSBS" + id] = "4";
         this.state.params["S" + id] = "4";
@@ -117,12 +117,12 @@ class ProfileTable extends React.Component {
         }
 
         return <table className="w3-table nowrap">
-                <ProfileTableHeader bg={"profile-" + this.props.letter + "-bg"} letter={this.props.letter} name={this.state.params["name" + this.props.letter]} points={this.state.params["points" + this.props.letter]} updateParam={this.updateParam}/>
-                <WeaponRow rank={this.getWeaponRank(0)} visible={this.weaponsVisibility[0]} onDelete={this.onDelete} id={this.props.letter + "0"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
-                <WeaponRow rank={this.getWeaponRank(1)} visible={this.weaponsVisibility[1]} onDelete={this.onDelete} id={this.props.letter + "1"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
-                <WeaponRow rank={this.getWeaponRank(2)} visible={this.weaponsVisibility[2]} onDelete={this.onDelete} id={this.props.letter + "2"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
-                <WeaponRow rank={this.getWeaponRank(3)} visible={this.weaponsVisibility[3]} onDelete={this.onDelete} id={this.props.letter + "3"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
-                <WeaponRow rank={this.getWeaponRank(4)} visible={this.weaponsVisibility[4]} onDelete={this.onDelete} id={this.props.letter + "4"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <ProfileTableHeader lang={this.props.lang} bg={"profile-" + this.props.letter + "-bg"} letter={this.props.letter} name={this.state.params["name" + this.props.letter]} points={this.state.params["points" + this.props.letter]} updateParam={this.updateParam}/>
+                <WeaponRow lang={this.props.lang} rank={this.getWeaponRank(0)} visible={this.weaponsVisibility[0]} onDelete={this.onDelete} id={this.props.letter + "0"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow lang={this.props.lang} rank={this.getWeaponRank(1)} visible={this.weaponsVisibility[1]} onDelete={this.onDelete} id={this.props.letter + "1"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow lang={this.props.lang} rank={this.getWeaponRank(2)} visible={this.weaponsVisibility[2]} onDelete={this.onDelete} id={this.props.letter + "2"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow lang={this.props.lang} rank={this.getWeaponRank(3)} visible={this.weaponsVisibility[3]} onDelete={this.onDelete} id={this.props.letter + "3"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
+                <WeaponRow lang={this.props.lang} rank={this.getWeaponRank(4)} visible={this.weaponsVisibility[4]} onDelete={this.onDelete} id={this.props.letter + "4"} params={this.state.params} updateParam={this.updateParam} updateOptionParam={this.updateOptionParam}/>
                 {this.getNumberOfActiveWeapons() == this.weaponsVisibility.length ? <tbody></tbody>: <tbody>
                   <tr>
                     <th><button className="logo-btn" onClick={this.showWeapon}><i className="fa"><b>+</b></i></button></th>

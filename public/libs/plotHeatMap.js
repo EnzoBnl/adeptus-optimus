@@ -1,4 +1,4 @@
-function plotHeatMap(xValues, yValues, zValues, ratios, scores) {
+function plotHeatMap(xValues, yValues, zValues, ratios, scores, lang) {
     var colorscaleValue = [ // ultramarine blue '#0d407f'  // buttons bg green '#7dae3e'
       [0, '#0C7BDC'],   // profile B
       [0.5, '#ffffff'],
@@ -13,27 +13,37 @@ function plotHeatMap(xValues, yValues, zValues, ratios, scores) {
             if (zValues[i][j] != null) {
                 var ratio = ratios[i][j]
                 if (ratio == 1.0) {
-                    label += "Profile A and B should destroy the same number of models per point"
+                    label += (lang == "en" ?
+                    "Profile A and B destroy the same number of models per point"
+                    :
+                    "Les Profils A et B détruisent un nombre équivalent de figurines par point");
                 }
                 else if (zValues[i][j] > 0){
-                    label += "Profile A should destroy <b>" + ratio + "</b> times more models per point than profile B";
+                    label += (lang == "en" ? "Profile A destroys" : "Le Profil A détruit") + " <b>" + ratio + "</b> " + (lang == "en" ? "times more models per point than profile B" : "fois plus de figurines par point que le Profil B");
                 } else {
-                    label += "Profile B should destroy <b>" + ratio + "</b> times more models per point than profile A";
+                    label += (lang == "en" ? "Profile B destroys" : "Le Profil B détruit") + " <b>" + ratio + "</b> " + (lang == "en" ? "times more models per point than profile A" : "fois plus de figurines par point que le Profil A");
                 }
-                label += "<br><br>Profile A details:"
+                label += "<br><br>" + (lang == "en" ? "Profile A details:" : "Détails du Profil A:")
                 for (var ia = 0; ia < scores[i][j][0].length; ia++) {
-                    label += "<br> - weapon #" + (ia + 1) + " should destroy <b>" + scores[i][j][0][ia] + "</b> models per phase";
+                    label += "<br> - " + (lang == "en" ? "weapon" : "l'arme") + " #" + (ia + 1) + (lang == "en" ? " destroys" : " détruit") +" <b>" + scores[i][j][0][ia] + "</b> " + (lang == "en" ? "models per phase" : "figurines par phase");
                 }
-                label += "<br>Profile B details:"
+                label += "<br><br>" + (lang == "en" ? "Profile B details:" : "Détails du Profil B:")
                 for (var ib = 0; ib < scores[i][j][1].length; ib++) {
-                    label += "<br> - weapon #" + (ib + 1) + " should destroy <b>" + scores[i][j][1][ib] + "</b> models per phase";
+                    label += "<br> - " + (lang == "en" ? "weapon" : "l'arme") + " #" + (ib + 1) + (lang == "en" ? " destroys" : " détruit") + " <b>" + scores[i][j][0][ib] + "</b> " + (lang == "en" ? "models per phase" : "figurines par phase");
                 }
             } else {
-                label += "<i>Not a common target profile</i>"
+                label += (lang == "en" ? "<i>Not a common target profile</i>" : "N'est pas un profil de cible courant")
             }
             line.push(label)
         }
         labels.push(line);
+    }
+
+
+    if (lang == "fr") {
+        for (var i = 0; i < yValues.length; i++) {
+            yValues[i] = yValues[i].replace("T", "E").replace("W", "PV");
+        }
     }
 
     var data = [{
@@ -43,7 +53,7 @@ function plotHeatMap(xValues, yValues, zValues, ratios, scores) {
       z: zValues,
       type: 'heatmap',
       text: labels,
-      hovertemplate: "Against defense profile: %{x}, %{y}<br>%{text}",
+      hovertemplate: (lang == "en" ? "Against target profile": "Contre le profil cible") + ": %{x}, %{y}<br>%{text}",
       colorscale: colorscaleValue,
       showscale: false,
       zmin: -1,
@@ -64,7 +74,10 @@ function plotHeatMap(xValues, yValues, zValues, ratios, scores) {
       xaxis: {
         ticks: '',
         side: 'top',
-        title: "Compares A and B average number of models destroyed per point<br>against a large variety of target units defense profiles",
+        title: (lang == "en" ?
+        "Compares the average number of models destroyed per point<br>against many target units profiles"
+        :
+        "Compare le nombre moyen de figurines détruites par point<br>sur de nombreux profils cible"),
         anchor: "free",
         position: 0.999,
         automargin: true

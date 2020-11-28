@@ -35,7 +35,7 @@ class Share extends AbstractCloudFunctionClient {
                           </div>
                         </div>
                     </div>
-                   <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.displayLink}><i className="fa fa-link"></i> Share Profiles</button>
+                   <button className="w3-btn shop-mid-bg datasheet-header" style={this.props.lang == "fr" ? {"font-size": "17px"}: {}} onClick={this.displayLink}><i className="fa fa-link"></i> {this.props.lang == "en" ? "Share Profiles": "Partager ces Profils"}</button>
                </div>;
     }
 }

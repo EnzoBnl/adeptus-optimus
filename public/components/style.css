@@ -95,6 +95,17 @@ button{
     font-size: 16px;
 }
 
+/* LangSelector */
+.lang-selector {
+    text-align: right;
+    margin-right: 10px;
+}
+
+.country-flag {
+    width: 35px;
+    cursor: pointer;
+}
+
 /* Share */
 .share {
     text-align: right;
@@ -197,7 +208,7 @@ th.profile-flag {
 }
 
 .w3-modal-content {
-    min-width: 700px;
+    min-width: 730px;
 }
 
 header {

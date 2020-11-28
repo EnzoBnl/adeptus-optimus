@@ -1,7 +1,7 @@
 class Login extends React.Component {
     constructor(props) {
         super(props);
-        this.state = props.initState;  // TODO remove
+        this.state = props.initState;
         this.handleChange=this.handleChange.bind(this);
         this.sendCredentialsToApp = props.sendCredentialsToApp;
         this.visible = true;

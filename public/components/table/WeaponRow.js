@@ -46,38 +46,38 @@ class WeaponRow extends React.Component {
                         <th><input maxLength="4" id="D" value={this.props.params["D"+this.props.id]} type="text" className="input input-dice align-left" onChange={this.handleChange}></input></th>
                         <th>
                             <button className="logo-btn" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="block"}}><i className="fa fa-cogs"></i></button>
-                            <i className={activeOptionsCount == 0 ? "option-inactive": "option-active"}> ({activeOptionsCount} active)</i>
+                            <i className={activeOptionsCount == 0 ? "option-inactive": "option-active"}> ({activeOptionsCount} {this.props.lang == "en" ? "active" : (activeOptionsCount > 1 ? "actives" : "active")})</i>
                         </th>
                       </tr>
                       <div id={"options-menu" + this.props.id} className="w3-modal">
                         <div className="w3-modal-content">
                           <header className="w3-container shop-bg datasheet-header">
-                            Profile {this.props.id.substring(0, 1)} - weapon {this.props.rank} - {this.props.params["name"+this.props.id]} - {activeOptionsCount} {activeOptionsCount <= 1 ? "active option" : "active options"}
+                            {this.props.lang == "en" ? "Profile" : "Profil"} {this.props.id.substring(0, 1)} - {this.props.lang == "en" ? "weapon" : "arme"} {this.props.rank} - {this.props.params["name"+this.props.id]} - {activeOptionsCount} {activeOptionsCount <= 1 ? (this.props.lang == "en" ? "active option" : "option active") : (this.props.lang == "en" ? "active options" : "options actives")}
                           </header>
                           <div className="w3-container shop">
-                              <h3>Attacks</h3>
-                              <IsBlastOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["is_blast"]}/>
-                              <h3>Hits</h3>
-                              <HitModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["hit_modifier"]}/>
-                              <RerollHitsOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_hits"]}/>
-                              <AutoHitOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_hit"]}/>
-                              <Dakka3OptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["dakka3"]}/>
-                              <HitExplodesOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["hit_explodes"]}/>
-                              <AutoWoundsOnOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_wounds_on"]}/>
-                              <h3>Wounds</h3>
-                              <WoundModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wound_modifier"]}/>
-                              <RerollWoundsOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_wounds"]}/>
-                              <SnipeOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["snipe"]}/>
-                              <WoundsBy2D6OptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wounds_by_2D6"]}/>
-                              <h3>Saves</h3>
-                              <SaveModifierOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["save_modifier"]}/>
-                              <h3>Damages</h3>
-                              <RerollDamagesOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_damages"]}/>
-                              <RollDamagesTwiceOptionInput handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["roll_damages_twice"]}/>
+                              <h3>{this.props.lang == "en" ? "Attacks" : "Attaques"}</h3>
+                              <IsBlastOptionInput lang={this.props.lang} handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["is_blast"]}/>
+                              <h3>{this.props.lang == "en" ? "Hits" : "Touches"}</h3>
+                              <HitModifierOptionInput  lang={this.props.lang}handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["hit_modifier"]}/>
+                              <RerollHitsOptionInput lang={this.props.lang} handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_hits"]}/>
+                              <AutoHitOptionInput lang={this.props.lang} handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_hit"]}/>
+                              <Dakka3OptionInput lang={this.props.lang} handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["dakka3"]}/>
+                              <HitExplodesOptionInput lang={this.props.lang} handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["hit_explodes"]}/>
+                              <AutoWoundsOnOptionInput lang={this.props.lang} handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["auto_wounds_on"]}/>
+                              <h3>{this.props.lang == "en" ? "Wounds" : "Blessures"}</h3>
+                              <WoundModifierOptionInput lang={this.props.lang} handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wound_modifier"]}/>
+                              <RerollWoundsOptionInput lang={this.props.lang} handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_wounds"]}/>
+                              <SnipeOptionInput lang={this.props.lang} handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["snipe"]}/>
+                              <WoundsBy2D6OptionInput lang={this.props.lang} handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["wounds_by_2D6"]}/>
+                              <h3>{this.props.lang == "en" ? "Saves" : "Sauvegardes"}</h3>
+                              <SaveModifierOptionInput lang={this.props.lang} handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["save_modifier"]}/>
+                              <h3>{this.props.lang == "en" ? "Damages" : "Dommages"}</h3>
+                              <RerollDamagesOptionInput lang={this.props.lang} handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["reroll_damages"]}/>
+                              <RollDamagesTwiceOptionInput lang={this.props.lang} handleOptionChange={this.handleOptionChange} value={this.props.params["options"+this.props.id]["roll_damages_twice"]}/>
                           </div>
                           <br/>
                           <footer>
-                            <button className="w3-btn w3-margin-bottom shop-mid-bg datasheet-header" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="none"}}><i className="fa fa-save"></i> Save & Close</button>
+                            <button className="w3-btn w3-margin-bottom shop-mid-bg datasheet-header" onClick={(event) => {document.getElementById("options-menu" + this.props.id).style.display="none"}}><i className="fa fa-save"></i> {this.props.lang == "en" ? "Save & Close" : "Sauvegarder"}</button>
                           </footer>
                         </div>
                       </div>
@@ -98,7 +98,7 @@ class Check extends React.Component {
 class HitModifierOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   <Check value={this.props.value}/> Hit roll modifier: <select id="hit_modifier" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <Check value={this.props.value}/> {this.props.lang == "en" ? "Hit roll modifier" : "Modificateur des jets de touche"}: <select id="hit_modifier" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                    <option value="-1">-1</option>
                    <option value=""></option>
                    <option value="1">+1</option>
@@ -110,7 +110,7 @@ class HitModifierOptionInput extends React.Component {
 class WoundModifierOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                  <Check value={this.props.value}/> Wound roll modifier: <select id="wound_modifier" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                  <Check value={this.props.value}/> {this.props.lang == "en" ? "Wound roll modifier" : "Modificateur des jets de blessure"}: <select id="wound_modifier" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                   <option value="-1">-1</option>
                   <option value=""></option>
                   <option value="1">+1</option>
@@ -122,7 +122,7 @@ class WoundModifierOptionInput extends React.Component {
 class SaveModifierOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                  <Check value={this.props.value}/> Save roll modifier: <select id="save_modifier" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                  <Check value={this.props.value}/> {this.props.lang == "en" ? "Save roll modifier" : "Modificateur des jets de sauvegarde"}: <select id="save_modifier" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                   <option value="-3">-3</option>
                   <option value="-2">-2</option>
                   <option value="-1">-1</option>
@@ -138,11 +138,11 @@ class SaveModifierOptionInput extends React.Component {
 class RerollHitsOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   <Check value={this.props.value}/> Hit roll reroll: <select id="reroll_hits" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <Check value={this.props.value}/> {this.props.lang == "en" ? "Hit roll reroll" : "Relance des jets de touche"}: <select id="reroll_hits" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                    <option value=""></option>
                    <option value="ones">1s</option>
                    <option value="onestwos">1s & 2s</option>
-                   <option value="full">full</option>
+                   <option value="full">{this.props.lang == "en" ? "full": "tous"}</option>
                    </select>
                </div>
     }
@@ -151,11 +151,11 @@ class RerollHitsOptionInput extends React.Component {
 class RerollWoundsOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   <Check value={this.props.value}/> Wound roll reroll: <select id="reroll_wounds" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <Check value={this.props.value}/> {this.props.lang == "en" ? "Wound roll reroll" : "Relance des jets de blessure"}: <select id="reroll_wounds" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                    <option value=""></option>
                    <option value="ones">1s</option>
                    <option value="onestwos">1s & 2s</option>
-                   <option value="full">full</option>
+                   <option value="full">{this.props.lang == "en" ? "full": "tous"}</option>
                    </select>
                </div>
     }
@@ -164,11 +164,11 @@ class RerollWoundsOptionInput extends React.Component {
 class Dakka3OptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   <Check value={this.props.value}/> An unmodified hit roll of <select id="dakka3" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <Check value={this.props.value}/> {this.props.lang == "en" ? "An unmodified hit roll of" : "Un jet de touche non modifié de"} <select id="dakka3" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                    <option value=""></option>
                    <option value="6">6+</option>
                    <option value="5">5+</option>
-                   </select> triggers one additional hit roll (<i>Dakka!<sup>3</sup></i>)
+                   </select> {this.props.lang == "en" ? "triggers one additional hit roll" : "génère un jet de touche supplémentaire"} (<i>Dakka!<sup>3</sup></i>)
                </div>
     }
 }
@@ -176,11 +176,11 @@ class Dakka3OptionInput extends React.Component {
 class AutoWoundsOnOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   <Check value={this.props.value}/> An unmodified hit roll of <select id="auto_wounds_on" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <Check value={this.props.value}/> {this.props.lang == "en" ? "An unmodified hit roll of" : "Un jet de touche non modifié de"} <select id="auto_wounds_on" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                    <option value=""></option>
                    <option value="6">6+</option>
                    <option value="5">5+</option>
-                   </select> always hits and automatically wounds
+                   </select> {this.props.lang == "en" ? "always hits and automatically wounds" : "touche toujours et blesse automatiquement."}
                </div>
     }
 }
@@ -188,9 +188,9 @@ class AutoWoundsOnOptionInput extends React.Component {
 class IsBlastOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   <Check value={this.props.value}/> Is a blast weapon: <select id="is_blast" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
-                   <option value="">No</option>
-                   <option value="yes">Yes</option>
+                   <Check value={this.props.value}/> {this.props.lang == "en" ? "Is a blast weapon" : "Est une arme à déflagration"}: <select id="is_blast" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <option value="">{this.props.lang == "en" ? "No": "Non"}</option>
+                   <option value="yes">{this.props.lang == "en" ? "Yes": "Oui"}</option>
                    </select>
                </div>
     }
@@ -199,9 +199,9 @@ class IsBlastOptionInput extends React.Component {
 class AutoHitOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   <Check value={this.props.value}/> Automatically hits: <select id="auto_hit" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
-                   <option value="">No</option>
-                   <option value="yes">Yes</option>
+                   <Check value={this.props.value}/> {this.props.lang == "en" ? "Automatically hits" : "Touche automatiquement"}: <select id="auto_hit" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <option value="">{this.props.lang == "en" ? "No": "Non"}</option>
+                   <option value="yes">{this.props.lang == "en" ? "Yes": "Oui"}</option>
                    </select>
                </div>
     }
@@ -210,9 +210,9 @@ class AutoHitOptionInput extends React.Component {
 class WoundsBy2D6OptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   <Check value={this.props.value}/> Wounds if the result of 2D6 is greater or equal to target’s Toughness: <select id="wounds_by_2D6" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
-                   <option value="">No</option>
-                   <option value="yes">Yes</option>
+                   <Check value={this.props.value}/> {this.props.lang == "en" ? "Wounds if the result of 2D6 is greater or equal to target’s Toughness" : "Blesse si le résultat de 2D6 est supérieur ou égal à l'Endurance de la cible"}: <select id="wounds_by_2D6" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <option value="">{this.props.lang == "en" ? "No": "Non"}</option>
+                   <option value="yes">{this.props.lang == "en" ? "Yes": "Oui"}</option>
                    </select>
                </div>
     }
@@ -221,9 +221,9 @@ class WoundsBy2D6OptionInput extends React.Component {
 class RerollDamagesOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   <Check value={this.props.value}/> Damage roll reroll: <select id="reroll_damages" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
-                   <option value="">No</option>
-                   <option value="yes">Yes</option>
+                   <Check value={this.props.value}/> {this.props.lang == "en" ? "Damage roll reroll" : "Relance des jets de dommages"} : <select id="reroll_damages" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <option value="">{this.props.lang == "en" ? "No": "Non"}</option>
+                   <option value="yes">{this.props.lang == "en" ? "Yes": "Oui"}</option>
                    </select>
                </div>
     }
@@ -232,9 +232,9 @@ class RerollDamagesOptionInput extends React.Component {
 class RollDamagesTwiceOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   <Check value={this.props.value}/> Roll random damages twice and discard the lowest result: <select id="roll_damages_twice" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
-                   <option value="">No</option>
-                   <option value="yes">Yes</option>
+                   <Check value={this.props.value}/> {this.props.lang == "en" ? "Roll random damages twice and discard the lowest result": "Jetez deux dés pour infliger les dégâts et défausser le résultat le plus bas"}: <select id="roll_damages_twice" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <option value="">{this.props.lang == "en" ? "No": "Non"}</option>
+                   <option value="yes">{this.props.lang == "en" ? "Yes": "Oui"}</option>
                    </select>
                </div>
     }
@@ -274,8 +274,8 @@ class SnipeOptionInput extends React.Component {
     }
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   <Check value={this.props.value}/> Each <select id="roll_type" className="w3-select option-select" name="option" value={this.state.roll_type} onChange={this.onChange}><option value=""></option><option value="wound">wound</option><option value="strength">strength</option></select> roll
-                    of <select id="threshold" value={this.state.threshold} className="w3-select option-select" name="option" onChange={this.onChange}>
+                   <Check value={this.props.value}/> {this.props.lang == "en" ? "Each" : "Chaque jet de"} <select id="roll_type" className="w3-select option-select" name="option" value={this.state.roll_type} onChange={this.onChange}><option value=""></option><option value="wound">{this.props.lang == "en" ? "wound" : "blessure"}</option><option value="strength">{this.props.lang == "en" ? "Strength" : "Force"}</option></select> {this.props.lang == "en" ? "roll of" : "de"}
+                    <select id="threshold" value={this.state.threshold} className="w3-select option-select" name="option" onChange={this.onChange}>
                         <option value=""></option>
                         <option value="1">1+</option>
                         <option value="2">2+</option>
@@ -290,13 +290,13 @@ class SnipeOptionInput extends React.Component {
                         <option value="11">11+</option>
                         <option value="12">12+</option>
                     </select>
-                   , inflicts <select id="n_mortals" value={this.state.n_mortals} className="w3-select option-select" name="option" onChange={this.onChange}>
+                   , {this.props.lang == "en" ? "inflicts" : "inflige"} <select id="n_mortals" value={this.state.n_mortals} className="w3-select option-select" name="option" onChange={this.onChange}>
                         <option value=""></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="D3">D3</option>
-                    </select> mortal wound(s)
+                    </select> {this.props.lang == "en" ? "mortal wound(s)" : "blessure(s) mortelle(s)"}
                 </div>
     }
 }
@@ -304,11 +304,11 @@ class SnipeOptionInput extends React.Component {
 class HitExplodesOptionInput extends React.Component {
     render () {
         return <div className={"option-" + (this.props.value != "" ? "active" : "inactive")}>
-                   <Check value={this.props.value}/> An unmodified hit roll of <select id="hit_explodes" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
+                   <Check value={this.props.value}/> {this.props.lang == "en" ? "An unmodified hit roll of" : "Un jet de touche non modifié de"} <select id="hit_explodes" className="w3-select option-select" name="option" value={this.props.value} onChange={(event) => {this.props.handleOptionChange(event.target.id, event.target.value)}}>
                     <option value=""></option>
                     <option value="6">6+</option>
                     <option value="5">5+</option>
-                    </select> scores one additional hit.
+                    </select> {this.props.lang == "en" ? "scores one additional hit" : "génère une touche supplémentaire"}.
                </div>
     }
 }
