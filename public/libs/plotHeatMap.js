@@ -1,4 +1,4 @@
-function plotComparatorChart(xValues, yValues, zValues, ratios, scores) {
+function plotHeatMap(xValues, yValues, zValues, ratios, scores) {
     var colorscaleValue = [ // ultramarine blue '#0d407f'  // buttons bg green '#7dae3e'
       [0, '#0C7BDC'],   // profile B
       [0.5, '#ffffff'],

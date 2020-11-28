@@ -12,7 +12,7 @@ Sequence of declaration. (last has superiority)
 /* FONTS */
 @font-face {
     font-family: medieval-gothic;
-    src:url("../fonts/Iglesia.ttf");  /* 100% free */
+    src:url("./Iglesia.ttf");  /* 100% free */
 }
 
 /* DIVERSE UNUSED*/
