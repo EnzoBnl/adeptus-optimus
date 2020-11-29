@@ -82,6 +82,7 @@ button{
 
 .tipeee {
     text-align: center;
+    cursor: pointer;
 }
 
 /* Login */
@@ -97,7 +98,7 @@ button{
 
 /* LangSelector */
 .lang-selector {
-    text-align: right;
+    text-align: center;
     margin-right: 10px;
 }
 

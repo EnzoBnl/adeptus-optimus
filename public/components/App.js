@@ -67,7 +67,6 @@ class App extends AbstractCloudFunctionClient {
             <LangSelector notify={this.notifyLangSelection} />
             <h1><a href="index.html" className="title">Adeptus <img src="components/logo.png" width="100px"/> Optimus</a></h1>
             <p className="title subscript">" {this.state.lang == "en" ? "Support your choices, on behalf of the Emperor.": "Soutenir vos choix, au nom de l'Empereur'"}"</p>
-            <div className="tipeee"><a href="https://en.tipeee.com/adeptus-optimus"><img src="components/tipeee.svg" width="250px"></img></a></div>
             <br/>
             <br/>
             <br/>
@@ -97,6 +96,7 @@ class App extends AbstractCloudFunctionClient {
             <br/>
             <br/>
             <div className="w3-bar shop-mid-bg"><div className="w3-bar-item"></div></div>
+            <a className="tipeee" href="https://en.tipeee.com/adeptus-optimus"><img src="components/tipeee.svg" width="300px"></img></a>
             <Login initState={{id: this.state.id, token: this.state.token}} sendCredentialsToApp={this.sendCredentialsToApp}/>
         </div>
     }
