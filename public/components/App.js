@@ -51,7 +51,6 @@ class App extends AbstractCloudFunctionClient {
                 this.setState({state: "idle", msg: ""});
             }
         );
-
     }
 
     notifyLangSelection(selectedLang) {
@@ -60,9 +59,9 @@ class App extends AbstractCloudFunctionClient {
     }
 
     render() {
-        console.log("App render() called")
-        console.log(this.state);
-        console.log(this.params);
+//        console.log("App render() called")
+//        console.log(this.state);
+//        console.log(this.params);
         return <div>
             <div className="shop-bg"><div className="v9">{this.state.lang == "en" ? "Up to date with v9": "À jour avec la v9"}</div></div>
             <LangSelector notify={this.notifyLangSelection} />

@@ -54,7 +54,6 @@ class ProfileTable extends React.Component {
         this.state.params["AP" + id] = "0";
         this.state.params["D" + id] =  "1";
         this.state.params["options" + id] = {...this.defaultOptions};
-        console.log("this.defaultOptions", this.defaultOptions)
         this.props.syncAppParams(this.state.params, this.props.letter);
 
         this.setState({})
