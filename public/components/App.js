@@ -85,7 +85,7 @@ class App extends AbstractCloudFunctionClient {
             <br/>
             <br/>
             <div className="w3-bar shop-bg"><div className="w3-bar-item"></div></div>
-            {this.state.state == "processing" ? "" : <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.handleSubmit}><i className="fa fa-play-circle w3-xlarge"></i> {this.props.lang == "en" ? "Compare" : "Comparer"}</button>}
+            {this.state.state == "processing" ? "" : <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.handleSubmit}><i className="fa fa-play-circle w3-xlarge"></i> {this.state.lang == "en" ? "Compare" : "Comparer"}</button>}
             <br/>
             <br/>
             <ProgressLog state={this.state.state} msg={this.state.msg}/>
