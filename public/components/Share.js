@@ -28,7 +28,7 @@ class Share extends AbstractCloudFunctionClient {
         return <div className="share">
                     <div id="link-modal" className="w3-modal" style={{display: this.state.state != "idle" ? "block" : "none"}}>
                         <div className="w3-modal-content link-modal">
-                          <header className="w3-container datasheet-header">Link to current settings:</header>
+                          <header className="w3-container datasheet-header">{this.props.lang == "en" ? "Link to current settings" : "Lien vers les paramètres actuels"}:</header>
                           <span className="w3-btn w3-display-topright close" onClick={(event) => {this.setState({state: "idle"})}}><i className="fa fa-close"></i></span>
                           <div className="w3-container shop">
                           <i>{this.state.msg}</i>
