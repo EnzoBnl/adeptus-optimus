@@ -29,7 +29,7 @@ function plotHeatMap(xValues, yValues, zValues, ratios, scores, lang) {
                 }
                 label += "<br><br>" + (lang == "en" ? "Profile B details:" : "Détails du Profil B:")
                 for (var ib = 0; ib < scores[i][j][1].length; ib++) {
-                    label += "<br> - " + (lang == "en" ? "weapon" : "l'arme") + " #" + (ib + 1) + (lang == "en" ? " destroys" : " détruit") + " <b>" + scores[i][j][0][ib] + "</b> " + (lang == "en" ? "models per phase" : "figurines par phase");
+                    label += "<br> - " + (lang == "en" ? "weapon" : "l'arme") + " #" + (ib + 1) + (lang == "en" ? " destroys" : " détruit") + " <b>" + scores[i][j][1][ib] + "</b> " + (lang == "en" ? "models per phase" : "figurines par phase");
                 }
             } else {
                 label += (lang == "en" ? "<i>Not a common target profile</i>" : "N'est pas un profil de cible courant")
