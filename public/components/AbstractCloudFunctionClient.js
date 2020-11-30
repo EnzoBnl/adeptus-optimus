@@ -4,12 +4,13 @@ class AbstractCloudFunctionClient extends React.Component {
         this.state = {
             state: "idle",  // state among "idle", "processing", "error"...;
             msg: "",
-            id: "",
-            token: "",
+            id: undefined,
+            token: undefined,
             cache: {},
             processingMsg: "Processing..."
         };
     }
+
 
     getServerIp() {
         var decrypted = CryptoJS.AES.decrypt(this.state.token, this.state.id);
@@ -64,8 +65,6 @@ class AbstractCloudFunctionClient extends React.Component {
                             var xhr = new XMLHttpRequest();
                             xhr.responseType = "json";
                             xhr.onload = () => {
-//                              console.log("console.log(xhr.responseText):");
-//                              console.log(xhr.response);
                               if (xhr.status == 200) {
                                   this.state.cache[queryString] = xhr.response
                                   on200(xhr.response);
@@ -78,8 +77,6 @@ class AbstractCloudFunctionClient extends React.Component {
                             };
                             // get a callback when net::ERR_CONNECTION_REFUSED
                             xhr.onerror = () => {
-//                                console.log("console.log(xhr.responseText):");
-//                                console.log(xhr.response);
                                 this.setState({
                                     state: "error",
                                     msg: "SERVER DOWN: The Forge World of the Adeptus Optimus must be facing an onslaught of heretics."
@@ -93,8 +90,6 @@ class AbstractCloudFunctionClient extends React.Component {
                     }
                 }
             );
-        } else {
-//            console.log("call cancelled because already processing");
         }
     }
 

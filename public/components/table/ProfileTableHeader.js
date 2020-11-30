@@ -12,14 +12,14 @@ class ProfileTableHeader extends React.Component {
                     </th>
                   </tr>
                   <tr className="datasheet-header">
-                    <th>{this.props.lang == "en" ? "Name": "Nom"}: <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-profile-name" value={this.props.name} onChange={(event) => {this.props.updateParam(event.target.id + this.props.letter, event.target.value)}} ></input></th>
+                    <th>{this.props.lang == "en" ? "Name": "Nom"}: <input maxLength="32" id="name" type="text" className="white-bg datasheet-body input input-profile-name" value={this.props.name} onChange={(event) => {this.props.onParamChange(event.target.id + this.props.letter, event.target.value)}} ></input></th>
                   </tr>
                   <tr className="datasheet-header">
                     <th>Points<span className=" w3-tooltip"><span className="w3-text w3-tag param-tag tag">{this.props.lang == "en" ?
                     <span>Points cost of the whole attacking profile.<br/>Example: For 5 Nobz with klaws you can enter either <b>135</b> or <b>5*(17+10)</b></span>
                     :
                     <span>Coût en points de l'ensemble du profil attaquant.<br/>Exemple: Pour 5 Nobz avec des pinces on peut entrer <b>135</b> ou bien <b>5*(17+10)</b></span>
-                    }</span><sup className="fa fa-question-circle w3-medium"></sup></span>: <input maxLength="32" id="points" value={this.props.points} type="text" className="white-bg datasheet-body input input-weapon-name align-left" onChange={(event) => {this.props.updateParam(event.target.id + this.props.letter, event.target.value)}}></input></th>
+                    }</span><sup className="fa fa-question-circle w3-medium"></sup></span>: <input maxLength="32" id="points" value={this.props.points} type="text" className="white-bg datasheet-body input input-weapon-name align-left" onChange={(event) => this.props.onParamChange(event.target.id + this.props.letter, event.target.value)}></input></th>
                   </tr>
                   <tr className="datasheet-header greeny-bg">
                     <th className="white-bg">{this.props.lang == "en" ? "Weapons used" : "Armes utilisées"}<span className=" w3-tooltip"><span className="w3-text w3-tag weapons-tag tag">{this.props.lang == "en" ?

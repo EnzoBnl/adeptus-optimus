@@ -1,45 +1,48 @@
 class App extends AbstractCloudFunctionClient {
     constructor(props) {
         super(props);
-        this.syncAppParams = this.syncAppParams.bind(this);
-        this.sendCredentialsToApp = this.sendCredentialsToApp.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.notifyLangSelection = this.notifyLangSelection.bind(this);
-        this.state.lang = "en";
         // dev query string:  id=admin&token=U2FsdGVkX197wfW/IY0sqa/Ckju8AeU3pRLPSra1aCxZeAHrWePPDPJlYTy5bwdU
         var queryString = new URLSearchParams(window.location.search);
-
-        if (queryString.has("id")) {
-            this.state.id = queryString.get("id");
-        } else {
-            this.state.id = "standard_user";
+        const initLang = "en";
+        this.state = {
+            ...this.state,
+            lang: initLang,
+            processingMsg: this.getProcessingMsg(initLang),
+            // init to query string provided state or default one
+            params: {
+                A: queryString.has("share_settings") ? JSON.parse(queryString.get("share_settings"))["A"] : {"nameA":"Anonymous","pointsA":"10","nameA0":"Anonymous","AA0":"1","WSBSA0":"4","SA0":"4","APA0":"0","DA0":"1","optionsA0":{}},
+                B: queryString.has("share_settings") ? JSON.parse(queryString.get("share_settings"))["B"] : {"nameB":"Anonymous","pointsB":"10","nameB0":"Anonymous","AB0":"1","WSBSB0":"4","SB0":"4","APB0":"0","DB0":"1","optionsB0":{}}
+            },
+            id: queryString.has("id") ? queryString.get("id") : "standard_user",
+            token: queryString.has("token") ? queryString.get("token") : "U2FsdGVkX18wtnoUOJJmr+GIeN2B08X1eu5+oV0/Cx1TZYBFhO/9L7mM1MBwtSMS19uZ6yXRKb/D8eu8oeOwBYVi4Irfvrlip0EKZ0y/gse8KnFz1Rq7HIsdeYXEXiZ9"
         }
-        if (queryString.has("token")) {
-            this.state.token = queryString.get("token");
-        } else {
-            this.state.token = "U2FsdGVkX18wtnoUOJJmr+GIeN2B08X1eu5+oV0/Cx1TZYBFhO/9L7mM1MBwtSMS19uZ6yXRKb/D8eu8oeOwBYVi4Irfvrlip0EKZ0y/gse8KnFz1Rq7HIsdeYXEXiZ9";
-        }
 
-        this.state.processingMsg = this.getProcessingMsg()
-        var defaultProfileAState = {"nameA":"Anonymous","pointsA":"10","nameA0":"Anonymous","AA0":"1","WSBSA0":"4","SA0":"4","APA0":"0","DA0":"1","optionsA0":{}};
-        var defaultProfileBState = {"nameB":"Anonymous","pointsB":"10","nameB0":"Anonymous","AB0":"1","WSBSB0":"4","SB0":"4","APB0":"0","DB0":"1","optionsB0":{}};
-        this.params = {
-            A: queryString.has("share_settings") ? JSON.parse(queryString.get("share_settings"))["A"] : defaultProfileAState,
-            B: queryString.has("share_settings") ? JSON.parse(queryString.get("share_settings"))["B"] : defaultProfileBState
+        this.nWeapons = 8;
+        this.defaultOptions = {"hit_modifier": "", "wound_modifier": "", "save_modifier": "", "reroll_hits": "", "reroll_wounds": "", "dakka3": "", "auto_wounds_on": "", "is_blast": "", "auto_hit": "", "wounds_by_2D6": "", "reroll_damages": "", "roll_damages_twice": "", "snipe": "", "hit_explodes": ""};
+
+        // fill empty options
+        for (var letter of "AB") {
+            for (var i = 0; i < this.nWeapons; i++) {
+                const id = letter + i;
+                // ony existing weapon lines
+                if (("A" + id) in this.state.params[letter]) {
+                    this.state.params[letter]["options" + id] = {...this.defaultOptions, ...this.state.params[letter]["options" + id]};
+                }
+            }
         }
     }
 
-    getProcessingMsg() {
-        return (this.state.lang == "en" ? "Firing on some captive Grots..." : "Canardage de quelques Gretchins");
+    getProcessingMsg(selectedLang) {
+        return (selectedLang == "en" ? "Firing on some captive Grots..." : "Canardage de quelques Gretchins");
     }
 
-    handleSubmit(event) {
+    runComparison = (event) => {
         event.preventDefault();
         // ensure not to run if already running thanks to 'compare' button hiding
         document.getElementById("chart").innerHTML = "";
 
         this.buildAndRunXHR(
-            "params=" + encodeURIComponent(this.stringifyRelevantParams(this.params)),
+            "params=" + encodeURIComponent(this.stringifyRelevantParams(this.state.params)),
             (response) => {
                 plotHeatMap(
                     response["x"],
@@ -53,15 +56,17 @@ class App extends AbstractCloudFunctionClient {
         );
     }
 
-    notifyLangSelection(selectedLang) {
-        this.state.lang = selectedLang;
-        this.setState({processingMsg: this.getProcessingMsg()});
+    notifyLangSelection = (selectedLang) => {
+        this.setState({
+            lang: selectedLang,
+            processingMsg: this.getProcessingMsg(selectedLang)
+        });
     }
 
     render() {
-//        console.log("App render() called")
-//        console.log(this.state);
-//        console.log(this.params);
+        console.log("App render() called")
+        console.log(this.state);
+        console.log(this.state.params);
         return <div>
             <div className="shop-bg"><div className="v9">{this.state.lang == "en" ? "Up to date with v9": "À jour avec la v9"}</div></div>
             <LangSelector notify={this.notifyLangSelection} />
@@ -70,21 +75,21 @@ class App extends AbstractCloudFunctionClient {
             <br/>
             <br/>
             <br/>
-            <Share lang={this.state.lang} queryString={"share_settings=" + encodeURIComponent(JSON.stringify(this.withoutEmptyOptions(this.params)))} id={this.state.id} token={this.state.token}/>
+            <Share lang={this.state.lang} queryString={"share_settings=" + encodeURIComponent(JSON.stringify(this.withoutEmptyOptions(this.state.params)))} id={this.state.id} token={this.state.token}/>
             <div style={{overflowX: "auto", overflowY: "hidden"}}>
-                <ProfileTable lang={this.state.lang} syncAppParams={this.syncAppParams} params={this.params} letter="A"/>
+                <ProfileTable nWeapons={this.nWeapons} lang={this.state.lang} deleteParam={this.deleteParam} onParamChange={this.onParamChange} onParamsChange={this.onParamsChange} params={this.state.params["A"]} letter="A" defaultOptions={this.defaultOptions}/>
             </div>
             <br/>
             <br/>
             <br/>
             <div style={{overflowX: "auto", overflowY: "hidden"}}>
-                <ProfileTable lang={this.state.lang} syncAppParams={this.syncAppParams} params={this.params} letter="B"/>
+                <ProfileTable nWeapons={this.nWeapons} lang={this.state.lang} deleteParam={this.deleteParam} onParamChange={this.onParamChange} onParamsChange={this.onParamsChange} params={this.state.params["B"]} letter="B" defaultOptions={this.defaultOptions}/>
             </div>
             <br/>
             <br/>
             <br/>
             <div className="w3-bar shop-bg"><div className="w3-bar-item"></div></div>
-            {this.state.state == "processing" ? "" : <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.handleSubmit}><i className="fa fa-play-circle w3-xlarge"></i> {this.state.lang == "en" ? "Compare" : "Comparer"}</button>}
+            {this.state.state == "processing" ? "" : <button className="w3-btn shop-mid-bg datasheet-header" onClick={this.runComparison}><i className="fa fa-play-circle w3-xlarge"></i> {this.state.lang == "en" ? "Compare" : "Comparer"}</button>}
             <br/>
             <br/>
             <ProgressLog state={this.state.state} msg={this.state.msg}/>
@@ -97,23 +102,34 @@ class App extends AbstractCloudFunctionClient {
             <br/>
             <div className="w3-bar shop-mid-bg"><div className="w3-bar-item"></div></div>
             <a className="tipeee" href="https://en.tipeee.com/adeptus-optimus"><img src="components/tipeee.svg" width="300px"></img></a>
-            <Login initState={{id: this.state.id, token: this.state.token}} sendCredentialsToApp={this.sendCredentialsToApp}/>
+            <Login id={this.state.id} token={this.state.token} onChange={this.onChange}/>
         </div>
     }
 
-    syncAppParams(params, letter) {
-        this.params[letter] = params;
+    onParamChange = (k, v, letter) => {
+        this.state.params[letter][k] = v;
         this.setState({});
     }
 
-    sendCredentialsToApp(creds) {
-        this.setState(creds);
+    onParamsChange = (params, letter) => {
+        this.state.params[letter] = {...this.state.params[letter], ...params};
+        this.setState({});
+    }
+
+    onChange = (mapping) => {
+        console.log(mapping);
+        this.setState(mapping);
+    }
+
+    deleteParam = (key, letter) => {
+        delete this.state.params[letter][key];
+        this.setState({});
     }
 
     getRelevantParamsKeys() {
         var tableRelevantState = {
-            ...this.params.A,
-            ...this.params.B
+            ...this.state.params.A,
+            ...this.state.params.B
         };
         Object.entries(tableRelevantState).forEach(([key, value]) => {
             if (key.includes("name")) {
@@ -125,13 +141,13 @@ class App extends AbstractCloudFunctionClient {
         return tableRelevantState;
     }
 
-    stringifyRelevantParams(Params) {
-        return JSON.stringify(this.getRelevantParamsKeys(Params));
+    stringifyRelevantParams(params) {
+        return JSON.stringify(this.getRelevantParamsKeys(params));
     }
 
-    withoutEntryHavingEmptyValues(dict) {
+    withoutEntryHavingEmptyValues(obj) {
         var res = {};
-        Object.entries(dict).forEach(([key, value]) => {
+        Object.entries(obj).forEach(([key, value]) => {
             if (value != "") {
                 res[key] = value;
             }
@@ -142,7 +158,7 @@ class App extends AbstractCloudFunctionClient {
     withoutEmptyOptions(params) {
         var res = {};
         for(var letter of "AB"){
-           var paramsCopy = {...this.params[letter]};
+           var paramsCopy = {...this.state.params[letter]};
            Object.entries(paramsCopy).forEach(([key, value]) => {
                if (key.includes("option")) {
                    paramsCopy[key] = this.withoutEntryHavingEmptyValues(value);

@@ -18,7 +18,6 @@ class ProgressLog extends React.Component {
                             <li>a link to current profiles (generate it using the <i>Share Profiles</i> button)</li>
                         </ul>
                         </div>
-
                    </div>
         } else {
             return <span></span>;

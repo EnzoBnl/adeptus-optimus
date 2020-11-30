@@ -25,7 +25,7 @@ function plotHeatMap(xValues, yValues, zValues, ratios, scores, lang) {
                 }
                 label += "<br><br>" + (lang == "en" ? "Profile A details:" : "Détails du Profil A:")
                 for (var ia = 0; ia < scores[i][j][0].length; ia++) {
-                    label += "<br> - " + (lang == "en" ? "weapon" : "l'arme") + " #" + (ia + 1) + (lang == "en" ? " destroys" : " détruit") +" <b>" + scores[i][j][0][ia] + "</b> " + (lang == "en" ? "models per phase" : "figurines par phase");
+                    label += "<br> - " + (lang == "en" ? "weapon" : "l'arme") + " #" + (ia + 1) + (lang == "en" ? " destroys" : " détruit") + " <b>" + scores[i][j][0][ia] + "</b> " + (lang == "en" ? "models per phase" : "figurines par phase");
                 }
                 label += "<br><br>" + (lang == "en" ? "Profile B details:" : "Détails du Profil B:")
                 for (var ib = 0; ib < scores[i][j][1].length; ib++) {
@@ -39,10 +39,23 @@ function plotHeatMap(xValues, yValues, zValues, ratios, scores, lang) {
         labels.push(line);
     }
 
+    const withBlast = yValues[0].includes("unit size");
 
     if (lang == "fr") {
         for (var i = 0; i < yValues.length; i++) {
-            yValues[i] = yValues[i].replace("T", "E").replace("W", "PV");
+            yValues[i] = yValues[i]
+                .replace("T", "E")
+                .replace("W", "PV")
+                .replace("unit size", "nb figurines")
+                .replace("to", "à");
+        }
+    }
+
+    var marginL = 115;
+    if (withBlast) {
+        marginL += 80;
+        if (lang == "fr") {
+            marginL += 15
         }
     }
 
@@ -91,7 +104,7 @@ function plotHeatMap(xValues, yValues, zValues, ratios, scores, lang) {
       margin: {
         t: 150,
         b: 15,
-        l:185
+        l: marginL
       },
       height: 2000,
     };
