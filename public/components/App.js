@@ -30,13 +30,19 @@ class App extends AbstractCloudFunctionClient {
                 }
             }
         }
+        this.runComparison = this.runComparison.bind(this);
+        this.notifyLangSelection = this.notifyLangSelection.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.onParamChange = this.onParamChange.bind(this);
+        this.onParamsChange = this.onParamsChange.bind(this);
+        this.deleteParam = this.deleteParam.bind(this);
     }
 
     getProcessingMsg(selectedLang) {
         return (selectedLang == "en" ? "Firing on some captive Grots..." : "Canardage de quelques Gretchins");
     }
 
-    runComparison = (event) => {
+    runComparison(event) {
         event.preventDefault();
         // ensure not to run if already running thanks to 'compare' button hiding
         document.getElementById("chart").innerHTML = "";
@@ -56,7 +62,7 @@ class App extends AbstractCloudFunctionClient {
         );
     }
 
-    notifyLangSelection = (selectedLang) => {
+    notifyLangSelection(selectedLang) {
         this.setState({
             lang: selectedLang,
             processingMsg: this.getProcessingMsg(selectedLang)
@@ -106,22 +112,22 @@ class App extends AbstractCloudFunctionClient {
         </div>
     }
 
-    onParamChange = (k, v, letter) => {
+    onParamChange(k, v, letter) {
         this.state.params[letter][k] = v;
         this.setState({});
     }
 
-    onParamsChange = (params, letter) => {
+    onParamsChange(params, letter) {
         this.state.params[letter] = {...this.state.params[letter], ...params};
         this.setState({});
     }
 
-    onChange = (mapping) => {
+    onChange(mapping) {
         console.log(mapping);
         this.setState(mapping);
     }
 
-    deleteParam = (key, letter) => {
+    deleteParam(key, letter) {
         delete this.state.params[letter][key];
         this.setState({});
     }

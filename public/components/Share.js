@@ -6,10 +6,10 @@ class Share extends AbstractCloudFunctionClient {
         this.state.token = this.props.token;
         this.state.processingMsg = <i className="fa fa-gear w3-xxlarge w3-spin"></i>;
 
-
+        this.displayLink = this.displayLink.bind(this);
     }
 
-    displayLink = () => {
+    displayLink() {
         this.buildAndRunXHR(
             this.props.queryString,
             (response) => {  // on200

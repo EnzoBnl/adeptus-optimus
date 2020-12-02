@@ -2,6 +2,8 @@ class WeaponRow extends React.Component {
     constructor(props) {
         super(props);
         this.diceInputChars = "0123456789D";
+        this.onParamChange = this.onParamChange.bind(this);
+        this.onOptionChange = this.onOptionChange.bind(this);
     }
 
     sanitizeDiceExpr(value) {
@@ -12,14 +14,14 @@ class WeaponRow extends React.Component {
         return res;
     }
 
-    onParamChange = (event) => {
+    onParamChange(event) {
         this.props.onParamChange(
             event.target.id + this.props.id,
             event.target.id == "name" ? event.target.value : this.sanitizeDiceExpr(event.target.value)
         );
     }
 
-    onOptionChange = (optionName, value) => {
+    onOptionChange(optionName, value) {
         // optionName example: "hit_modifier"
         this.props.onOptionChange("options" + this.props.id, optionName, value);
     }

@@ -1,9 +1,7 @@
 class Login extends React.Component {
-
-    visible = false;
-
     render() {
-        if (this.visible) {
+        const visible = false;
+        if (visible) {
             return <div className="login">
                        <span className="nowrap">
                            <span className="login-label">id: </span>

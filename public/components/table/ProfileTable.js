@@ -2,9 +2,11 @@ class ProfileTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {weaponsVisibility: [...Array(this.props.nWeapons).keys()].map(i => ("A" + this.props.letter + i) in this.props.params)};
+        this.showWeapon = this.showWeapon.bind(this);
+        this.onDelete = this.onDelete.bind(this);
     }
 
-    showWeapon = () => {
+    showWeapon() {
         // never called if all weapon slots used thanks to conditional button hiding
         for (var i = 0; i < this.state.weaponsVisibility.length; i++) {
             if (!this.state.weaponsVisibility[i]) {
@@ -50,7 +52,7 @@ class ProfileTable extends React.Component {
         return count;
     }
 
-    onDelete = (id) => {
+    onDelete(id) {
         var index = Number(id.slice(-1))
         this.state.weaponsVisibility[index] = false;
         Object.entries(this.props.params).forEach(([key, value]) => {
@@ -58,12 +60,6 @@ class ProfileTable extends React.Component {
                 this.props.deleteParam(key, this.props.letter);
             }
         });
-    }
-
-    onOptionChange = (optionsId, optionName, vOption) => {
-        const k = optionsId
-        const v = {...this.props.params[optionsId], ... {[optionName]: vOption}};
-        this.props.onParamChange(k, v, this.props.letter);
     }
 
     render() {
@@ -78,7 +74,7 @@ class ProfileTable extends React.Component {
                 <ProfileTableHeader lang={this.props.lang} bg={"profile-" + this.props.letter + "-bg"} letter={this.props.letter} name={this.props.params["name" + this.props.letter]} points={this.props.params["points" + this.props.letter]} onParamChange={(k, v) => this.props.onParamChange(k, v, this.props.letter)}/>
                 {
                     [...Array(this.state.weaponsVisibility.length).keys()].map(i =>
-                        <WeaponRow key={i} lang={this.props.lang} rank={this.getWeaponRank(i)} visible={this.state.weaponsVisibility[i]} onDelete={this.onDelete} id={this.props.letter + i} params={this.props.params} onParamChange={(k, v) => this.props.onParamChange(k, v, this.props.letter)} onOptionChange={this.onOptionChange}/>
+                        <WeaponRow key={i} lang={this.props.lang} rank={this.getWeaponRank(i)} visible={this.state.weaponsVisibility[i]} onDelete={this.onDelete} id={this.props.letter + i} params={this.props.params} onParamChange={(k, v) => this.props.onParamChange(k, v, this.props.letter)} onOptionChange={    (optionsId, optionName, vOption) => this.props.onParamChange(optionsId, {...this.props.params[optionsId], ... {[optionName]: vOption}}, this.props.letter)}/>
                     )
                 }
                 {this.getNumberOfActiveWeapons() == this.state.weaponsVisibility.length ? <tbody></tbody>: <tbody>
