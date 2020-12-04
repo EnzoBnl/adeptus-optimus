@@ -46,18 +46,12 @@ function plotHeatMap(xValues, yValues, zValues, ratios, scores, lang) {
             yValues[i] = yValues[i]
                 .replace("T", "E")
                 .replace("W", "PV")
-                .replace("unit size", "nb figurines")
+                .replace("unit size", "taille unité")
                 .replace("to", "à");
         }
     }
 
-    var marginL = 115;
-    if (withBlast) {
-        marginL += 80;
-        if (lang == "fr") {
-            marginL += 15
-        }
-    }
+    var marginL = 195;
 
     var data = [{
       name: "",
