@@ -84,7 +84,7 @@ function plotHeatMap(xValues, yValues, zValues, ratios, scores, lang) {
         title: (lang == "en" ?
         "Compares the average number of models destroyed per point<br>against many target units profiles"
         :
-        "Compare le nombre moyen de figurines détruites par point<br>sur de nombreux profils cible"),
+        "Compare le nombre moyen de figurines détruites par point<br>sur de nombreux profils cibles"),
         anchor: "free",
         position: 0.999,
         automargin: true

@@ -17,3 +17,5 @@ firebase deploy
 In root (avoid CORS issues locally):
 
 `chromium-browser --disable-web-security --user-data-dir ./public/index.html`
+
+Dev query string: `id=admin&token=U2FsdGVkX197wfW/IY0sqa/Ckju8AeU3pRLPSra1aCxZeAHrWePPDPJlYTy5bwdU`

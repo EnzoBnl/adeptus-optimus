@@ -21,18 +21,22 @@ Sequence of declaration. (last has superiority)
     50%{opacity:1}
     100%{opacity:0}
 }
+
 .shop{
     font-family: 'Noto Sans JP', sans-serif;
     font-size: 16px;
     color: black;
 }
+
 .shop-bg{
     /* middle color is e6a919 */
     background: linear-gradient(to right, #dc9014 0%, #efc11e 100%);
 }
+
 .shop-mid-bg{
     background: #e6a919;
 }
+
 /* element targets */
 
 body {
@@ -66,6 +70,7 @@ button{
 .white-bg {
     background: #fff;
 }
+
 /* hierarchy class targets */
 
 /* title */
@@ -143,6 +148,7 @@ button{
     width: 180px;
     text-align: left;
 }
+
 .input-weapon-name{
     width: 160px;
     text-align: left;
@@ -160,7 +166,6 @@ button{
     text-align: left;
 }
 
-
 /* table */
 
 table {
@@ -168,7 +173,6 @@ table {
     margin-left: auto;
     margin-right: auto;
 }
-
 
 th {
     font-weight: inherit;
@@ -178,7 +182,6 @@ th {
     font-family: 'Anton', sans-serif;
     font-size: 20px;
 }
-
 
 th.weapon-flag {
     color: #000;
@@ -190,9 +193,11 @@ th.profile-flag {
     color: #fff;
     text-align: center;
 }
+
 .profile-A-bg {
     background: #DC3220;
 }
+
 .profile-B-bg {
     background: #0C7BDC;
 }
@@ -220,19 +225,19 @@ footer {
     text-align: center;
 }
 
-.option-select {
+.opt-select {
     width: 80px;
     height: 25px;
     padding: 0px 0px;
     background: #fff;
 }
 
-.option-inactive{
+.opt-inactive{
     color: #999;
     margin-bottom: 3px;
 }
 
-.option-active{
+.opt-active{
     color: #000;
     margin-bottom: 3px;
 }
@@ -295,6 +300,7 @@ span.profile-tag {
     margin-left:25px;
     margin-top: 25px;
 }
+
 /* V9 ready */
 .v9 {
     font-family: 'Anton', sans-serif;
@@ -318,4 +324,3 @@ span.profile-tag {
         width:100%
     }
 }
-
