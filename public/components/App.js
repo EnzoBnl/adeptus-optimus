@@ -138,7 +138,7 @@ class App extends AbstractCloudFunctionClient {
       </h1>
       <p className="title subscript">"
         {this.state.lang == 'en' ?
-          ' Support your choices, on behalf of the Emperor.':
+          ' Support your choices, in the name of the Emperor.':
           ' Soutenir vos choix, au nom de l\'Empereur.'
         }"
       </p>
