@@ -25,8 +25,8 @@ class About extends React.Component {
               <InfoBox
                 title="Adeptus Optimus"
                 body={<p>
-                  The Adeptus Optimus is an analytics organization attached to
-                  the Adeptus Mechanicus. The Adeptus Optimus Engine has been
+                  The Adeptus Optimus is a pro-Emperor part of the Adeptus 
+                  Mechanicus, specialized in analytics. This engine has been
                   built by an Archmagos computus to give to lords of war
                   an <b>intuitive and rigorous tool</b> to guide their equipment
                   choices.
