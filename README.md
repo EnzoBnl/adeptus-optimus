@@ -1,5 +1,7 @@
 # Adeptus Optimus Frontend v1
 
+### Deployed and accessible at [https://adeptus-optimus.web.app/](https://adeptus-optimus.web.app/).
+
 # First deployment with Firebase
 In root:
 
