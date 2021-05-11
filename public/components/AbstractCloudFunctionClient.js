@@ -13,9 +13,11 @@ class AbstractCloudFunctionClient extends React.Component {
 
 
   getServerIp() {
+    console.log("getServerIp(), id='" + this.state.id + "', token='" + this.state.token + "'")
     const decrypted = CryptoJS.AES.decrypt(this.state.token, this.state.id);
     try {
       var res = decrypted.toString(CryptoJS.enc.Utf8);
+      console.log("decrypted:" + res);
     } catch (err) {/* malformed URL */
       return '';
     }

@@ -36,11 +36,10 @@ class App extends AbstractCloudFunctionClient {
             'optionsB0': {},
           },
       },
-      id: queryString.has('id') ? queryString.get('id') : 'standard_user',
+      id: queryString.has('id') ? queryString.get('id') : 'admin',
       token: queryString.has('token') ?
         queryString.get('token') :
-        'U2FsdGVkX18wtnoUOJJmr+GIeN2B08X1eu5+oV0/Cx1TZYBFhO/9L7mM1MBwtSMS19uZ' +
-        '6yXRKb/D8eu8oeOwBYVi4Irfvrlip0EKZ0y/gse8KnFz1Rq7HIsdeYXEXiZ9',
+        'U2FsdGVkX18WB9D7dTertyPHsbOVQoPV7jISsJKHpO5C2EJg1lECmgFiSDnMRmqMRkWp0U6GhuZjX4GXLOAQTw==',
     };
 
     this.nWeapons = 8;
