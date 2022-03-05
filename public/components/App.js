@@ -215,11 +215,6 @@ class App extends AbstractCloudFunctionClient {
       <div className="w3-bar shop-mid-bg">
         <div className="w3-bar-item"></div>
       </div>
-      <a
-        className="tipeee"
-        href="https://en.tipeee.com/adeptus-optimus">
-        <img src="components/tipeee.svg" width="300px"></img>
-      </a>
       <Login
         id={this.state.id}
         token={this.state.token}
