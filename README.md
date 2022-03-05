@@ -1,7 +1,7 @@
 # Adeptus Optimus Frontend
 
-Go to deploy: [![Actions Status](https://github.com/bonnal-enzo/adeptus-optimus-frontend/workflows/deploy/badge.svg?branch=prod()](https://adeptus-optimus.web.app/)
-Go to preview: [![Actions Status](https://github.com/bonnal-enzo/adeptus-optimus-frontend/workflows/deploy-preview/badge.svg?branch=prod()](https://github.com/bonnal-enzo/adeptus-optimus-frontend/actions)
+Go to deploy: [![Actions Status](https://github.com/bonnal-enzo/adeptus-optimus-frontend/workflows/deploy/badge.svg?branch=prod)](https://adeptus-optimus.web.app/)
+Go to preview: [![Actions Status](https://github.com/bonnal-enzo/adeptus-optimus-frontend/workflows/deploy-preview/badge.svg?branch=prod)](https://github.com/bonnal-enzo/adeptus-optimus-frontend/actions)
 
 # Init deployment on Firebase
 ```
