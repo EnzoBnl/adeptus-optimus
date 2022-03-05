@@ -1,10 +1,9 @@
-# Adeptus Optimus Frontend v1
+# Adeptus Optimus Frontend
 
-### Deployed and accessible at [https://adeptus-optimus.web.app/](https://adeptus-optimus.web.app/).
+Go to deploy: [![Actions Status](https://github.com/bonnal-enzo/adeptus-optimus-frontend/workflows/deploy/badge.svg?branch=prod()](https://adeptus-optimus.web.app/)
+Go to preview: [![Actions Status](https://github.com/bonnal-enzo/adeptus-optimus-frontend/workflows/deploy-preview/badge.svg?branch=prod()](https://github.com/bonnal-enzo/adeptus-optimus-frontend/actions)
 
-# First deployment with Firebase
-In root:
-
+# Init deployment on Firebase
 ```
 sudo apt-get autoremove 
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash - 
