@@ -336,7 +336,7 @@ class SaveModifierOptionInput extends React.Component {
         className={'opt-' + (this.props.value != '' ? 'active' : 'inactive')}>
         <Check value={this.props.value}/>&nbsp;
         {this.props.lang == 'en' ?
-          'Save roll modifier' :
+          'Armor save roll modifier' :
           'Modificateur des jets de sauvegarde'}:&nbsp;
         <select
           id="save_modifier"
