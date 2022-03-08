@@ -285,7 +285,7 @@ class HitModifierOptionInput extends React.Component {
         <Check value={this.props.value}/>&nbsp;
         {this.props.lang == 'en' ?
           'Hit roll modifier' :
-          'Modificateur des jets de touche'}:&nbsp;
+          'Modificateur de jet de touche'}:&nbsp;
         <select
           id="hit_modifier"
           className="w3-select opt-select"
@@ -311,7 +311,7 @@ class WoundModifierOptionInput extends React.Component {
         <Check value={this.props.value}/>&nbsp;
         {this.props.lang == 'en' ?
           'Wound roll modifier' :
-          'Modificateur des jets de blessure'}:&nbsp;
+          'Modificateur de jet de blessure'}:&nbsp;
         <select
           id="wound_modifier"
           className="w3-select opt-select"
@@ -337,7 +337,7 @@ class SaveModifierOptionInput extends React.Component {
         <Check value={this.props.value}/>&nbsp;
         {this.props.lang == 'en' ?
           'Armor save roll modifier' :
-          'Modificateur des jets de sauvegarde'}:&nbsp;
+          "Modificateur de jet de sauvegarde d'armure"}:&nbsp;
         <select
           id="save_modifier"
           className="w3-select opt-select"
@@ -439,7 +439,10 @@ class Dakka3OptionInput extends React.Component {
           <option value="6">6+</option>
           <option value="5">5+</option>
         </select>&nbsp;
-        (<i>Dakka!<sup>3</sup></i>)
+        {this.props.lang == 'en' ?
+          'generates one additional hit roll (former ' :
+          'génère un jet de touche supplémentaire (ancien '}
+        <i>Dakka!<sup>3</sup></i>)
       </div>
     );
   }
