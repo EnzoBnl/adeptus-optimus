@@ -81,8 +81,8 @@ function plotHeatMap(xValues, yValues, zValues, ratios, scores, lang) {
       font: {
         color: '#fff'
       },
-      plot_bgcolor: 'rgb(17,17,17)',
-      paper_bgcolor : 'rgb(10,10,10)',
+      plot_bgcolor: '#202020',
+      paper_bgcolor : '#202020',
       annotations: [""],
       xaxis: {
         ticks: '',
