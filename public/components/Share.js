@@ -31,7 +31,7 @@ class Share extends AbstractCloudFunctionClient {
           id="link-modal"
           className="w3-modal"
           style={{display: this.state.state != 'idle' ? 'block' : 'none'}}>
-          <div className="w3-modal-content link-modal">
+          <div className="w3-modal-content link-modal black-font">
             <header className="w3-container datasheet-header">
               {this.props.lang == 'en' ?
                 'Link to current settings' :
@@ -49,7 +49,7 @@ class Share extends AbstractCloudFunctionClient {
           </div>
         </div>
         <button
-          className="w3-btn shop-mid-bg datasheet-header"
+          className="w3-btn black-font shop-mid-bg datasheet-header"
           style={this.props.lang == 'fr' ? {'font-size': '17px'}: {}}
           onClick={this.displayLink}>
           <i className="fa fa-link"></i>

@@ -51,7 +51,7 @@ class WeaponRow extends React.Component {
             maxLength="32"
             id="name"
             type="text"
-            className="white-bg datasheet-body input input-weapon-name"
+            className="dark-bg white-font datasheet-body input input-weapon-name"
             value={this.props.params['name'+this.props.id]}
             onChange={this.onParamChange}>
           </input>
@@ -62,7 +62,7 @@ class WeaponRow extends React.Component {
               id="A"
               value={this.props.params['A'+this.props.id]}
               type="text"
-              className="input input-dice align-right"
+              className="dark-bg white-font input input-dice align-right"
               onChange={this.onParamChange}>
             </input>
           </th>
@@ -72,7 +72,7 @@ class WeaponRow extends React.Component {
               id="WSBS"
               value={this.props.params['WSBS'+this.props.id]}
               type="text"
-              className="input input-dice align-right"
+              className="dark-bg white-font input input-dice align-right"
               onChange={this.onParamChange}>
             </input>+
           </th>
@@ -82,7 +82,7 @@ class WeaponRow extends React.Component {
               id="S"
               value={this.props.params['S'+this.props.id]}
               type="text"
-              className="input input-dice align-left"
+              className="dark-bg white-font input input-dice align-left"
               onChange={this.onParamChange}>
             </input>
           </th>
@@ -92,7 +92,7 @@ class WeaponRow extends React.Component {
               id="AP"
               value={this.props.params['AP'+this.props.id]}
               type="text"
-              className="input input-dice align-left"
+              className="dark-bg white-font input input-dice align-left"
               onChange={this.onParamChange}>
             </input>
           </th>
@@ -102,7 +102,7 @@ class WeaponRow extends React.Component {
               id="D"
               value={this.props.params['D'+this.props.id]}
               type="text"
-              className="input input-dice align-left"
+              className="dark-bg white-font input input-dice align-left"
               onChange={this.onParamChange}>
             </input>
           </th>
@@ -131,7 +131,7 @@ class WeaponRow extends React.Component {
         </tr>
         <div id={'options-menu' + this.props.id} className="w3-modal">
           <div className="w3-modal-content">
-            <header className="w3-container shop-bg datasheet-header">
+            <header className="w3-container black-font shop-bg datasheet-header">
               {this.props.lang == 'en' ? 'Profile' : 'Profil'}
               {this.props.id.substring(0, 1)} -&nbsp;
               {this.props.lang == 'en' ? 'weapon' : 'arme'}&nbsp;
@@ -143,7 +143,7 @@ class WeaponRow extends React.Component {
                 (this.props.lang == 'en' ? 'active options' : 'options actives')
               }
             </header>
-            <div className="w3-container shop">
+            <div className="w3-container shop black-font">
               <h3>{this.props.lang == 'en' ? 'Attacks' : 'Attaques'}</h3>
               <IsBlastOptionInput
                 lang={this.props.lang}
@@ -245,7 +245,7 @@ class WeaponRow extends React.Component {
             <br/>
             <footer>
               <button
-                className="w3-btn w3-margin-bottom shop-mid-bg datasheet-header"
+                className="w3-btn w3-margin-bottom black-font shop-mid-bg datasheet-header"
                 onClick={(event) =>
                   document
                       .getElementById('options-menu' + this.props.id)

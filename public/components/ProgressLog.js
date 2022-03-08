@@ -3,7 +3,7 @@ class ProgressLog extends React.Component {
   render() {
     if (this.props.state == 'processing') {
       return <div>
-        <div className="w3-animate-fading-fast shop">{this.props.msg}</div>
+        <div className="w3-animate-fading-fast shop white-font">{this.props.msg}</div>
         <p className="fa fa-gear w3-xxxlarge w3-spin"></p>
         <br/>
       </div>;

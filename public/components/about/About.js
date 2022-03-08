@@ -14,14 +14,14 @@ class About extends React.Component {
     return (
       <div>
         <button
-          className="w3-btn shop-mid-bg datasheet-header"
+          className="w3-btn black-font shop-mid-bg datasheet-header"
           onClick={(event) => this.setState({visible: !this.state.visible})}>
           {angle} About {angle}
         </button>
         {this.state.visible ?
           <div className="w3-content">
             <div className={'w3-row-padding w3-center w3-margin-top' +
-                           'w3-margin-bottom shop'}>
+                           'w3-margin-bottom shop white-font'}>
               <InfoBox
                 title="Adeptus Optimus"
                 body={<p>

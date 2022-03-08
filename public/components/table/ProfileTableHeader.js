@@ -29,7 +29,7 @@ class ProfileTableHeader extends React.Component {
             maxLength="32"
             id="name"
             type="text"
-            className="white-bg datasheet-body input input-profile-name"
+            className="dark-bg white-font datasheet-body input input-profile-name"
             value={this.props.name}
             onChange={(event) => this.props.onParamChange(
                 event.target.id + this.props.letter,
@@ -63,7 +63,7 @@ class ProfileTableHeader extends React.Component {
             value={this.props.points}
             type="text"
             className=
-              "white-bg datasheet-body input input-weapon-name align-left"
+              "dark-bg white-font datasheet-body input input-weapon-name align-left"
             onChange={(event) => this.props.onParamChange(
                 event.target.id + this.props.letter,
                 event.target.value,
@@ -71,8 +71,8 @@ class ProfileTableHeader extends React.Component {
           </input>
         </th>
       </tr>
-      <tr className="datasheet-header greeny-bg">
-        <th className="white-bg">
+      <tr className="lighter-bg datasheet-header">
+        <th className="lighter-bg">
           {this.props.lang == 'en' ? 'Weapons used' : 'Armes utilisées'}
           <span className=" w3-tooltip">
             <span className="w3-text w3-tag weapons-tag tag">

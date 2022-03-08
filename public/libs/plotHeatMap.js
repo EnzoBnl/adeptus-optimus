@@ -1,7 +1,7 @@
 function plotHeatMap(xValues, yValues, zValues, ratios, scores, lang) {
     var colorscaleValue = [ // ultramarine blue '#0d407f'  // buttons bg green '#7dae3e'
       [0, '#0C7BDC'],   // profile B
-      [0.5, '#ffffff'],
+      [0.5, '#eee'],
       [1, '#DC3220']  // profile A
     ];
 
@@ -70,13 +70,19 @@ function plotHeatMap(xValues, yValues, zValues, ratios, scores, lang) {
 
     var layout = {
       title:{
-          "y" : 0.0015,
-          "yanchor" : "bottom",
-          "text": "Generated using adeptus-optimus.web.app"
+          y : 0.0015,
+          yanchor : "bottom",
+          text: "Generated using adeptus-optimus.web.app",
       },
       titlefont: {
-          size: 13
+          size: 13,
+          color: '#fff'
       },
+      font: {
+        color: '#fff'
+      },
+      plot_bgcolor: 'rgb(17,17,17)',
+      paper_bgcolor : 'rgb(10,10,10)',
       annotations: [""],
       xaxis: {
         ticks: '',

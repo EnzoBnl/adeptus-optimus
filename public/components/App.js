@@ -121,7 +121,7 @@ class App extends AbstractCloudFunctionClient {
     //    console.log(this.state);
     //    console.log(this.state.params);
     return <div>
-      <div className="shop-bg">
+      <div className="black-font shop-bg">
         <div className="v9">
           {this.state.lang == 'en' ?
             'Up to date with v9':
@@ -185,16 +185,19 @@ class App extends AbstractCloudFunctionClient {
       <br/>
       <br/>
       <br/>
-      <div className="w3-bar shop-bg"><div className="w3-bar-item"></div></div>
       {this.state.state == 'processing' ?
           '' :
           <button
-            className="w3-btn shop-mid-bg datasheet-header"
+            className="w3-btn datasheet-header compare-button"
             onClick={this.runComparison}>
             <i className="fa fa-play-circle w3-xlarge"></i>
                 &nbsp;{this.state.lang == 'en' ? 'Compare' : 'Comparer'}
           </button>
       }
+      <br/>
+      <br/>
+      <br/>
+      <div className="w3-bar shop-bg"><div className="w3-bar-item"></div></div>
       <br/>
       <br/>
       <ProgressLog state={this.state.state} msg={this.state.msg}/>
