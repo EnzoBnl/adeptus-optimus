@@ -32,8 +32,8 @@ class AbstractCloudFunctionClient extends React.Component {
     if (xhr.status == 422 /* bad input*/ || xhr.status == 500) {
       return 'Error ' + xhr.status + ': ' + xhr.response['msg'];
     } else if (xhr.status == 429) {
-      return 'Error 429: Too Many Requests: ' +
-        'There is no Magos available now, please retry in a few instants.';
+      return 'Error 429: There is no Magos available now. ' +
+        (xhr.response == null ? "" : xhr.response['msg']);
     } else if (xhr.status == 408) {
       return 'Error 408: Timeout: ' +
         'The Magos in charge of your request has passed out';

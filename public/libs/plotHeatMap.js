@@ -103,7 +103,7 @@ function plotHeatMap(xValues, yValues, zValues, ratios, scores, lang) {
         title: ""
       },
       margin: {
-        t: 150,
+        t: 200,
         b: 15,
         l: marginL
       },

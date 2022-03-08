@@ -119,7 +119,7 @@ class WeaponRow extends React.Component {
             <i className={
               activeOptionsCount == 0 ?
               'opt-inactive':
-              'opt-active'}>
+              'opt-active-dark'}>
               &nbsp;({activeOptionsCount}
                 &nbsp;{this.props.lang == 'en' ?
                   'active' :
