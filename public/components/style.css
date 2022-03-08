@@ -286,7 +286,7 @@ span.profile-tag {
 
 /* Style buttons */
 .logo-btn {
-  background-color: DodgerBlue; /* Blue background */
+  background-color: #676767; /* Blue background */
   border: none; /* Remove borders */
   color: white; /* White text */
   padding: 0px 0px; /* Some padding */
@@ -298,7 +298,7 @@ span.profile-tag {
 
 /* Darker background on mouse-over */
 .logo-btn:hover {
-  background-color: RoyalBlue;
+  background-color: #202020;
 }
 
 /* chart */
