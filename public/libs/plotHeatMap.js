@@ -51,7 +51,7 @@ function plotHeatMap(xValues, yValues, zValues, ratios, scores, lang) {
         }
     }
 
-    var marginL = 195;
+    var marginL = 250;
 
     var data = [{
       name: "",
@@ -93,7 +93,8 @@ function plotHeatMap(xValues, yValues, zValues, ratios, scores, lang) {
         "Compare le nombre moyen de figurines détruites par point<br>sur de nombreux profils cibles"),
         anchor: "free",
         position: 0.999,
-        automargin: true
+        automargin: true,
+        font: {size: 50}
       },
       yaxis: {
         ticks: '',
