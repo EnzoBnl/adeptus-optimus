@@ -88,6 +88,8 @@ class AbstractCloudFunctionClient extends React.Component {
                 };
                 // get a callback when the server responds
                 xhr.open('GET', serverIp + '?' + queryString);
+                // force preflight
+                xhr.setRequestHeader('X-PINGOTHER', 'pingpong')
                 // send the request
                 xhr.send();
               }
